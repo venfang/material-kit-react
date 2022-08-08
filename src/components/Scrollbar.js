@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SimpleBarReact from 'simplebar-react';
 // @mui
@@ -29,6 +30,7 @@ const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
     height: 6,
   },
   '& .simplebar-mask': {
+    // zIndex: 1,
     zIndex: 'inherit',
   },
 }));
@@ -38,9 +40,10 @@ const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
 Scrollbar.propTypes = {
   children: PropTypes.node.isRequired,
   sx: PropTypes.object,
+  autoHideMode: PropTypes.bool,
 };
 
-export default function Scrollbar({ children, sx, ...other }) {
+export default function Scrollbar({ children, sx, autoHideMode, ...other }) {
   const userAgent = typeof navigator === 'undefined' ? 'SSR' : navigator.userAgent;
 
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
@@ -55,7 +58,7 @@ export default function Scrollbar({ children, sx, ...other }) {
 
   return (
     <RootStyle>
-      <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>
+      <SimpleBarStyle data-simplebar-auto-hide={autoHideMode} timeout={500} clickOnTrack={false} sx={sx} {...other}>
         {children}
       </SimpleBarStyle>
     </RootStyle>

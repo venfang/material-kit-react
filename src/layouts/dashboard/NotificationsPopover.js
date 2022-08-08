@@ -108,7 +108,7 @@ export default function NotificationsPopover() {
         ref={anchorRef}
         color={open ? 'primary' : 'default'}
         onClick={handleOpen}
-        sx={{ width: 40, height: 40 }}
+        sx={{ width: 40, height: 40, display: { xs: 'none', sm: 'none', md: 'inline-flex', lg: 'inline-flex' } }}
       >
         <Badge badgeContent={totalUnRead} color="error">
           <Iconify icon="eva:bell-fill" width={20} height={20} />

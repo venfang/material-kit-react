@@ -1,7 +1,8 @@
 import { useState } from 'react';
 // material
 import { styled, alpha } from '@mui/material/styles';
-import { Input, Slide, Button, IconButton, InputAdornment, ClickAwayListener } from '@mui/material';
+import { Input, Slide, Button, IconButton, InputAdornment, ClickAwayListener, Paper, InputBase } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 // component
 import Iconify from '../../components/Iconify';
 
@@ -46,8 +47,26 @@ export default function Searchbar() {
   return (
     <ClickAwayListener onClickAway={handleClose}>
       <div>
+        <Paper
+          fullWidth
+          component="form"
+          sx={{
+            p: '2px 4px',
+            display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' },
+            alignItems: 'center',
+          }}
+        >
+          <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search..." inputProps={{ 'aria-label': 'search input' }} />
+          <IconButton type="submit" sx={{ p: '10px' }} aria-label="search button">
+            <Iconify icon="eva:search-fill" />
+          </IconButton>
+        </Paper>
+
         {!isOpen && (
-          <IconButton onClick={handleOpen}>
+          <IconButton
+            onClick={handleOpen}
+            sx={{ display: { xs: 'inline-flex', sm: 'inline-flex', md: 'none', lg: 'none' } }}
+          >
             <Iconify icon="eva:search-fill" width={20} height={20} />
           </IconButton>
         )}

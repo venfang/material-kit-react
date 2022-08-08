@@ -1,41 +1,57 @@
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect, createContext, useContext } from 'react';
+
 // material
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider as MUIThemeProvider, createTheme, StyledEngineProvider } from '@mui/material/styles';
+
 //
-import palette from './palette';
-import typography from './typography';
+
 import componentsOverride from './overrides';
-import shadows, { customShadows } from './shadows';
+import lightThemeOption, { darkThemeOption } from './option';
 
 // ----------------------------------------------------------------------
+
+import { ThemeContext } from '../context/ThemeContext';
 
 ThemeProvider.propTypes = {
   children: PropTypes.node,
 };
 
 export default function ThemeProvider({ children }) {
-  const themeOptions = useMemo(
-    () => ({
-      palette,
-      shape: { borderRadius: 8 },
-      typography,
-      shadows,
-      customShadows,
-    }),
-    []
-  );
+  const light = useMemo(lightThemeOption);
+  const dark = useMemo(darkThemeOption);
 
-  const theme = createTheme(themeOptions);
-  theme.components = componentsOverride(theme);
+  const [theme, setTheme] = useState(createTheme(light));
+
+  const themeChange = { theme, setTheme };
+
+  useEffect(() => {
+    let themeMode = null;
+
+    if (localStorage.getItem('theme_mode') === 'light') {
+      themeMode = createTheme(light);
+      themeMode.components = componentsOverride(themeMode);
+    } else if (localStorage.getItem('theme_mode') === 'dark') {
+      themeMode = createTheme(dark);
+      themeMode.components = componentsOverride(themeMode);
+    } else {
+      // default
+      themeMode = createTheme(light);
+      themeMode.components = componentsOverride(themeMode);
+    }
+
+    setTheme(themeMode);
+  }, []);
 
   return (
     <StyledEngineProvider injectFirst>
-      <MUIThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </MUIThemeProvider>
+      <ThemeContext.Provider value={themeChange}>
+        <MUIThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </MUIThemeProvider>
+      </ThemeContext.Provider>
     </StyledEngineProvider>
   );
 }

@@ -9,6 +9,8 @@ import Backdrop from './Backdrop';
 import Typography from './Typography';
 import CssBaseline from './CssBaseline';
 import Autocomplete from './Autocomplete';
+import Checkbox from './Checkbox';
+import Select from './Select';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +24,8 @@ export default function ComponentsOverrides(theme) {
     Backdrop(theme),
     Typography(theme),
     CssBaseline(theme),
-    Autocomplete(theme)
+    Autocomplete(theme),
+    Checkbox(theme),
+    Select(theme),
   );
 }

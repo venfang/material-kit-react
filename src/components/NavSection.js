@@ -5,6 +5,7 @@ import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom'
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 //
+import { useTranslation } from 'react-i18next';
 import Iconify from './Iconify';
 
 // ----------------------------------------------------------------------
@@ -35,10 +36,11 @@ NavItem.propTypes = {
 };
 
 function NavItem({ item, active }) {
+  const { t } = useTranslation('navigation');
   const theme = useTheme();
 
   const isActiveRoot = active(item.path);
-
+  console.log(t(item.title));
   const { title, path, icon, info, children } = item;
 
   const [open, setOpen] = useState(isActiveRoot);
@@ -68,7 +70,7 @@ function NavItem({ item, active }) {
           }}
         >
           <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
-          <ListItemText disableTypography primary={title} />
+          <ListItemText disableTypography primary={t(title)} />
           {info && info}
           <Iconify
             icon={open ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
@@ -84,7 +86,7 @@ function NavItem({ item, active }) {
 
               return (
                 <ListItemStyle
-                  key={title}
+                  key={t(title)}
                   component={RouterLink}
                   to={path}
                   sx={{
@@ -110,7 +112,7 @@ function NavItem({ item, active }) {
                       }}
                     />
                   </ListItemIconStyle>
-                  <ListItemText disableTypography primary={title} />
+                  <ListItemText disableTypography primary={t(title)} />
                 </ListItemStyle>
               );
             })}
@@ -129,7 +131,7 @@ function NavItem({ item, active }) {
       }}
     >
       <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
-      <ListItemText disableTypography primary={title} />
+      <ListItemText disableTypography primary={t(title)} />
       {info && info}
     </ListItemStyle>
   );
@@ -140,6 +142,7 @@ NavSection.propTypes = {
 };
 
 export default function NavSection({ navConfig, ...other }) {
+  const { t } = useTranslation('navigation');
   const { pathname } = useLocation();
 
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
@@ -148,7 +151,7 @@ export default function NavSection({ navConfig, ...other }) {
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
         {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
+          <NavItem key={t(item.title)} item={item} active={match} />
         ))}
       </List>
     </Box>

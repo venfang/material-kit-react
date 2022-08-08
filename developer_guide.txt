@@ -1,0 +1,13 @@
+NPM INSTALL LIST
+1. npm i env-cmd (Differs scripts when development or production)
+2. npm install react-i18next i18next && npm install i18next-browser-languagedetector (Translate Package)
+3. npm i @reduxjs/toolkit
+4. npm i framer-motion
+5. npm i js-cookie
+6. npm i sweetalert2
+7. npm i formik
+8. npm i axios
+
+CHANGES
+1. theme/overrides/Input.js -- add: padding: '25px 25px 8px' on MuiFilledInput root
+

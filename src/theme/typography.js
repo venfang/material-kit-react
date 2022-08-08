@@ -4,8 +4,11 @@ function pxToRem(value) {
   return `${value / 16}rem`;
 }
 
-function responsiveFontSizes({ sm, md, lg }) {
+function responsiveFontSizes({ xs, sm, md, lg }) {
   return {
+    '@media (min-width:480px)': {
+      fontSize: pxToRem(xs),
+    },
     '@media (min-width:600px)': {
       fontSize: pxToRem(sm),
     },
@@ -18,7 +21,7 @@ function responsiveFontSizes({ sm, md, lg }) {
   };
 }
 
-const FONT_PRIMARY = 'Public Sans, sans-serif';
+const FONT_PRIMARY = 'Montserrat, sans-serif';
 
 const typography = {
   fontFamily: FONT_PRIMARY,
@@ -95,6 +98,63 @@ const typography = {
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
     textTransform: 'capitalize',
+  },
+  label_group: {
+    fontWeight: 600,
+    lineHeight: 24 / 14,
+    fontSize: pxToRem(14),
+    textTransform: 'capitalize',
+    ...responsiveFontSizes({ xs: 12, sm: 15, md: 16, lg: 17 }),
+    color: '#1565c0',
+  },
+  label: {
+    fontWeight: 600,
+    lineHeight: 24 / 14,
+    fontSize: pxToRem(14),
+    textTransform: 'capitalize',
+    color: '#211D4E',
+    ...responsiveFontSizes({ xs: 12, sm: 15, md: 16, lg: 17 }),
+  },
+  text: {
+    fontWeight: 600,
+    lineHeight: 24 / 14,
+    fontSize: pxToRem(14),
+    textTransform: 'none',
+    color: '#5A567B',
+    ...responsiveFontSizes({ xs: 10, sm: 12, md: 16, lg: 17 }),
+  },
+  title: {
+    fontWeight: 600,
+    lineHeight: 1.5,
+    fontSize: pxToRem(20),
+    ...responsiveFontSizes({ xs: 10, sm: 12, md: 24, lg: 24 }),
+    textTransform: 'uppercase',
+    color: '#FFFFFF',
+  },
+  title_blue_small: {
+    fontWeight: 600,
+    lineHeight: 1.5,
+    fontSize: pxToRem(10),
+    ...responsiveFontSizes({ xs: 10, sm: 12, md: 16, lg: 16 }),
+    textTransform: 'capitalize',
+    color: '#FFFFFF',
+  },
+  title_blue: {
+    fontWeight: 400,
+    lineHeight: 1.5,
+    marginRight: 10,
+    fontSize: pxToRem(10),
+    ...responsiveFontSizes({ xs: 10, sm: 12, md: 16, lg: 16 }),
+    textTransform: 'capitalize',
+    color: '#FFFFFF',
+  },
+  title_page: {
+    fontWeight: 600,
+    lineHeight: 1.5,
+    fontSize: pxToRem(18),
+    ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 }),
+    textTransform: 'uppercase',
+    color: '#1565c0',
   },
 };
 

@@ -5,17 +5,36 @@ export default function Input(theme) {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          '&.Mui-disabled': {
-            '& svg': { color: theme.palette.text.disabled },
+          "&.textField": {
+            backgroundColor: "#FFFFFF",
+            boxShadow: "inset 0px 1px 4px 0px rgba(0, 0, 0, 0.2)",
+            borderRadius: 2,
+            height: "40px",
+            fontWeight: 500,
+            '&.Mui-disabled': {
+              backgroundColor: "#EDEDED",
+            },
+            input: {
+              padding: "20px",
+              color: "#5A567B !important",
+              WebkitTextFillColor: "#5A567B !important",
+              '&::placeholder': {
+                opacity: 0.6,
+                color: "#5A567B",
+              },
+            },
           },
+          '&.Mui-disabled': {
+            '& svg': { color: theme.palette.text.disabled }
+          }
         },
         input: {
           '&::placeholder': {
             opacity: 1,
-            color: theme.palette.text.disabled,
-          },
-        },
-      },
+            color: theme.palette.text.disabled
+          }
+        }
+      }
     },
     MuiInput: {
       styleOverrides: {
@@ -29,6 +48,7 @@ export default function Input(theme) {
     MuiFilledInput: {
       styleOverrides: {
         root: {
+          padding: '25px 25px 8px',
           backgroundColor: theme.palette.grey[500_12],
           '&:hover': {
             backgroundColor: theme.palette.grey[500_16],
