@@ -15,7 +15,7 @@ export default function test({ topValue }) {
       return (
             <RootStyle>
                   <AppBar position="fixed" color="primary" sx={{ top: topValue }}>
-                        <div style={{ backgroundColor: "#211D4E", color: "#FFFFFF", height: 30 }}>
+                        <div style={{ backgroundColor: "#211D4E", color: "#FFFFFF", height: 40 }}>
                               <div style={{
                                     height: "100%",
                                     width: "100%",

@@ -11,8 +11,8 @@ import Login from '../views/auth/Login';
 import NotFound from '../views/Page404';
 import Products from '../views/Products';
 import DashboardApp from '../views/dashboard/app/DashboardApp';
-
 import Lab from "../views/dashboard/lab/Lab";
+import EditLab from "../views/dashboard/lab/EditLab";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -27,6 +27,7 @@ export default function Router() {
         { path: 'products', element: showCookieUserID !== undefined ? <Products /> : <Navigate to="/login" replace /> },
         { path: 'blog', element: showCookieUserID !== undefined ? <Blog /> : <Navigate to="/login" replace /> },
         { path: 'lab', element: showCookieUserID !== undefined ? <Lab /> : <Navigate to="/login" replace /> },
+        { path: 'lab/edit/:report_id', element: showCookieUserID !== undefined ? <EditLab /> : <Navigate to="/login" replace /> },
       ],
     },
     {
