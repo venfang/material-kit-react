@@ -21,7 +21,7 @@ import Cookies from 'js-cookie';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import { useTheme, alpha, styled } from '@mui/material/styles';
-import { Grid, Container, Typography, AppBar, FormHelperText, Radio, FormControl, FormControlLabel, RadioGroup, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
+import { Grid, Container, Typography, AppBar, FormHelperText, MenuItem, Select, Radio, FormControl, FormControlLabel, RadioGroup, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Page from '../../../components/Page';
@@ -439,7 +439,7 @@ export default function Lab() {
                         AlertBox(
                               'success',
                               'Update Successfully',
-                              "Asset has been updated.",
+                              "Blood Test has been updated.",
                               false,
                               '',
                               true,
@@ -467,10 +467,15 @@ export default function Lab() {
             const formValues = {
                   report_id: report_id,
                   HBsag_Value: values.HBsag_Value_current,
+                  HBsag_Status: values.HBsag_Status_current,
                   AntiHBs_Value: values.AntiHBs_Value_current,
+                  AntiHBs_Status: values.AntiHBs_Status_current,
                   RANormal_Value: values.RANormal_Value_current,
+                  RANormal_Status: values.RANormal_Status_current,
                   HavIgG_Value: values.HavIgG_Value_current,
+                  HavIgG_Status: values.HavIgG_Status_current,
                   HIVNormal_Value: values.HIVNormal_Value_current,
+                  HIVNormal_Status: values.HIVNormal_Status_current,
                   VDRLNormal: values.VDRLNormal_current,
                   RFFT4: values.RFFT4_current,
                   Hpyloriab: values.Hpyloriab_current,
@@ -490,7 +495,7 @@ export default function Lab() {
                         AlertBox(
                               'success',
                               'Update Successfully',
-                              "Asset has been updated.",
+                              "Immunology has been updated.",
                               false,
                               '',
                               true,
@@ -517,34 +522,42 @@ export default function Lab() {
       function urine() {
             const formValues = {
                   report_id: report_id,
-                  BloodHB_current: values.BloodHB_current,
-                  BloodRBC_current: values.BloodRBC_current,
-                  BloodWBC_current: values.BloodWBC_current,
-                  BloodW1_current: values.BloodW1_current,
-                  BloodW2_current: values.BloodW2_current,
-                  BloodW3_current: values.BloodW3_current,
-                  BloodW4_current: values.BloodW4_current,
-                  BloodW5_current: values.BloodW5_current,
-                  BloodPLT_current: values.BloodPLT_current,
-                  BloodHCT_current: values.BloodHCT_current,
-                  BloodMCH_current: values.BloodMCH_current,
-                  BloodMCV_current: values.BloodMCV_current,
-                  BloodMCHC_current: values.BloodMCHC_current,
-                  blood_confirm_staff: Cookies.get('name'),
+                  URLook: values.URLook_current,
+                  UREW: values.UREW_current,
+                  URS: values.URS_current,
+                  URBR: values.URBR_current,
+                  URUBR: values.URUBR_current,
+                  UBBH: values.UBBH_current,
+                  UBKU: values.UBKU_current,
+                  UBSNO: values.UBSNO_current,
+                  URLEU: values.URLEU_current,
+                  URDENS: values.URDENS_current,
+                  URTest: values.URTest_current,
+                  UBRBC1: values.UBRBC1_current,
+                  UBRBC2: values.UBRBC2_current,
+                  UBWBC1: values.UBWBC1_current,
+                  UBWBC2: values.UBWBC2_current,
+                  UBEPlit1: values.UBEPlit1_current,
+                  UBEPlit2: values.UBEPlit2_current,
+                  Cast1: values.Cast1_current,
+                  Cast2: values.Cast2_current,
+                  Bacter: values.Bacter_current,
+                  UBOther: values.UBOther_current,
+                  urine_confirm_staff: Cookies.get('name'),
             };
             confirmUrine(formValues)
                   .then((response) => {
                         AlertBox(
                               'success',
                               'Update Successfully',
-                              "Asset has been updated.",
+                              "Urine has been updated.",
                               false,
                               '',
                               true,
                               'OK'
                         )
                               .then(() => {
-                                    navigate('/dashboard/asset', { replace: true });
+                                    window.location.reload();
                               });
                   })
                   .catch((error) => {
@@ -591,14 +604,14 @@ export default function Lab() {
                         AlertBox(
                               'success',
                               'Update Successfully',
-                              "Asset has been updated.",
+                              "Biochemistry has been updated.",
                               false,
                               '',
                               true,
                               'OK'
                         )
                               .then(() => {
-                                    navigate('/dashboard/asset', { replace: true });
+                                    window.location.reload();
                               });
                   })
                   .catch((error) => {
@@ -654,10 +667,11 @@ export default function Lab() {
                                                             }}
 
                                                       >
-                                                            <Tab label="Immunology" value="1" />
-                                                            <Tab label="Biochemistry" value="2" />
-                                                            <Tab label="Urine, Faeces & Groups" value="3" />
-                                                            <Tab label="Blood Test" value="4" />
+
+                                                            {formik.values.immunology_confirm_staff !== "1" && <Tab label="Immunology" value="1" />}
+                                                            {formik.values.biochemistry_confirm_staff !== "1" && <Tab label="Biochemistry" value="2" />}
+                                                            {formik.values.urine_confirm_staff !== "1" && <Tab label="Urine, Faeces & Groups" value="3" />}
+                                                            {formik.values.blood_confirm_staff !== "1" && <Tab label="Blood Test" value="4" />}
                                                       </Tabs>
                                                 </Box>
                                           </Stack>
@@ -2240,6 +2254,567 @@ export default function Lab() {
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                         </TableRow>
+
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Appearance</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.URLook_current && errors.URLook_current)}
+                                                                                                {...getFieldProps('URLook_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URLook_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URLook_current && errors.URLook_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URLook_previous && errors.URLook_previous)}
+                                                                                                {...getFieldProps('URLook_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URLook_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URLook_previous && errors.URLook_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URLook_past && errors.URLook_past)}
+                                                                                                {...getFieldProps('URLook_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URLook_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URLook_past && errors.URLook_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Protein</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UREW_current && errors.UREW_current)}
+                                                                                                {...getFieldProps('UREW_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UREW_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UREW_current && errors.UREW_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UREW_previous && errors.UREW_previous)}
+                                                                                                {...getFieldProps('UREW_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UREW_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UREW_previous && errors.UREW_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UREW_past && errors.UREW_past)}
+                                                                                                {...getFieldProps('UREW_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UREW_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UREW_past && errors.UREW_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Glucose</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.URS_current && errors.URS_current)}
+                                                                                                {...getFieldProps('URS_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URS_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URS_current && errors.URS_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URS_previous && errors.URS_previous)}
+                                                                                                {...getFieldProps('URS_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URS_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URS_previous && errors.URS_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URS_past && errors.URS_past)}
+                                                                                                {...getFieldProps('URS_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URS_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URS_past && errors.URS_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Bilirubin</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.URBR_current && errors.URBR_current)}
+                                                                                                {...getFieldProps('URBR_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URBR_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URBR_current && errors.URBR_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URBR_previous && errors.URBR_previous)}
+                                                                                                {...getFieldProps('URBR_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URBR_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URBR_previous && errors.URBR_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URBR_past && errors.URBR_past)}
+                                                                                                {...getFieldProps('URBR_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URBR_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URBR_past && errors.URBR_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Urobilinogen</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.URUBR_current && errors.URUBR_current)}
+                                                                                                {...getFieldProps('URUBR_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URUBR_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URUBR_current && errors.URUBR_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URUBR_previous && errors.URUBR_previous)}
+                                                                                                {...getFieldProps('URUBR_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URUBR_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URUBR_previous && errors.URUBR_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URUBR_past && errors.URUBR_past)}
+                                                                                                {...getFieldProps('URUBR_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URUBR_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URUBR_past && errors.URUBR_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Occult Blood</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBBH_current && errors.UBBH_current)}
+                                                                                                {...getFieldProps('UBBH_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBBH_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBBH_current && errors.UBBH_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBBH_previous && errors.UBBH_previous)}
+                                                                                                {...getFieldProps('UBBH_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBBH_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBBH_previous && errors.UBBH_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBBH_past && errors.UBBH_past)}
+                                                                                                {...getFieldProps('UBBH_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBBH_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBBH_past && errors.UBBH_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Ketone</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBKU_current && errors.UBKU_current)}
+                                                                                                {...getFieldProps('UBKU_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBKU_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBKU_current && errors.UBKU_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBKU_previous && errors.UBKU_previous)}
+                                                                                                {...getFieldProps('UBKU_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBKU_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBKU_previous && errors.UBKU_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBKU_past && errors.UBKU_past)}
+                                                                                                {...getFieldProps('UBKU_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBKU_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBKU_past && errors.UBKU_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Nitrite</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBSNO_current && errors.UBSNO_current)}
+                                                                                                {...getFieldProps('UBSNO_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBSNO_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBSNO_current && errors.UBSNO_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBSNO_previous && errors.UBSNO_previous)}
+                                                                                                {...getFieldProps('UBSNO_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBSNO_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBSNO_previous && errors.UBSNO_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBSNO_past && errors.UBSNO_past)}
+                                                                                                {...getFieldProps('UBSNO_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBSNO_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBSNO_past && errors.UBSNO_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Leukocytes</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.URLEU_current && errors.URLEU_current)}
+                                                                                                {...getFieldProps('URLEU_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URLEU_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URLEU_current && errors.URLEU_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URLEU_previous && errors.URLEU_previous)}
+                                                                                                {...getFieldProps('URLEU_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URLEU_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URLEU_previous && errors.URLEU_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.URLEU_past && errors.URLEU_past)}
+                                                                                                {...getFieldProps('URLEU_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="URLEU_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.URLEU_past && errors.URLEU_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">Specific Gravity</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('URDENS_current')}
+                                                                                          error={Boolean(touched.URDENS_current && errors.URDENS_current)}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="URDENS_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.URDENS_current && errors.URDENS_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+
+                                                                                          {...getFieldProps('URDENS_previous')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+
+                                                                                          {...getFieldProps('URDENS_past')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">PH</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('URTest_current')}
+                                                                                          error={Boolean(touched.URTest_current && errors.URTest_current)}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="URTest_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.URTest_current && errors.URTest_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+
+                                                                                          {...getFieldProps('URTest_previous')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+
+                                                                                          {...getFieldProps('URTest_past')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                        </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label_group">Urine Sediments</Typography>
@@ -2250,44 +2825,508 @@ export default function Lab() {
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label_group">FOBT</Typography>
+                                                                                    <Typography variant="label">RBC</Typography>
                                                                               </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBRBC1_current && errors.UBRBC1_current)}
+                                                                                                {...getFieldProps('UBRBC1_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBRBC1_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBRBC1_current && errors.UBRBC1_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBRBC2_current && errors.UBRBC2_current)}
+                                                                                                {...getFieldProps('UBRBC2_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBRBC2_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBRBC2_current && errors.UBRBC2_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBRBC1_previous && errors.UBRBC1_previous)}
+                                                                                                {...getFieldProps('UBRBC1_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBRBC1_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBRBC1_previous && errors.UBRBC1_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBRBC2_previous && errors.UBRBC2_previous)}
+                                                                                                {...getFieldProps('UBRBC2_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBRBC2_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBRBC2_previous && errors.UBRBC2_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBRBC1_past && errors.UBRBC1_past)}
+                                                                                                {...getFieldProps('UBRBC1_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBRBC1_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBRBC1_past && errors.UBRBC1_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBRBC2_past && errors.UBRBC2_past)}
+                                                                                                {...getFieldProps('UBRBC2_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBRBC2_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBRBC2_past && errors.UBRBC2_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">Value</Typography>
+                                                                                    <Typography variant="label">WBC</Typography>
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('TFALP_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFALP_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="TFALP_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.TFALP_current && errors.TFALP_current}
-                                                                                    </FormHelperText>
+                                                                              <TableCell >
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBWBC1_current && errors.UBWBC1_current)}
+                                                                                                {...getFieldProps('UBWBC1_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBWBC1_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBWBC1_current && errors.UBWBC1_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBWBC2_current && errors.UBWBC2_current)}
+                                                                                                {...getFieldProps('UBWBC2_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBWBC2_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBWBC2_current && errors.UBWBC2_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('TFALP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFALP_unit}</InputAdornment>}
-
-                                                                                    />
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBWBC1_previous && errors.UBWBC1_previous)}
+                                                                                                {...getFieldProps('UBWBC1_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBWBC1_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBWBC1_previous && errors.UBWBC1_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBWBC2_previous && errors.UBWBC2_previous)}
+                                                                                                {...getFieldProps('UBWBC2_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBWBC2_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBWBC2_previous && errors.UBWBC2_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('TFALP_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFALP_unit}</InputAdornment>}
-
-                                                                                    />
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBWBC1_past && errors.UBWBC1_past)}
+                                                                                                {...getFieldProps('UBWBC1_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBWBC1_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBWBC1_past && errors.UBWBC1_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBWBC2_past && errors.UBWBC2_past)}
+                                                                                                {...getFieldProps('UBWBC2_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBWBC2_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBWBC2_past && errors.UBWBC2_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Epithelial Cells</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBEPlit1_current && errors.UBEPlit1_current)}
+                                                                                                {...getFieldProps('UBEPlit1_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBEPlit1_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBEPlit1_current && errors.UBEPlit1_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBEPlit2_current && errors.UBEPlit2_current)}
+                                                                                                {...getFieldProps('UBEPlit2_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBEPlit2_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBEPlit2_current && errors.UBEPlit2_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBEPlit1_previous && errors.UBEPlit1_previous)}
+                                                                                                {...getFieldProps('UBEPlit1_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBEPlit1_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBEPlit1_previous && errors.UBEPlit1_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBEPlit2_previous && errors.UBEPlit2_previous)}
+                                                                                                {...getFieldProps('UBEPlit2_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBEPlit2_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBEPlit2_previous && errors.UBEPlit2_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBEPlit1_past && errors.UBEPlit1_past)}
+                                                                                                {...getFieldProps('UBEPlit1_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBEPlit1_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBEPlit1_past && errors.UBEPlit1_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBEPlit2_past && errors.UBEPlit2_past)}
+                                                                                                {...getFieldProps('UBEPlit2_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBEPlit2_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBEPlit2_past && errors.UBEPlit2_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Cast</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                error={Boolean(touched.Cast1_current && errors.Cast1_current)}
+                                                                                                {...getFieldProps('Cast1_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Cast1_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Cast1_current && errors.Cast1_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                error={Boolean(touched.Cast2_current && errors.Cast2_current)}
+                                                                                                {...getFieldProps('Cast2_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Cast2_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Cast2_current && errors.Cast2_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.Cast1_previous && errors.Cast1_previous)}
+                                                                                                {...getFieldProps('Cast1_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Cast1_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Cast1_previous && errors.Cast1_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.Cast2_previous && errors.Cast2_previous)}
+                                                                                                {...getFieldProps('Cast2_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Cast2_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Cast2_previous && errors.Cast2_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.Cast1_past && errors.Cast1_past)}
+                                                                                                {...getFieldProps('Cast1_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Cast1_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Cast1_past && errors.Cast1_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl sx={{ width: "50%" }} >
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.Cast2_past && errors.Cast2_past)}
+                                                                                                {...getFieldProps('Cast2_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Cast2_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Cast2_past && errors.Cast2_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Bacteria</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.Bacter_current && errors.Bacter_current)}
+                                                                                                {...getFieldProps('Bacter_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Bacter_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Bacter_current && errors.Bacter_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.Bacter_previous && errors.Bacter_previous)}
+                                                                                                {...getFieldProps('Bacter_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Bacter_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Bacter_previous && errors.Bacter_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.Bacter_past && errors.Bacter_past)}
+                                                                                                {...getFieldProps('Bacter_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Bacter_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Bacter_past && errors.Bacter_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Other</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBOther_current && errors.UBOther_current)}
+                                                                                                {...getFieldProps('UBOther_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBOther_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBOther_current && errors.UBOther_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBOther_previous && errors.UBOther_previous)}
+                                                                                                {...getFieldProps('UBOther_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBOther_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBOther_previous && errors.UBOther_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.UBOther_past && errors.UBOther_past)}
+                                                                                                {...getFieldProps('UBOther_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBOther_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBOther_past && errors.UBOther_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                         </TableRow>
                                                                   </TableBody>
