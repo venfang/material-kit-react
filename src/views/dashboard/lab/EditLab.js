@@ -15,19 +15,20 @@ import { useTranslation } from 'react-i18next';
 import { faker } from '@faker-js/faker';
 import * as React from 'react';
 import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
+import { useFormik, Form, FormikProvider, validateYupSchema } from 'formik';
 import Cookies from 'js-cookie';
 // @mui
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import { useTheme, alpha, styled } from '@mui/material/styles';
 import { Grid, Container, Typography, AppBar, FormHelperText, MenuItem, Select, Radio, FormControl, FormControlLabel, RadioGroup, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import Loader from '../../../components/loader/Loader';
 // components
 import Page from '../../../components/Page';
 import Iconify from '../../../components/Iconify';
 import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import SequenceBar from '../../../layouts/dashboard/SequenceBar';
+
 import { getReport, confirmBloodTest, confirmImmunology, confirmBiochemistry, confirmUrine } from '../../../data/lab/lab';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -49,10 +50,13 @@ export default function Lab() {
       const [submitAction, setSubmitAction] = useState("");
 
       useEffect(() => {
+            formik.setSubmitting(true);
             getReport(report_id).then((data) => {
                   formik.setValues(data);
                   formik.setSubmitting(false);
+                  console.log(data);
             }).catch(() => {
+                  TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   formik.setSubmitting(false);
             });
 
@@ -395,6 +399,9 @@ export default function Lab() {
                   Cast2_current: '',
                   Cast2_previous: '-',
                   Cast2_past: '-',
+
+                  test_date_previous: 'Previous',
+                  test_date_past: "Past",
             },
             enableReinitialize: true,
             validationSchema: LabSchema,
@@ -411,6 +418,7 @@ export default function Lab() {
                   } else if (submitAction === "biochemistry") {
                         biochemistry();
                   }
+                  formik.setSubmitting(false);
             },
       });
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -502,7 +510,7 @@ export default function Lab() {
                               'OK'
                         )
                               .then(() => {
-                                    navigate('/dashboard/asset', { replace: true });
+                                    window.location.reload();
                               });
                   })
                   .catch((error) => {
@@ -513,9 +521,7 @@ export default function Lab() {
                               false,
                               '',
                               true,
-                              'OK').then(() => {
-
-                              });
+                              'OK')
                   }
                   );
       }
@@ -622,14 +628,14 @@ export default function Lab() {
                               false,
                               '',
                               true,
-                              'OK').then(() => {
+                              'OK')
 
-                              });
                   }
                   );
       }
       return (
             <Page Page title="Edit"  >
+                  <Loader spinner={isSubmitting} />
                   <SequenceBar topValue={topValue} />
                   <Container sx={{ marginTop: 11, width: "100%", height: "100%" }} disableGutters={true} >
                         <TabContext value={value} sx={{
@@ -704,10 +710,10 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} >
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell > </TableCell>
+                                                                              <TableCell>{values.immunology_confirm_staff !== null && <Typography >{values.immunology_confirm_staff} updated at {values.immunology_confirm_date}</Typography>}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
-                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Previous Check</TableCell>
-                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Past Check</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
                                                                         </TableRow>
                                                                   </TableHead>
                                                                   <TableBody>
@@ -1222,12 +1228,12 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           className='textField'
-                                                                                          {...getFieldProps('CA125_current')}
+                                                                                          {...getFieldProps('CA19_9_current')}
                                                                                           endAdornment={<InputAdornment position="start">{values.CA19_9_unit}</InputAdornment>}
 
                                                                                     />
-                                                                                    <FormHelperText error id="CA125_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CA125_current && errors.CA125_current}
+                                                                                    <FormHelperText error id="CA19_9_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.CA19_9_current && errors.CA19_9_current}
                                                                                     </FormHelperText>
 
                                                                               </TableCell>
@@ -1235,7 +1241,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           disabled
-                                                                                          {...getFieldProps('CA125_previous')}
+                                                                                          {...getFieldProps('CA19_9_previous')}
                                                                                           endAdornment={<InputAdornment position="start">{values.CA19_9_unit}</InputAdornment>}
 
                                                                                     />
@@ -1244,7 +1250,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           disabled
                                                                                           className='textField'
-                                                                                          {...getFieldProps('CA125_past')}
+                                                                                          {...getFieldProps('CA19_9_past')}
                                                                                           endAdornment={<InputAdornment position="start">{values.CA19_9_unit}</InputAdornment>}
 
                                                                                     />
@@ -1422,10 +1428,10 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} >
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell > </TableCell>
+                                                                              <TableCell>{values.biochemistry_confirm_staff !== null && <Typography >{values.biochemistry_confirm_staff} updated at {values.biochemistry_confirm_date}</Typography>}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
-                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Previous Check</TableCell>
-                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Past Check</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
                                                                         </TableRow>
                                                                   </TableHead>
                                                                   <TableBody>
@@ -2239,10 +2245,10 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} >
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell > </TableCell>
+                                                                              <TableCell>{values.urine_confirm_staff !== null && <Typography>{values.urine_confirm_staff} updated at {values.urine_confirm_date}</Typography>}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
-                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Previous Check</TableCell>
-                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Past Check</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
                                                                         </TableRow>
                                                                   </TableHead>
                                                                   <TableBody>
@@ -3363,10 +3369,10 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} >
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell > </TableCell>
+                                                                              <TableCell>{values.blood_confirm_staff !== null && <Typography>{values.blood_confirm_staff} updated at {values.blood_confirm_date}</Typography>}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
-                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Previous Check</TableCell>
-                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Past Check</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
                                                                         </TableRow>
                                                                   </TableHead>
                                                                   <TableBody>
