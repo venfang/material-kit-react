@@ -59,7 +59,6 @@ export default function Lab() {
                   TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   setSubmitting(false);
             });
-
       }, []);
       return (
             <Page Page title="Lab"  >
@@ -75,10 +74,10 @@ export default function Lab() {
                                                 <StyledTableCell align="center">Age</StyledTableCell>
                                                 <StyledTableCell align="center">Gender</StyledTableCell>
                                                 <StyledTableCell align="center">Package</StyledTableCell>
-                                                <StyledTableCell align="center">Blood Test</StyledTableCell>
-                                                <StyledTableCell align="center">Urine Test</StyledTableCell>
                                                 <StyledTableCell align="center">Immunology Test</StyledTableCell>
                                                 <StyledTableCell align="center">Biochemistry Test</StyledTableCell>
+                                                <StyledTableCell align="center">Urine Test</StyledTableCell>
+                                                <StyledTableCell align="center">Blood Test</StyledTableCell>
                                           </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -166,16 +165,16 @@ export default function Lab() {
                                                                   {row.package_id}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBlood} /> {textBlood}</Typography>
+                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorImmunology} /> {textImmunology}</Typography>
+                                                            </StyledTableCell>
+                                                            <StyledTableCell component="th" scope="row" align='center'>
+                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBiochemistry} /> {textBiochemistry}</Typography>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorUrine} /> {textUrine}</Typography>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorImmunology} /> {textImmunology}</Typography>
-                                                            </StyledTableCell>
-                                                            <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBiochemistry} /> {textBiochemistry}</Typography>
+                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBlood} /> {textBlood}</Typography>
                                                             </StyledTableCell>
                                                       </StyledTableRow>
                                                 )

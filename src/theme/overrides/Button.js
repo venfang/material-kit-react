@@ -25,7 +25,7 @@ export default function Button(theme) {
         {
           props: { variant: 'cancel' },
           style: {
-            border: '1.5px solid ##5A567B',
+            border: '1px solid ##5A567B',
             backgroundColor: '#5A567B',
             color: '#ffffff',
             height: 40,
@@ -39,7 +39,7 @@ export default function Button(theme) {
         {
           props: { variant: 'outlined' },
           style: {
-            border: '1.5px solid #ffffff',
+            border: '1px solid #ffffff',
             textTransform: 'none',
             backgroundColor: '#1565c0',
             color: '#ffffff',
@@ -55,7 +55,7 @@ export default function Button(theme) {
         {
           props: { variant: 'contained' },
           style: {
-            border: '1.5px solid #ffffff',
+            border: '1px solid #ffffff',
             backgroundColor: '#1565c0',
             color: '#ffffff',
             height: 40,
@@ -70,7 +70,7 @@ export default function Button(theme) {
         {
           props: { variant: 'submit' },
           style: {
-            border: '1.5px solid #ffffff',
+            border: '1px solid #ffffff',
             backgroundColor: '#1e88e5',
             color: '#ffffff',
             height: 40,
@@ -84,13 +84,12 @@ export default function Button(theme) {
         {
           props: { variant: 'return' },
           style: {
-            border: '1.5px solid #ffffff',
+            border: '1px solid #ffffff',
             backgroundColor: 'transparent',
             color: '#211D4E',
             height: 40,
             ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 14 }),
             '&:hover': {
-              boxShadow: theme.customShadows.z8,
               backgroundColor: 'transparent',
             },
           },

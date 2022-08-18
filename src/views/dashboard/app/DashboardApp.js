@@ -158,14 +158,15 @@ export default function DashboardApp() {
               </Typography>
             </Box>
             <Grid container spacing={3}  >
-              <Grid item xs={12} sm={12} md={3} lg={3} xl={3} component={RouterLink} to="/dashboard/lab">
+              <Grid item xs={12} sm={2} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/lab" sx={{ textDecoration: "none" }}>
                 <Card
                   sx={{
                     position: 'relative',
                     margin: '0 auto',
                     p: 1,
                     textAlign: 'center',
-                    height: 200,
+                    width: 150,
+                    height: 150,
                     background: 'linear-gradient(to top right, #eeeeee -50%, #ffffff 100%)',
                   }}
                 >
@@ -176,10 +177,10 @@ export default function DashboardApp() {
                     alignItems="center"
                     sx={{ height: '100%' }}
                   >
-                    <Grid item sx={{ height: '80%' }}>
+                    <Grid item sx={{ height: '60%' }}>
                       <ScienceIcon sx={{ height: '100%', width: '100%', color: '#1e88e5' }} />
                     </Grid>
-                    <Grid item sx={{ height: '20%' }}>
+                    <Grid item sx={{ height: '30%' }}>
                       <Typography variant="label">{'Lab Test'}</Typography>
                     </Grid>
                   </Grid>

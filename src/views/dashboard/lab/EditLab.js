@@ -39,6 +39,16 @@ const Item = styled(Paper)(({ theme }) => ({
       color: theme.palette.text.secondary,
 }));
 
+const URLook_Option = [null, "Clear", "Turbid"];
+const UREW_Option = [null, "Negative", "+-", "+", "++", "+++"];
+const URS_Option = [null, "Negative", "+-", "+", "++", "+++"];
+const URBR_Option = [null, "Negative", "+", "++", "+++"];
+const URUBR_Option = [null, "Negative", "+", "++", "+++"];
+const UBBH_Option = [null, "Negative", "+-", "+", "++", "+++", "++++"];
+const UBKU_Option = [null, "Negative", "+-", "+", "++", "+++"];
+const UBSNO_Option = [null, "Postive", "Negative"];
+const URLEU_Option = [null, "Negative", "+", "++", "+++"];
+
 export default function Lab() {
       const [value, setTabValue] = useState("1");
       const { report_id } = useParams();
@@ -494,7 +504,7 @@ export default function Lab() {
                   CA19_9: values.CA19_9_current,
                   EBV: values.EBV_current,
                   PSA: values.PSA_current,
-                  RFTSH: values.RFFT4_current,
+                  RFTSH: values.RFTSH_current,
                   Homocy: values.Homocy_current,
                   immunology_confirm_staff: Cookies.get('name'),
             };
@@ -588,6 +598,7 @@ export default function Lab() {
                   UFBUN: values.UFBUN_current,
                   UFCRE: values.UFCRE_current,
                   EFCA: values.EFCA_current,
+                  EFP: values.EFP_current,
                   UFUA: values.UFUA_current,
                   TFTP: values.TFTP_current,
                   TFALB: values.TFALB_current,
@@ -643,8 +654,8 @@ export default function Lab() {
                               padding: 0,
                         }}>
                               <AppBar position="fixed" color="primary" sx={{ top: topValue + 40 }}>
-                                    <Box sx={{ backgroundColor: "#FFFFFF", height: 60, width: "100%" }}>
-                                          <Stack direction="row"
+                                    <Box sx={{ backgroundColor: "#FFFFFF", color: "#211D4E", height: 60, paddingLeft: 10, paddingRight: 10 }}>
+                                          <Stack
                                                 display="flex"
                                                 flexDirection="row"
                                                 justifyContent="space-between"
@@ -652,36 +663,37 @@ export default function Lab() {
                                                 height="100%"
                                                 width="100%"
                                           >
-                                                <Button variant="return" component={RouterLink} to="/dashboard/lab" startIcon={<Iconify icon="ant-design:left-outlined" />} >
-                                                      Back
-                                                </Button>
-                                                <Box sx={{ height: 55, width: "100%", display: "flex" }}>
-                                                      <Tabs value={value}
-                                                            onChange={handleTabChange}
-                                                            aria-label="lab API tabs example"
-                                                            centered
-                                                            TabIndicatorProps={{ sx: { height: 0 } }}
-                                                            sx={{
-                                                                  minHeight: '40px !important',
-                                                                  height: 55,
-                                                                  width: "100%",
-                                                                  padding: 0.5,
-                                                                  '& button': { borderRadius: 0.5, backgroundColor: "#EDEDED", color: "#5A567B", marginRight: 2, maxWidth: { xs: 80, sm: 100, md: 200, lg: 200 }, width: "100%", height: "100%", minHeight: "100% !important", textAlign: "center", fontSize: { xs: 8, sm: 8, md: 12, lg: 12 } },
-                                                                  '& button:hover': { backgroundColor: '#1e88e5', color: "#FFFFFF" },
-                                                                  '& button:active': { backgroundColor: '#1565c0', color: "#FFFFFF" },
-                                                                  '& button.Mui-selected': { backgroundColor: '#1565c0', color: "#FFFFFF" },
-                                                            }}
-
-                                                      >
-
-                                                            {formik.values.immunology_confirm_staff !== "1" && <Tab label="Immunology" value="1" />}
-                                                            {formik.values.biochemistry_confirm_staff !== "1" && <Tab label="Biochemistry" value="2" />}
-                                                            {formik.values.urine_confirm_staff !== "1" && <Tab label="Urine, Faeces & Groups" value="3" />}
-                                                            {formik.values.blood_confirm_staff !== "1" && <Tab label="Blood Test" value="4" />}
-                                                      </Tabs>
+                                                <Box>
+                                                      <Button variant="return" component={RouterLink} to="/dashboard/lab" startIcon={<Iconify icon="ant-design:left-outlined" />} >
+                                                            Back
+                                                      </Button>
                                                 </Box>
+                                                <Tabs value={value}
+                                                      onChange={handleTabChange}
+                                                      aria-label="lab API tabs example"
+                                                      centered
+                                                      TabIndicatorProps={{ sx: { height: 0 } }}
+                                                      sx={{
+                                                            minHeight: '40px !important',
+                                                            height: 55,
+                                                            width: "100%",
+                                                            padding: 0.5,
+                                                            '& button': { borderRadius: 0.5, backgroundColor: "#EDEDED", color: "#5A567B", marginRight: 2, maxWidth: { xs: 80, sm: 100, md: 200, lg: 200 }, width: "100%", height: "100%", minHeight: "100% !important", textAlign: "center", fontSize: { xs: 8, sm: 8, md: 12, lg: 12 } },
+                                                            '& button:hover': { backgroundColor: '#1e88e5', color: "#FFFFFF" },
+                                                            '& button:active': { backgroundColor: '#1565c0', color: "#FFFFFF" },
+                                                            '& button.Mui-selected': { backgroundColor: '#1565c0', color: "#FFFFFF" },
+                                                      }}
+
+                                                >
+
+                                                      {formik.values.immunology_confirm_staff !== "1" && <Tab label="Immunology" value="1" />}
+                                                      {formik.values.biochemistry_confirm_staff !== "1" && <Tab label="Biochemistry" value="2" />}
+                                                      {formik.values.urine_confirm_staff !== "1" && <Tab label="Urine, Faeces & Groups" value="3" />}
+                                                      {formik.values.blood_confirm_staff !== "1" && <Tab label="Blood Test" value="4" />}
+                                                </Tabs>
                                           </Stack>
                                     </Box>
+
                               </AppBar>
                               <FormikProvider value={formik}>
                                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -707,10 +719,10 @@ export default function Lab() {
                                                                   '& td:nth-of-type(1)': { paddingLeft: 0, paddingTop: 0, paddingBottom: 0, marginBottom: 0 },
                                                                   '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 }
                                                             }}>
-                                                            <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} >
+                                                            <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell>{values.immunology_confirm_staff !== null && <Typography >{values.immunology_confirm_staff} updated at {values.immunology_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell>{values.immunology_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.immunology_confirm_staff} updated at {values.immunology_confirm_date}</Typography>}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -1396,6 +1408,8 @@ export default function Lab() {
                                                                         </TableRow>
 
                                                                   </TableBody>
+
+
                                                             </Table>
                                                             <Button
                                                                   size="large"
@@ -1410,25 +1424,30 @@ export default function Lab() {
                                                 </Container>
                                           </TabPanel>
                                           <TabPanel value="2">
-                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%" }}>
+                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", padding: 2 }}>
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
                                                                   height: "100%",
-                                                                  paddingTop: 2,
-                                                                  paddingBottom: 2,
+                                                                  paddingTop: 0,
+                                                                  paddingBottom: 0,
                                                                   marginLeft: 0,
+                                                                  marginBottom: 0,
                                                                   '&:last-child td, &:last-child th': { border: 0 },
-                                                                  '& td:nth-of-type(2),& th:nth-of-type(2)': { backgroundColor: "#DDDDDD" },
-                                                                  '& td:nth-of-type(3),& th:nth-of-type(3)': { backgroundColor: "#F9F9F9" },
-                                                                  '& td:nth-of-type(4),& th:nth-of-type(4)': { backgroundColor: "#F9F9F9" },
+                                                                  '& td:nth-of-type(2),& th:nth-of-type(2),& td:nth-of-type(6),& th:nth-of-type(6)': { backgroundColor: "#DDDDDD" },
+                                                                  '& td:nth-of-type(3),& th:nth-of-type(3),& td:nth-of-type(7),& th:nth-of-type(7)': { backgroundColor: "#F9F9F9" },
+                                                                  '& td:nth-of-type(4),& th:nth-of-type(4),& td:nth-of-type(8),& th:nth-of-type(8)': { backgroundColor: "#F9F9F9" },
                                                                   '& td:nth-of-type(1)': { paddingLeft: 0, paddingTop: 0, paddingBottom: 0, marginBottom: 0 },
-                                                                  '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 }
+                                                                  '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4),& td:nth-of-type(6),& td:nth-of-type(7),& td:nth-of-type(8)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 },
                                                             }}>
-                                                            <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} >
+                                                            <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell>{values.biochemistry_confirm_staff !== null && <Typography >{values.biochemistry_confirm_staff} updated at {values.biochemistry_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell >{values.biochemistry_confirm_staff !== null && <Typography >{values.biochemistry_confirm_staff} updated at {values.biochemistry_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -1438,6 +1457,12 @@ export default function Lab() {
                                                                         <TableRow >
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label_group">Blood Sugar Tests</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label_group">Uric Acid Tests</Typography>
                                                                               </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
@@ -1475,6 +1500,38 @@ export default function Lab() {
                                                                                           endAdornment={<InputAdornment position="start">{values.Glucose_unit}</InputAdornment>}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Uric Acid</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UFUA_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="UFUA_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.UFUA_current && errors.UFUA_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('UFUA_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UFUA_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
@@ -1508,14 +1565,52 @@ export default function Lab() {
                                                                                           endAdornment={<InputAdornment position="start">{values.HbA1c_unit}</InputAdornment>}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label_group">Blood Lipid Tests</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
-                                                                              <TableCell align="right" >
+                                                                              <TableCell align="right">
                                                                                     <Typography variant="label_group">Liver Function Tests</Typography>
                                                                               </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Triglyceride</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGTG_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="BGTG_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BGTG_current && errors.BGTG_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('BGTG_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGTG_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
@@ -1547,6 +1642,38 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('TFTBIL_past')}
                                                                                           endAdornment={<InputAdornment position="start">{values.TFTBIL_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Cholesterol</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGCHOL_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="BGCHOL_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BGCHOL_current && errors.BGCHOL_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('BGCHOL_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGCHOL_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1584,6 +1711,38 @@ export default function Lab() {
 
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">HDL-Cholesterol</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGHDLC_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="BGHDLC_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BGHDLC_current && errors.BGHDLC_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('BGHDLC_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGHDLC_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
@@ -1615,6 +1774,38 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('TFTP_past')}
                                                                                           endAdornment={<InputAdornment position="start">{values.TFTP_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">LDL-Cholesterol</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGLDLC_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="BGLDLC_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BGLDLC_current && errors.BGLDLC_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('BGLDLC_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGLDLC_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1652,6 +1843,38 @@ export default function Lab() {
 
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">CHOL/HDL-C</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGCH_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="BGCH_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BGCH_current && errors.BGCH_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('BGCH_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BGCH_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
@@ -1686,6 +1909,12 @@ export default function Lab() {
 
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label_group">Ca.P.Fe Tests</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
@@ -1720,6 +1949,37 @@ export default function Lab() {
 
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Ca</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('EFCA_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="EFCA_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.CRP_current && errors.CRP_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('EFCA_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('EFCA_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
@@ -1751,6 +2011,38 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('TFsGPT_past')}
                                                                                           endAdornment={<InputAdornment position="start">{values.TFsGPT_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">P</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('EFP_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="EFP_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.EFP_current && errors.EFP_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('EFP_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('EFP_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1788,9 +2080,13 @@ export default function Lab() {
 
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label_group">Tissue Inflammation Screening</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                         </TableRow>
-
-
                                                                         <TableRow>
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label_group">Renal Function</Typography>
@@ -1798,6 +2094,38 @@ export default function Lab() {
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">CRP</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('CRP_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="CRP_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.CRP_current && errors.CRP_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('CRP_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('CRP_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
 
                                                                         <TableRow >
@@ -1838,7 +2166,7 @@ export default function Lab() {
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">Creatinine</Typography>
                                                                               </TableCell>
-                                                                              <TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('UFCRE_current')}
@@ -1848,7 +2176,7 @@ export default function Lab() {
                                                                                           {touched.UFCRE_current && errors.UFCRE_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
-                                                                              <TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           disabled
@@ -1857,355 +2185,12 @@ export default function Lab() {
 
                                                                                     />
                                                                               </TableCell>
-                                                                              <TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('UFBUN_past')}
                                                                                           endAdornment={<InputAdornment position="start">{values.UFBUN_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label_group">Uric Acid Tests</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Uric Acid</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UFUA_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="UFUA_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.UFUA_current && errors.UFUA_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('UFUA_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UFUA_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-
-                                                                        <TableRow>
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label_group">Blood Lipid Tests</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Triglyceride</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGTG_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="BGTG_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BGTG_current && errors.BGTG_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('BGTG_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGTG_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Cholesterol</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGCHOL_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="BGCHOL_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BGCHOL_current && errors.BGCHOL_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('BGCHOL_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGCHOL_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">HDL-Cholesterol</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGHDLC_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="BGHDLC_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BGHDLC_current && errors.BGHDLC_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('BGHDLC_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGHDLC_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">LDL-Cholesterol</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGLDLC_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="BGLDLC_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BGLDLC_current && errors.BGLDLC_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('BGLDLC_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGLDLC_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">CHOL/HDL-C</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGCH_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="BGCH_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BGCH_current && errors.BGCH_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('BGCH_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BGCH_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-
-
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label_group">Ca.P.Fe Tests</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                        </TableRow>
-
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Ca</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('EFCA_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="EFCA_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CRP_current && errors.CRP_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('EFCA_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('EFCA_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">P</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('EFP_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="EFP_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.EFP_current && errors.EFP_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('EFP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('EFP_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label_group">Tissue Inflammation Screening</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                        </TableRow>
-
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">CRP</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CRP_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="CRP_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CRP_current && errors.CRP_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('CRP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
-
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CRP_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -2272,9 +2257,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLook_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URLook_Option.map((URLook) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URLook}
+                                                                                                            key={URLook}
+                                                                                                      >{URLook}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URLook_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URLook_current && errors.URLook_current}
@@ -2289,9 +2278,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLook_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URLook_Option.map((URLook) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URLook}
+                                                                                                            key={URLook}
+                                                                                                      >{URLook}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URLook_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URLook_previous && errors.URLook_previous}
@@ -2306,9 +2299,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLook_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URLook_Option.map((URLook) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URLook}
+                                                                                                            key={URLook}
+                                                                                                      >{URLook}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URLook_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URLook_past && errors.URLook_past}
@@ -2327,9 +2324,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UREW_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UREW_Option.map((UREW) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UREW}
+                                                                                                            key={UREW}
+                                                                                                      >{UREW}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UREW_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UREW_current && errors.UREW_current}
@@ -2344,9 +2345,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UREW_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UREW_Option.map((UREW) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UREW}
+                                                                                                            key={UREW}
+                                                                                                      >{UREW}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UREW_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UREW_previous && errors.UREW_previous}
@@ -2361,9 +2366,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UREW_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UREW_Option.map((UREW) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UREW}
+                                                                                                            key={UREW}
+                                                                                                      >{UREW}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UREW_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UREW_past && errors.UREW_past}
@@ -2382,9 +2391,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URS_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URS_Option.map((URS) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URS}
+                                                                                                            key={URS}
+                                                                                                      >{URS}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URS_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URS_current && errors.URS_current}
@@ -2399,9 +2412,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URS_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URS_Option.map((URS) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URS}
+                                                                                                            key={URS}
+                                                                                                      >{URS}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URS_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URS_previous && errors.URS_previous}
@@ -2416,9 +2433,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URS_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URS_Option.map((URS) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URS}
+                                                                                                            key={URS}
+                                                                                                      >{URS}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URS_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URS_past && errors.URS_past}
@@ -2437,9 +2458,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URBR_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URBR_Option.map((URBR) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URBR}
+                                                                                                            key={URBR}
+                                                                                                      >{URBR}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URBR_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URBR_current && errors.URBR_current}
@@ -2454,9 +2479,14 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URBR_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+
+                                                                                                {URBR_Option.map((URBR) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URBR}
+                                                                                                            key={URBR}
+                                                                                                      >{URBR}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URBR_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URBR_previous && errors.URBR_previous}
@@ -2471,9 +2501,14 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+
+                                                                                                {URBR_Option.map((URBR) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URBR}
+                                                                                                            key={URBR}
+                                                                                                      >{URBR}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URBR_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URBR_past && errors.URBR_past}
@@ -2492,9 +2527,14 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URUBR_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+
+                                                                                                {URUBR_Option.map((URUBR) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URUBR}
+                                                                                                            key={URUBR}
+                                                                                                      >{URUBR}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URUBR_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URUBR_current && errors.URUBR_current}
@@ -2509,9 +2549,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URUBR_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URUBR_Option.map((URUBR) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URUBR}
+                                                                                                            key={URUBR}
+                                                                                                      >{URUBR}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URUBR_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URUBR_previous && errors.URUBR_previous}
@@ -2526,9 +2570,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URUBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URUBR_Option.map((URUBR) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URUBR}
+                                                                                                            key={URUBR}
+                                                                                                      >{URUBR}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URUBR_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URUBR_past && errors.URUBR_past}
@@ -2547,9 +2595,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBBH_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBBH_Option.map((UBBH) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBBH}
+                                                                                                            key={UBBH}
+                                                                                                      >{UBBH}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBBH_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBBH_current && errors.UBBH_current}
@@ -2564,9 +2616,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBBH_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBBH_Option.map((UBBH) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBBH}
+                                                                                                            key={UBBH}
+                                                                                                      >{UBBH}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBBH_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBBH_previous && errors.UBBH_previous}
@@ -2581,9 +2637,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBBH_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBBH_Option.map((UBBH) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBBH}
+                                                                                                            key={UBBH}
+                                                                                                      >{UBBH}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBBH_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBBH_past && errors.UBBH_past}
@@ -2602,9 +2662,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBKU_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBKU_Option.map((UBKU) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBKU}
+                                                                                                            key={UBKU}
+                                                                                                      >{UBKU}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBKU_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBKU_current && errors.UBKU_current}
@@ -2619,9 +2683,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBKU_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBKU_Option.map((UBKU) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBKU}
+                                                                                                            key={UBKU}
+                                                                                                      >{UBKU}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBKU_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBKU_previous && errors.UBKU_previous}
@@ -2636,9 +2704,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBKU_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBKU_Option.map((UBKU) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBKU}
+                                                                                                            key={UBKU}
+                                                                                                      >{UBKU}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBKU_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBKU_past && errors.UBKU_past}
@@ -2658,9 +2730,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBSNO_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBSNO_Option.map((UBSNO) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBSNO}
+                                                                                                            key={UBSNO}
+                                                                                                      >{UBSNO}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBSNO_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBSNO_current && errors.UBSNO_current}
@@ -2675,9 +2751,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBSNO_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBSNO_Option.map((UBSNO) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBSNO}
+                                                                                                            key={UBSNO}
+                                                                                                      >{UBSNO}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBSNO_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBSNO_previous && errors.UBSNO_previous}
@@ -2692,9 +2772,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBSNO_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {UBSNO_Option.map((UBSNO) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBSNO}
+                                                                                                            key={UBSNO}
+                                                                                                      >{UBSNO}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="UBSNO_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.UBSNO_past && errors.UBSNO_past}
@@ -2713,9 +2797,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLEU_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URLEU_Option.map((URLEU) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URLEU}
+                                                                                                            key={URLEU}
+                                                                                                      >{URLEU}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URLEU_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URLEU_current && errors.URLEU_current}
@@ -2730,9 +2818,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLEU_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URLEU_Option.map((URLEU) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URLEU}
+                                                                                                            key={URLEU}
+                                                                                                      >{URLEU}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URLEU_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URLEU_previous && errors.URLEU_previous}
@@ -2747,9 +2839,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLEU_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {URLEU_Option.map((URLEU) => (
+                                                                                                      <MenuItem
+                                                                                                            value={URLEU}
+                                                                                                            key={URLEU}
+                                                                                                      >{URLEU}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URLEU_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URLEU_past && errors.URLEU_past}
@@ -2834,98 +2930,45 @@ export default function Lab() {
                                                                                     <Typography variant="label">RBC</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                error={Boolean(touched.UBRBC1_current && errors.UBRBC1_current)}
-                                                                                                {...getFieldProps('UBRBC1_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBRBC1_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBRBC1_current && errors.UBRBC1_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                error={Boolean(touched.UBRBC2_current && errors.UBRBC2_current)}
-                                                                                                {...getFieldProps('UBRBC2_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBRBC2_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBRBC2_current && errors.UBRBC2_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC1_current')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC2_current')}
+                                                                                    />
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBRBC1_previous && errors.UBRBC1_previous)}
-                                                                                                {...getFieldProps('UBRBC1_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBRBC1_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBRBC1_previous && errors.UBRBC1_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBRBC2_previous && errors.UBRBC2_previous)}
-                                                                                                {...getFieldProps('UBRBC2_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBRBC2_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBRBC2_previous && errors.UBRBC2_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC1_previous')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC2_previous')}
+                                                                                    />
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBRBC1_past && errors.UBRBC1_past)}
-                                                                                                {...getFieldProps('UBRBC1_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBRBC1_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBRBC1_past && errors.UBRBC1_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBRBC2_past && errors.UBRBC2_past)}
-                                                                                                {...getFieldProps('UBRBC2_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBRBC2_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBRBC2_past && errors.UBRBC2_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC1_past')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC2_past')}
+                                                                                    />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -2933,98 +2976,45 @@ export default function Lab() {
                                                                                     <Typography variant="label">WBC</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                error={Boolean(touched.UBWBC1_current && errors.UBWBC1_current)}
-                                                                                                {...getFieldProps('UBWBC1_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBWBC1_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBWBC1_current && errors.UBWBC1_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                error={Boolean(touched.UBWBC2_current && errors.UBWBC2_current)}
-                                                                                                {...getFieldProps('UBWBC2_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBWBC2_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBWBC2_current && errors.UBWBC2_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC1_current')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC2_current')}
+                                                                                    />
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBWBC1_previous && errors.UBWBC1_previous)}
-                                                                                                {...getFieldProps('UBWBC1_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBWBC1_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBWBC1_previous && errors.UBWBC1_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBWBC2_previous && errors.UBWBC2_previous)}
-                                                                                                {...getFieldProps('UBWBC2_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBWBC2_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBWBC2_previous && errors.UBWBC2_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC1_previous')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC2_previous')}
+                                                                                    />
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBWBC1_past && errors.UBWBC1_past)}
-                                                                                                {...getFieldProps('UBWBC1_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBWBC1_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBWBC1_past && errors.UBWBC1_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBWBC2_past && errors.UBWBC2_past)}
-                                                                                                {...getFieldProps('UBWBC2_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBWBC2_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBWBC2_past && errors.UBWBC2_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC1_past')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC2_past')}
+                                                                                    />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -3032,98 +3022,46 @@ export default function Lab() {
                                                                                     <Typography variant="label">Epithelial Cells</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                error={Boolean(touched.UBEPlit1_current && errors.UBEPlit1_current)}
-                                                                                                {...getFieldProps('UBEPlit1_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBEPlit1_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBEPlit1_current && errors.UBEPlit1_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                error={Boolean(touched.UBEPlit2_current && errors.UBEPlit2_current)}
-                                                                                                {...getFieldProps('UBEPlit2_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBEPlit2_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBEPlit2_current && errors.UBEPlit2_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit1_current')}
+                                                                                    />
+                                                                                    <InputBase
+
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit2_current')}
+                                                                                    />
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBEPlit1_previous && errors.UBEPlit1_previous)}
-                                                                                                {...getFieldProps('UBEPlit1_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBEPlit1_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBEPlit1_previous && errors.UBEPlit1_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBEPlit2_previous && errors.UBEPlit2_previous)}
-                                                                                                {...getFieldProps('UBEPlit2_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBEPlit2_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBEPlit2_previous && errors.UBEPlit2_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit1_previous')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit2_previous')}
+                                                                                    />
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBEPlit1_past && errors.UBEPlit1_past)}
-                                                                                                {...getFieldProps('UBEPlit1_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBEPlit1_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBEPlit1_past && errors.UBEPlit1_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBEPlit2_past && errors.UBEPlit2_past)}
-                                                                                                {...getFieldProps('UBEPlit2_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBEPlit2_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBEPlit2_past && errors.UBEPlit2_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit1_past')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit2_past')}
+                                                                                    />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -3131,98 +3069,45 @@ export default function Lab() {
                                                                                     <Typography variant="label">Cast</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                error={Boolean(touched.Cast1_current && errors.Cast1_current)}
-                                                                                                {...getFieldProps('Cast1_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Cast1_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Cast1_current && errors.Cast1_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                error={Boolean(touched.Cast2_current && errors.Cast2_current)}
-                                                                                                {...getFieldProps('Cast2_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Cast2_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Cast2_current && errors.Cast2_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast1_current')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast2_current')}
+                                                                                    />
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.Cast1_previous && errors.Cast1_previous)}
-                                                                                                {...getFieldProps('Cast1_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Cast1_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Cast1_previous && errors.Cast1_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.Cast2_previous && errors.Cast2_previous)}
-                                                                                                {...getFieldProps('Cast2_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Cast2_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Cast2_previous && errors.Cast2_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast1_previous')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast2_previous')}
+                                                                                    />
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.Cast1_past && errors.Cast1_past)}
-                                                                                                {...getFieldProps('Cast1_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Cast1_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Cast1_past && errors.Cast1_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                                    <FormControl sx={{ width: "50%" }} >
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.Cast2_past && errors.Cast2_past)}
-                                                                                                {...getFieldProps('Cast2_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Cast2_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Cast2_past && errors.Cast2_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast1_past')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast2_past')}
+                                                                                    />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -3285,54 +3170,27 @@ export default function Lab() {
                                                                                     <Typography variant="label">Other</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <FormControl fullWidth>
-                                                                                          <Select
-                                                                                                error={Boolean(touched.UBOther_current && errors.UBOther_current)}
-                                                                                                {...getFieldProps('UBOther_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBOther_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBOther_current && errors.UBOther_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBOther_current')}
+                                                                                    />
+
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl fullWidth>
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBOther_previous && errors.UBOther_previous)}
-                                                                                                {...getFieldProps('UBOther_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBOther_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBOther_previous && errors.UBOther_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBOther_previous')}
+                                                                                    />
+
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl fullWidth>
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.UBOther_past && errors.UBOther_past)}
-                                                                                                {...getFieldProps('UBOther_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBOther_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBOther_past && errors.UBOther_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBOther_past')}
+                                                                                    />
+
                                                                               </TableCell>
                                                                         </TableRow>
                                                                   </TableBody>
@@ -3366,13 +3224,18 @@ export default function Lab() {
                                                                   '& td:nth-of-type(1)': { paddingLeft: 0, paddingTop: 0, paddingBottom: 0, marginBottom: 0 },
                                                                   '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 }
                                                             }}>
-                                                            <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} >
+                                                            <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
                                                                               <TableCell>{values.blood_confirm_staff !== null && <Typography>{values.blood_confirm_staff} updated at {values.blood_confirm_date}</Typography>}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
+
                                                                         </TableRow>
                                                                   </TableHead>
                                                                   <TableBody>
@@ -3407,6 +3270,12 @@ export default function Lab() {
                                                                                           {...getFieldProps('BloodWBC_past')}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label_group">WBC Differential Count</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -3437,6 +3306,36 @@ export default function Lab() {
                                                                                           disabled
                                                                                           endAdornment={<InputAdornment position="start">{values.BloodRBC_unit}</InputAdornment>}
                                                                                           {...getFieldProps('BloodRBC_past')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">Neutrophils</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BloodW1_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW1_current && errors.BloodW1_current)}
+                                                                                    />
+                                                                                    <FormHelperText error id="BloodW1_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW1_current && errors.BloodW1_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW1_previous')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW1_past')}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3471,6 +3370,38 @@ export default function Lab() {
                                                                                           {...getFieldProps('BloodHB_past')}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Homocysteine</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Homocy_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="Homocy_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.Homocy_current && errors.Homocy_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('Homocy_previous')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Homocy_past')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -3501,6 +3432,36 @@ export default function Lab() {
                                                                                           disabled
                                                                                           endAdornment={<InputAdornment position="start">{values.BloodHCT_unit}</InputAdornment>}
                                                                                           {...getFieldProps('BloodHCT_past')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">Lymphocytes</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BloodW2_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW2_current && errors.BloodW2_current)}
+                                                                                    />
+                                                                                    <FormHelperText error id="BloodW2_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW2_current && errors.BloodW2_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW2_previous')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW2_past')}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3535,6 +3496,36 @@ export default function Lab() {
                                                                                           {...getFieldProps('BloodMCV_past')}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">Monocytes</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BloodW3_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW3_current && errors.BloodW3_current)}
+                                                                                    />
+                                                                                    <FormHelperText error id="BloodW3_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW3_current && errors.BloodW3_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW3_previous')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW3_past')}
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -3565,6 +3556,36 @@ export default function Lab() {
                                                                                           disabled
                                                                                           endAdornment={<InputAdornment position="start">{values.BloodMCH_unit}</InputAdornment>}
                                                                                           {...getFieldProps('BloodMCH_past')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">Eosinophils</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BloodW4_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW4_current && errors.BloodW4_current)}
+                                                                                    />
+                                                                                    <FormHelperText error id="BloodW4_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW4_current && errors.BloodW4_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW4_previous')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW4_past')}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3599,6 +3620,36 @@ export default function Lab() {
                                                                                           {...getFieldProps('BloodMCHC_past')}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">Basophilis</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('BloodW5_current')}
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW5_current && errors.BloodW5_current)}
+                                                                                    />
+                                                                                    <FormHelperText error id="BloodW5_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW5_current && errors.BloodW5_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW5_previous')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('BloodW5_past')}
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -3629,174 +3680,6 @@ export default function Lab() {
                                                                                           disabled
                                                                                           endAdornment={<InputAdornment position="start">{values.BloodPLT_unit}</InputAdornment>}
                                                                                           {...getFieldProps('BloodPLT_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
-                                                                              <TableCell align="right">
-                                                                                    <Typography variant="label_group">WBC Differential Count</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
-                                                                              <TableCell align="right">
-                                                                                    <Typography variant="label">Neutrophils</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW1_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW1_current && errors.BloodW1_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="BloodW1_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW1_current && errors.BloodW1_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW1_previous')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW1_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
-                                                                              <TableCell align="right">
-                                                                                    <Typography variant="label">Lymphocytes</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW2_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW2_current && errors.BloodW2_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="BloodW2_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW2_current && errors.BloodW2_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW2_previous')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW2_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
-                                                                              <TableCell align="right">
-                                                                                    <Typography variant="label">Monocytes</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW3_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW3_current && errors.BloodW3_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="BloodW3_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW3_current && errors.BloodW3_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW3_previous')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW3_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
-                                                                              <TableCell align="right">
-                                                                                    <Typography variant="label">Eosinophils</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW4_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW4_current && errors.BloodW4_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="BloodW4_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW4_current && errors.BloodW4_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW4_previous')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW4_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
-                                                                              <TableCell align="right">
-                                                                                    <Typography variant="label">Basophilis</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW5_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW5_current && errors.BloodW5_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="BloodW5_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW5_current && errors.BloodW5_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW5_previous')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW5_past')}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3839,6 +3722,10 @@ export default function Lab() {
                                                                                           {...getFieldProps('BloodType_past')}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                         </TableRow>
                                                                   </TableBody>
                                                             </Table>
