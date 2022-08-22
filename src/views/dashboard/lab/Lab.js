@@ -34,11 +34,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       [`&.${tableCellClasses.head}`]: {
             backgroundColor: "#1565c0",
             color: theme.palette.common.white,
+            fontSize: 12.5
       },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
       // hide last border
+      '& td, & th': {
+            fontSize: 12.5
+      },
       '&:last-child td, &:last-child th': {
             border: 0,
       },
@@ -66,7 +70,7 @@ export default function Lab() {
                   <PageNavBar topValue={topValue} title_name={title_name} to={to} />
                   <Container sx={{ marginTop: 8, paddingRight: 8, paddingLeft: 8, width: "100%", height: "100%" }} disableGutters={true} >
                         <TableContainer component={Paper}>
-                              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                              <Table sx={{ minWidth: 700 }} aria-label="customized table" size="small">
                                     <TableHead>
                                           <TableRow>
                                                 <StyledTableCell align='center'>Seq No.</StyledTableCell>
@@ -165,16 +169,16 @@ export default function Lab() {
                                                                   {row.package_id}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorImmunology} /> {textImmunology}</Typography>
+                                                                  <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorImmunology} /> {textImmunology}</Typography>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBiochemistry} /> {textBiochemistry}</Typography>
+                                                                  <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBiochemistry} /> {textBiochemistry}</Typography>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorUrine} /> {textUrine}</Typography>
+                                                                  <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorUrine} /> {textUrine}</Typography>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBlood} /> {textBlood}</Typography>
+                                                                  <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBlood} /> {textBlood}</Typography>
                                                             </StyledTableCell>
                                                       </StyledTableRow>
                                                 )

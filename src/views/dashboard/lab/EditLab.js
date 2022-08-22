@@ -30,6 +30,7 @@ import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import SequenceBar from '../../../layouts/dashboard/SequenceBar';
 
 import { getReport, confirmBloodTest, confirmImmunology, confirmBiochemistry, confirmUrine } from '../../../data/lab/lab';
+import { getComment } from '../../../data/comment/comment';
 
 const Item = styled(Paper)(({ theme }) => ({
       backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -39,15 +40,16 @@ const Item = styled(Paper)(({ theme }) => ({
       color: theme.palette.text.secondary,
 }));
 
-const URLook_Option = [null, "Clear", "Turbid"];
-const UREW_Option = [null, "Negative", "+-", "+", "++", "+++"];
-const URS_Option = [null, "Negative", "+-", "+", "++", "+++"];
-const URBR_Option = [null, "Negative", "+", "++", "+++"];
-const URUBR_Option = [null, "Negative", "+", "++", "+++"];
-const UBBH_Option = [null, "Negative", "+-", "+", "++", "+++", "++++"];
-const UBKU_Option = [null, "Negative", "+-", "+", "++", "+++"];
-const UBSNO_Option = [null, "Postive", "Negative"];
-const URLEU_Option = [null, "Negative", "+", "++", "+++"];
+const URLook_Option = [{ value: "Clear", label: "Clear" }, { value: "Turbid", label: "Turbid" }];
+const UREW_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const URS_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const URBR_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const URUBR_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const UBBH_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }, { value: "4+", label: "++++" }];
+const UBKU_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const UBSNO_Option = [{ value: "pos", label: "Positive" }, { value: "neg", label: "Negative" }];
+const URLEU_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+
 
 export default function Lab() {
       const [value, setTabValue] = useState("1");
@@ -58,7 +60,7 @@ export default function Lab() {
             setTabValue(newValue);
       }
       const [submitAction, setSubmitAction] = useState("");
-
+      const [UBOther_Comment, setUBOther_Comment] = useState([]);
       useEffect(() => {
             formik.setSubmitting(true);
             getReport(report_id).then((data) => {
@@ -69,6 +71,13 @@ export default function Lab() {
                   TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   formik.setSubmitting(false);
             });
+            getComment("Urine").then((data) => {
+                  setUBOther_Comment(data);
+                  console.log(data);
+            }).catch(() => {
+                  TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
+                  formik.setSubmitting(false);
+            })
 
       }, []);
 
@@ -81,6 +90,8 @@ export default function Lab() {
                   BloodHB_past: '-',
                   BloodHB_previous: '-',
                   BloodHB_unit: 'g/dl',
+
+
                   BloodRBC_current: '',
                   BloodRBC_past: '-',
                   BloodRBC_previous: '-',
@@ -416,6 +427,7 @@ export default function Lab() {
             enableReinitialize: true,
             validationSchema: LabSchema,
             onSubmit: () => {
+                  formik.setSubmitting(true);
                   if (submitAction === "immunology") {
                         console.log(formik.values);
                         immunology();
@@ -428,7 +440,7 @@ export default function Lab() {
                   } else if (submitAction === "biochemistry") {
                         biochemistry();
                   }
-                  formik.setSubmitting(false);
+
             },
       });
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -480,6 +492,7 @@ export default function Lab() {
                               });
                   }
                   );
+            formik.setSubmitting(false);
       }
       function immunology() {
             const formValues = {
@@ -534,6 +547,7 @@ export default function Lab() {
                               'OK')
                   }
                   );
+            formik.setSubmitting(false);
       }
       function urine() {
             const formValues = {
@@ -589,6 +603,7 @@ export default function Lab() {
                               });
                   }
                   );
+            formik.setSubmitting(false);
       }
       function biochemistry() {
             const formValues = {
@@ -643,11 +658,12 @@ export default function Lab() {
 
                   }
                   );
+            formik.setSubmitting(false);
       }
       return (
             <Page Page title="Edit"  >
                   <Loader spinner={isSubmitting} />
-                  <SequenceBar topValue={topValue} />
+                  <SequenceBar topValue={topValue} report={{ report_id: formik.values.report_id, last_name: formik.values.last_name, first_name: formik.values.first_name, age: formik.values.age, package_id: formik.values.package_id }} />
                   <Container sx={{ marginTop: 11, width: "100%", height: "100%" }} disableGutters={true} >
                         <TabContext value={value} sx={{
                               margin: 0,
@@ -1443,7 +1459,7 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell >{values.biochemistry_confirm_staff !== null && <Typography >{values.biochemistry_confirm_staff} updated at {values.biochemistry_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell >{values.biochemistry_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.biochemistry_confirm_staff} updated at {values.biochemistry_confirm_date}</Typography>}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -2199,7 +2215,7 @@ export default function Lab() {
                                                             </Table>
                                                             <Button
                                                                   size="large"
-                                                                  type="submit"
+                                                                  type="button"
                                                                   variant="contained"
                                                                   onClick={() => {
                                                                         setSubmitAction("biochemistry");
@@ -2221,16 +2237,20 @@ export default function Lab() {
                                                                   paddingBottom: 2,
                                                                   marginLeft: 0,
                                                                   '&:last-child td, &:last-child th': { border: 0 },
-                                                                  '& td:nth-of-type(2),& th:nth-of-type(2)': { backgroundColor: "#DDDDDD" },
-                                                                  '& td:nth-of-type(3),& th:nth-of-type(3)': { backgroundColor: "#F9F9F9" },
-                                                                  '& td:nth-of-type(4),& th:nth-of-type(4)': { backgroundColor: "#F9F9F9" },
+                                                                  '& td:nth-of-type(2),& th:nth-of-type(2),& td:nth-of-type(6),& th:nth-of-type(6)': { backgroundColor: "#DDDDDD" },
+                                                                  '& td:nth-of-type(3),& th:nth-of-type(3),& td:nth-of-type(7),& th:nth-of-type(7)': { backgroundColor: "#F9F9F9" },
+                                                                  '& td:nth-of-type(4),& th:nth-of-type(4),& td:nth-of-type(8),& th:nth-of-type(8)': { backgroundColor: "#F9F9F9" },
                                                                   '& td:nth-of-type(1)': { paddingLeft: 0, paddingTop: 0, paddingBottom: 0, marginBottom: 0 },
-                                                                  '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 }
+                                                                  '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4),& td:nth-of-type(6),& td:nth-of-type(7),& td:nth-of-type(8)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 },
                                                             }}>
-                                                            <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} >
+                                                            <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell>{values.urine_confirm_staff !== null && <Typography>{values.urine_confirm_staff} updated at {values.urine_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell>{values.urine_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.urine_confirm_staff} updated at {values.urine_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -2244,6 +2264,13 @@ export default function Lab() {
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label_group">Urine Sediments</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+
                                                                         </TableRow>
 
                                                                         <TableRow >
@@ -2259,9 +2286,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URLook_Option.map((URLook) => (
                                                                                                       <MenuItem
-                                                                                                            value={URLook}
-                                                                                                            key={URLook}
-                                                                                                      >{URLook}</MenuItem>
+                                                                                                            value={URLook.value}
+                                                                                                            key={URLook.value}
+                                                                                                      >{URLook.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2280,9 +2307,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URLook_Option.map((URLook) => (
                                                                                                       <MenuItem
-                                                                                                            value={URLook}
-                                                                                                            key={URLook}
-                                                                                                      >{URLook}</MenuItem>
+                                                                                                            value={URLook.value}
+                                                                                                            key={URLook.value}
+                                                                                                      >{URLook.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2301,9 +2328,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URLook_Option.map((URLook) => (
                                                                                                       <MenuItem
-                                                                                                            value={URLook}
-                                                                                                            key={URLook}
-                                                                                                      >{URLook}</MenuItem>
+                                                                                                            value={URLook.value}
+                                                                                                            key={URLook.value}
+                                                                                                      >{URLook.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2311,6 +2338,50 @@ export default function Lab() {
                                                                                                 {touched.URLook_past && errors.URLook_past}
                                                                                           </FormHelperText>
                                                                                     </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">RBC</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC1_current')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC2_current')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC1_previous')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC2_previous')}
+                                                                                    />
+                                                                              </TableCell>
+
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC1_past')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBRBC2_past')}
+                                                                                    />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -2326,9 +2397,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UREW_Option.map((UREW) => (
                                                                                                       <MenuItem
-                                                                                                            value={UREW}
-                                                                                                            key={UREW}
-                                                                                                      >{UREW}</MenuItem>
+                                                                                                            value={UREW.value}
+                                                                                                            key={UREW.value}
+                                                                                                      >{UREW.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2347,9 +2418,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UREW_Option.map((UREW) => (
                                                                                                       <MenuItem
-                                                                                                            value={UREW}
-                                                                                                            key={UREW}
-                                                                                                      >{UREW}</MenuItem>
+                                                                                                            value={UREW.value}
+                                                                                                            key={UREW.value}
+                                                                                                      >{UREW.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2368,9 +2439,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UREW_Option.map((UREW) => (
                                                                                                       <MenuItem
-                                                                                                            value={UREW}
-                                                                                                            key={UREW}
-                                                                                                      >{UREW}</MenuItem>
+                                                                                                            value={UREW.value}
+                                                                                                            key={UREW.value}
+                                                                                                      >{UREW.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2378,6 +2449,50 @@ export default function Lab() {
                                                                                                 {touched.UREW_past && errors.UREW_past}
                                                                                           </FormHelperText>
                                                                                     </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">WBC</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC1_current')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC2_current')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC1_previous')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC2_previous')}
+                                                                                    />
+                                                                              </TableCell>
+
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC1_past')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBWBC2_past')}
+                                                                                    />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -2393,9 +2508,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URS_Option.map((URS) => (
                                                                                                       <MenuItem
-                                                                                                            value={URS}
-                                                                                                            key={URS}
-                                                                                                      >{URS}</MenuItem>
+                                                                                                            value={URS.value}
+                                                                                                            key={URS.value}
+                                                                                                      >{URS.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2414,9 +2529,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URS_Option.map((URS) => (
                                                                                                       <MenuItem
-                                                                                                            value={URS}
-                                                                                                            key={URS}
-                                                                                                      >{URS}</MenuItem>
+                                                                                                            value={URS.value}
+                                                                                                            key={URS.value}
+                                                                                                      >{URS.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2435,9 +2550,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URS_Option.map((URS) => (
                                                                                                       <MenuItem
-                                                                                                            value={URS}
-                                                                                                            key={URS}
-                                                                                                      >{URS}</MenuItem>
+                                                                                                            value={URS.value}
+                                                                                                            key={URS.value}
+                                                                                                      >{URS.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2445,6 +2560,51 @@ export default function Lab() {
                                                                                                 {touched.URS_past && errors.URS_past}
                                                                                           </FormHelperText>
                                                                                     </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Epithelial Cells</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit1_current')}
+                                                                                    />
+                                                                                    <InputBase
+
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit2_current')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit1_previous')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit2_previous')}
+                                                                                    />
+                                                                              </TableCell>
+
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit1_past')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBEPlit2_past')}
+                                                                                    />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -2460,9 +2620,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URBR_Option.map((URBR) => (
                                                                                                       <MenuItem
-                                                                                                            value={URBR}
-                                                                                                            key={URBR}
-                                                                                                      >{URBR}</MenuItem>
+                                                                                                            value={URBR.value}
+                                                                                                            key={URBR.value}
+                                                                                                      >{URBR.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2482,9 +2642,9 @@ export default function Lab() {
 
                                                                                                 {URBR_Option.map((URBR) => (
                                                                                                       <MenuItem
-                                                                                                            value={URBR}
-                                                                                                            key={URBR}
-                                                                                                      >{URBR}</MenuItem>
+                                                                                                            value={URBR.value}
+                                                                                                            key={URBR.value}
+                                                                                                      >{URBR.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2504,9 +2664,9 @@ export default function Lab() {
 
                                                                                                 {URBR_Option.map((URBR) => (
                                                                                                       <MenuItem
-                                                                                                            value={URBR}
-                                                                                                            key={URBR}
-                                                                                                      >{URBR}</MenuItem>
+                                                                                                            value={URBR.value}
+                                                                                                            key={URBR.value}
+                                                                                                      >{URBR.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2514,6 +2674,50 @@ export default function Lab() {
                                                                                                 {touched.URBR_past && errors.URBR_past}
                                                                                           </FormHelperText>
                                                                                     </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Cast</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast1_current')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast2_current')}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast1_previous')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast2_previous')}
+                                                                                    />
+                                                                              </TableCell>
+
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast1_past')}
+                                                                                    />
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          sx={{ width: "50%" }}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('Cast2_past')}
+                                                                                    />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -2530,9 +2734,9 @@ export default function Lab() {
 
                                                                                                 {URUBR_Option.map((URUBR) => (
                                                                                                       <MenuItem
-                                                                                                            value={URUBR}
-                                                                                                            key={URUBR}
-                                                                                                      >{URUBR}</MenuItem>
+                                                                                                            value={URUBR.value}
+                                                                                                            key={URUBR.value}
+                                                                                                      >{URUBR.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2551,9 +2755,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URUBR_Option.map((URUBR) => (
                                                                                                       <MenuItem
-                                                                                                            value={URUBR}
-                                                                                                            key={URUBR}
-                                                                                                      >{URUBR}</MenuItem>
+                                                                                                            value={URUBR.value}
+                                                                                                            key={URUBR.value}
+                                                                                                      >{URUBR.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2572,14 +2776,67 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URUBR_Option.map((URUBR) => (
                                                                                                       <MenuItem
-                                                                                                            value={URUBR}
-                                                                                                            key={URUBR}
-                                                                                                      >{URUBR}</MenuItem>
+                                                                                                            value={URUBR.value}
+                                                                                                            key={URUBR.value}
+                                                                                                      >{URUBR.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="URUBR_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.URUBR_past && errors.URUBR_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Bacteria</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.Bacter_current && errors.Bacter_current)}
+                                                                                                {...getFieldProps('Bacter_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Bacter_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Bacter_current && errors.Bacter_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.Bacter_previous && errors.Bacter_previous)}
+                                                                                                {...getFieldProps('Bacter_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Bacter_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Bacter_previous && errors.Bacter_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.Bacter_past && errors.Bacter_past)}
+                                                                                                {...getFieldProps('Bacter_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                <MenuItem value="testing">
+                                                                                                      Testing
+                                                                                                </MenuItem>
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="Bacter_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.Bacter_past && errors.Bacter_past}
                                                                                           </FormHelperText>
                                                                                     </FormControl>
                                                                               </TableCell>
@@ -2597,9 +2854,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBBH_Option.map((UBBH) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBBH}
-                                                                                                            key={UBBH}
-                                                                                                      >{UBBH}</MenuItem>
+                                                                                                            value={UBBH.value}
+                                                                                                            key={UBBH.value}
+                                                                                                      >{UBBH.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2618,9 +2875,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBBH_Option.map((UBBH) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBBH}
-                                                                                                            key={UBBH}
-                                                                                                      >{UBBH}</MenuItem>
+                                                                                                            value={UBBH.value}
+                                                                                                            key={UBBH.value}
+                                                                                                      >{UBBH.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2639,9 +2896,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBBH_Option.map((UBBH) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBBH}
-                                                                                                            key={UBBH}
-                                                                                                      >{UBBH}</MenuItem>
+                                                                                                            value={UBBH.value}
+                                                                                                            key={UBBH.value}
+                                                                                                      >{UBBH.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2649,6 +2906,46 @@ export default function Lab() {
                                                                                                 {touched.UBBH_past && errors.UBBH_past}
                                                                                           </FormHelperText>
                                                                                     </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Other</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.UBOther_current && errors.UBOther_current)}
+                                                                                                {...getFieldProps('UBOther_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {UBOther_Comment.map((UBOther) => (
+                                                                                                      <MenuItem
+                                                                                                            value={UBOther.comment_no}
+                                                                                                            key={UBOther.comment_no}
+                                                                                                      >{UBOther.eng}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="UBOther_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.UBOther_current && errors.UBOther_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBOther_previous')}
+                                                                                    />
+
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('UBOther_past')}
+                                                                                    />
+
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -2664,9 +2961,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBKU_Option.map((UBKU) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBKU}
-                                                                                                            key={UBKU}
-                                                                                                      >{UBKU}</MenuItem>
+                                                                                                            value={UBKU.value}
+                                                                                                            key={UBKU.value}
+                                                                                                      >{UBKU.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2685,9 +2982,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBKU_Option.map((UBKU) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBKU}
-                                                                                                            key={UBKU}
-                                                                                                      >{UBKU}</MenuItem>
+                                                                                                            value={UBKU.value}
+                                                                                                            key={UBKU.value}
+                                                                                                      >{UBKU.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2706,9 +3003,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBKU_Option.map((UBKU) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBKU}
-                                                                                                            key={UBKU}
-                                                                                                      >{UBKU}</MenuItem>
+                                                                                                            value={UBKU.value}
+                                                                                                            key={UBKU.value}
+                                                                                                      >{UBKU.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2732,9 +3029,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBSNO_Option.map((UBSNO) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBSNO}
-                                                                                                            key={UBSNO}
-                                                                                                      >{UBSNO}</MenuItem>
+                                                                                                            value={UBSNO.value}
+                                                                                                            key={UBSNO.value}
+                                                                                                      >{UBSNO.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2753,9 +3050,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBSNO_Option.map((UBSNO) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBSNO}
-                                                                                                            key={UBSNO}
-                                                                                                      >{UBSNO}</MenuItem>
+                                                                                                            value={UBSNO.value}
+                                                                                                            key={UBSNO.value}
+                                                                                                      >{UBSNO.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2774,9 +3071,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {UBSNO_Option.map((UBSNO) => (
                                                                                                       <MenuItem
-                                                                                                            value={UBSNO}
-                                                                                                            key={UBSNO}
-                                                                                                      >{UBSNO}</MenuItem>
+                                                                                                            value={UBSNO.value}
+                                                                                                            key={UBSNO.value}
+                                                                                                      >{UBSNO.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2799,9 +3096,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URLEU_Option.map((URLEU) => (
                                                                                                       <MenuItem
-                                                                                                            value={URLEU}
-                                                                                                            key={URLEU}
-                                                                                                      >{URLEU}</MenuItem>
+                                                                                                            value={URLEU.value}
+                                                                                                            key={URLEU.value}
+                                                                                                      >{URLEU.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2820,9 +3117,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URLEU_Option.map((URLEU) => (
                                                                                                       <MenuItem
-                                                                                                            value={URLEU}
-                                                                                                            key={URLEU}
-                                                                                                      >{URLEU}</MenuItem>
+                                                                                                            value={URLEU.value}
+                                                                                                            key={URLEU.value}
+                                                                                                      >{URLEU.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2841,9 +3138,9 @@ export default function Lab() {
                                                                                           >
                                                                                                 {URLEU_Option.map((URLEU) => (
                                                                                                       <MenuItem
-                                                                                                            value={URLEU}
-                                                                                                            key={URLEU}
-                                                                                                      >{URLEU}</MenuItem>
+                                                                                                            value={URLEU.value}
+                                                                                                            key={URLEU.value}
+                                                                                                      >{URLEU.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
                                                                                           </Select>
@@ -2917,282 +3214,7 @@ export default function Lab() {
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label_group">Urine Sediments</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">RBC</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBRBC1_current')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBRBC2_current')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBRBC1_previous')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBRBC2_previous')}
-                                                                                    />
-                                                                              </TableCell>
 
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBRBC1_past')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBRBC2_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">WBC</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBWBC1_current')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBWBC2_current')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBWBC1_previous')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBWBC2_previous')}
-                                                                                    />
-                                                                              </TableCell>
-
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBWBC1_past')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBWBC2_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Epithelial Cells</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBEPlit1_current')}
-                                                                                    />
-                                                                                    <InputBase
-
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBEPlit2_current')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBEPlit1_previous')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBEPlit2_previous')}
-                                                                                    />
-                                                                              </TableCell>
-
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBEPlit1_past')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBEPlit2_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Cast</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Cast1_current')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Cast2_current')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Cast1_previous')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Cast2_previous')}
-                                                                                    />
-                                                                              </TableCell>
-
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Cast1_past')}
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          sx={{ width: "50%" }}
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Cast2_past')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Bacteria</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <FormControl fullWidth>
-                                                                                          <Select
-                                                                                                error={Boolean(touched.Bacter_current && errors.Bacter_current)}
-                                                                                                {...getFieldProps('Bacter_current')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Bacter_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Bacter_current && errors.Bacter_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl fullWidth>
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.Bacter_previous && errors.Bacter_previous)}
-                                                                                                {...getFieldProps('Bacter_previous')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Bacter_previous-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Bacter_previous && errors.Bacter_previous}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <FormControl fullWidth>
-                                                                                          <Select
-                                                                                                disabled
-                                                                                                error={Boolean(touched.Bacter_past && errors.Bacter_past)}
-                                                                                                {...getFieldProps('Bacter_past')}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="Bacter_past-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.Bacter_past && errors.Bacter_past}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Other</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBOther_current')}
-                                                                                    />
-
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBOther_previous')}
-                                                                                    />
-
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('UBOther_past')}
-                                                                                    />
-
-                                                                              </TableCell>
-                                                                        </TableRow>
                                                                   </TableBody>
                                                             </Table>
                                                             <Button
@@ -3218,16 +3240,16 @@ export default function Lab() {
                                                                   paddingBottom: 2,
                                                                   marginLeft: 0,
                                                                   '&:last-child td, &:last-child th': { border: 0 },
-                                                                  '& td:nth-of-type(2),& th:nth-of-type(2)': { backgroundColor: "#DDDDDD" },
-                                                                  '& td:nth-of-type(3),& th:nth-of-type(3)': { backgroundColor: "#F9F9F9" },
-                                                                  '& td:nth-of-type(4),& th:nth-of-type(4)': { backgroundColor: "#F9F9F9" },
+                                                                  '& td:nth-of-type(2),& th:nth-of-type(2),& td:nth-of-type(6),& th:nth-of-type(6)': { backgroundColor: "#DDDDDD" },
+                                                                  '& td:nth-of-type(3),& th:nth-of-type(3),& td:nth-of-type(7),& th:nth-of-type(7)': { backgroundColor: "#F9F9F9" },
+                                                                  '& td:nth-of-type(4),& th:nth-of-type(4),& td:nth-of-type(8),& th:nth-of-type(8)': { backgroundColor: "#F9F9F9" },
                                                                   '& td:nth-of-type(1)': { paddingLeft: 0, paddingTop: 0, paddingBottom: 0, marginBottom: 0 },
-                                                                  '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 }
+                                                                  '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4),& td:nth-of-type(6),& td:nth-of-type(7),& td:nth-of-type(8)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 },
                                                             }}>
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell>{values.blood_confirm_staff !== null && <Typography>{values.blood_confirm_staff} updated at {values.blood_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell>{values.blood_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.blood_confirm_staff} updated at {values.blood_confirm_date}</Typography>}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -3659,7 +3681,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('BloodPLT_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodPLT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodPLT_current && errors.BloodPLT_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodPLT_current-error" sx={{ fontWeight: 600 }}>

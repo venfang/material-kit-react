@@ -32,13 +32,12 @@ export default function Input(theme) {
             borderRadius: 2,
             height: "40px",
             fontWeight: 500,
-
-            ...responsiveFontSizes({ xs: 10, sm: 12, md: 14, lg: 14 }),
+            ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
             '&.Mui-disabled': {
               backgroundColor: "#EDEDED",
             },
             input: {
-              padding: "13px",
+              padding: "5px",
               color: "#5A567B !important",
               WebkitTextFillColor: "#5A567B !important",
               '&::placeholder': {
