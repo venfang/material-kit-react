@@ -131,6 +131,14 @@ const typography = {
     color: '#5A567B',
     ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
   },
+  ext: {
+    fontWeight: 600,
+    lineHeight: 0.5,
+    fontSize: pxToRem(10),
+    textTransform: 'none',
+    color: '#5A567B',
+    ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
+  },
   title: {
     fontWeight: 600,
     lineHeight: 1.5,

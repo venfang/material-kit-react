@@ -36,10 +36,44 @@ export default function Input(theme) {
             '&.Mui-disabled': {
               backgroundColor: "#EDEDED",
             },
+            '&.MuiInputBase-adornedEnd': {
+              ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
+            },
+            '& .MuiInputAdornment-root': {
+              ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
+            },
             input: {
               padding: "5px",
               color: "#5A567B !important",
               WebkitTextFillColor: "#5A567B !important",
+              ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
+              '&::placeholder': {
+                opacity: 0.6,
+                color: "#5A567B",
+              },
+              '&.MuiInputBase-adornedEnd': {
+                ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
+              },
+              '& .MuiInputAdornment-root': {
+                ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
+              },
+            },
+          },
+          "&.textField_red": {
+            backgroundColor: "#FFFFFF",
+            boxShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.2)",
+            border: "0.1px solid #bdbdbd",
+            borderRadius: 2,
+            height: "40px",
+            fontWeight: 500,
+            ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
+            '&.Mui-disabled': {
+              backgroundColor: "#EDEDED",
+            },
+            input: {
+              padding: "5px",
+              color: "#FF0000 !important",
+              WebkitTextFillColor: "#FF0000 !important",
               '&::placeholder': {
                 opacity: 0.6,
                 color: "#5A567B",

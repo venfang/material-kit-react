@@ -32,7 +32,7 @@ export default function Select(theme) {
                               fontWeight: 500,
                               color: "#5A567B !important",
                               WebkitTextFillColor: "#5A567B !important",
-                              ...responsiveFontSizes({ xs: 10, sm: 12, md: 14, lg: 14 }),
+                              ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
                               '&.Mui-disabled': {
                                     backgroundColor: "#EDEDED",
                               },

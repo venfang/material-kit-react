@@ -41,15 +41,17 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const URLook_Option = [{ value: "Clear", label: "Clear" }, { value: "Turbid", label: "Turbid" }];
-const UREW_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const URS_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const URBR_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const URUBR_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const UBBH_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }, { value: "4+", label: "++++" }];
-const UBKU_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const UBSNO_Option = [{ value: "pos", label: "Positive" }, { value: "neg", label: "Negative" }];
-const URLEU_Option = [{ value: null, label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const UREW_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const URS_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const URBR_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const URUBR_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const UBBH_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }, { value: "4+", label: "++++" }];
+const UBKU_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const UBSNO_Option = [{ value: "1", label: "Positive" }, { value: "2", label: "Negative" }];
+const URLEU_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
 
+const BloodType_Option = [{ value: "1", label: "Type A" }, { value: "2", label: "Type B" }, { value: "3", label: "Type O" }, { value: "4", label: "Type AB" }];
+const BloodRH_Option = [{ value: "1", label: "Positive" }, { value: "2", label: "Negative" }];
 
 export default function Lab() {
       const [value, setTabValue] = useState("1");
@@ -243,10 +245,10 @@ export default function Lab() {
                   Homocy_unit: '',
 
 
-                  CRP_current: '',
-                  CRP_previous: '-',
-                  CRP_past: '-',
-                  CRP_unit: '',
+                  hs_CRP_current: '',
+                  hs_CRP_previous: '-',
+                  hs_CRP_past: '-',
+                  hs_CRP_unit: '',
 
                   HbA1c_current: '',
                   HbA1c_previous: '-',
@@ -462,6 +464,7 @@ export default function Lab() {
                   BloodMCV: values.BloodMCV_current,
                   BloodMCHC: values.BloodMCHC_current,
                   BloodType: values.BloodType_current,
+                  BloodRH: values.BloodRH_current,
                   blood_confirm_staff: Cookies.get('name'),
             };
             confirmBloodTest(formValues)
@@ -608,7 +611,7 @@ export default function Lab() {
       function biochemistry() {
             const formValues = {
                   report_id: report_id,
-                  CRP: values.CRP_current,
+                  hs_CRP: values.hs_CRP_current,
                   HbA1c: values.HbA1c_current,
                   UFBUN: values.UFBUN_current,
                   UFCRE: values.UFCRE_current,
@@ -663,7 +666,7 @@ export default function Lab() {
       return (
             <Page Page title="Edit"  >
                   <Loader spinner={isSubmitting} />
-                  <SequenceBar topValue={topValue} report={{ report_id: formik.values.report_id, last_name: formik.values.last_name, first_name: formik.values.first_name, age: formik.values.age, package_id: formik.values.package_id }} />
+                  <SequenceBar topValue={topValue} report={{ report_id: formik.values.report_id, last_name: formik.values.last_name, first_name: formik.values.first_name, age: formik.values.age, package_id: formik.values.package_id, gender: formik.values.gender }} />
                   <Container sx={{ marginTop: 11, width: "100%", height: "100%" }} disableGutters={true} >
                         <TabContext value={value} sx={{
                               margin: 0,
@@ -701,7 +704,6 @@ export default function Lab() {
                                                       }}
 
                                                 >
-
                                                       {formik.values.immunology_confirm_staff !== "1" && <Tab label="Immunology" value="1" />}
                                                       {formik.values.biochemistry_confirm_staff !== "1" && <Tab label="Biochemistry" value="2" />}
                                                       {formik.values.urine_confirm_staff !== "1" && <Tab label="Urine, Faeces & Groups" value="3" />}
@@ -714,12 +716,8 @@ export default function Lab() {
                               <FormikProvider value={formik}>
                                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                                           <TabPanel value="1">
-                                                <Container sx={{
-                                                      backgroundColor: "#FFFFFF",
-                                                      height: "100%",
-                                                      margin: 0,
-                                                      padding: 0,
-                                                }}>
+                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", paddingTop: 1 }}>
+                                                      {values.immunology_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.immunology_confirm_staff} updated at {values.immunology_confirm_date}</Typography>}
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
@@ -738,7 +736,7 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell>{values.immunology_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.immunology_confirm_staff} updated at {values.immunology_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -751,8 +749,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HBsag_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('HBsag_Value_current')}
+
                                                                                           error={Boolean(touched.HBsag_Value_current && errors.HBsag_Value_current)}
                                                                                     />
                                                                                     <FormHelperText error id="HBsag_Value_current-error" sx={{ fontWeight: 600 }}>
@@ -761,13 +760,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('HBsag_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.HBsag_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HBsag_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.HBsag_Status_current && errors.HBsag_Status_current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HBsag_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HBsag_Value_previous')}
 
@@ -776,12 +775,12 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('HBsag_Status_previous')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.HBsag_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HBsag_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HBsag_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HBsag_Value_past')}
 
@@ -790,7 +789,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('HBsag_Status_past')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.HBsag_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HBsag_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -800,7 +799,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.AntiHBs_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('AntiHBs_Value_current')}
 
                                                                                           error={Boolean(touched.AntiHBs_Value_current && errors.AntiHBs_Value_current)}
@@ -811,13 +810,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('AntiHBs_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.AntiHBs_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.AntiHBs_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.AntiHBs_Status_current && errors.AntiHBs_Status_current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.AntiHBs_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('AntiHBs_Value_previous')}
 
@@ -826,12 +825,13 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('AntiHBs_Status_previous')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.AntiHBs_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.AntiHBs_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.AntiHBs_Value_past_redstar === null ? 'textField' : 'textField_red'}
+
                                                                                           disabled
                                                                                           {...getFieldProps('AntiHBs_Value_past')}
 
@@ -840,7 +840,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('AntiHBs_Status_past')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.AntiHBs_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.AntiHBs_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -850,7 +850,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.RANormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('RANormal_Value_current')}
 
                                                                                           error={Boolean(touched.RANormal_Value_current && errors.RANormal_Value_current)}
@@ -861,13 +861,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('RANormal_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.RANormal_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RANormal_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.RANormal_Status_current && errors.RANormal_Status_current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.RANormal_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('RANormal_Value_previous')}
 
@@ -876,12 +876,12 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('RANormal_Status_previous')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.RANormal_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RANormal_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.RANormal_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('RANormal_Value_past')}
 
@@ -890,7 +890,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('RANormal_Status_past')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.RANormal_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RANormal_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -900,7 +900,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HavIgG_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('HavIgG_Value_current')}
 
                                                                                           error={Boolean(touched.HavIgG_Value_current && errors.HavIgG_Value_current)}
@@ -911,13 +911,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('HavIgG_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.HavIgG_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HavIgG_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.HavIgG_Status_current && errors.HavIgG_Status_current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HavIgG_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HavIgG_Value_previous')}
 
@@ -926,12 +926,12 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('HavIgG_Status_previous')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.HavIgG_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HavIgG_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HavIgG_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HavIgG_Value_past')}
 
@@ -940,7 +940,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('HavIgG_Status_past')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.HavIgG_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HavIgG_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -950,7 +950,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HIVNormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('HIVNormal_Value_current')}
 
                                                                                           error={Boolean(touched.HIVNormal_Value_current && errors.HIVNormal_Value_current)}
@@ -961,13 +961,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('HIVNormal_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.HIVNormal_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HIVNormal_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.HIVNormal_Status_current && errors.HIVNormal_Status_current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HIVNormal_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HIVNormal_Value_previous')}
 
@@ -976,12 +976,12 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('HIVNormal_Status_previous')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.HIVNormal_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HIVNormal_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HIVNormal_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HIVNormal_Value_past')}
 
@@ -990,7 +990,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           {...getFieldProps('HIVNormal_Status_past')}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.HavIgG_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HavIgG_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -1000,9 +1000,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.VDRLNormal_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('VDRLNormal_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.VDRLNormal_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.VDRLNormal_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="VDRLNormal_current-error" sx={{ fontWeight: 600 }}>
@@ -1012,10 +1012,10 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.VDRLNormal_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('VDRLNormal_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.VDRLNormal_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.VDRLNormal_unit}</Typography></InputAdornment>}
 
                                                                                     />
 
@@ -1023,9 +1023,9 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.VDRLNormal_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('VDRLNormal_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.VDRLNormal_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.VDRLNormal_unit}</Typography></InputAdornment>}
 
                                                                                     />
 
@@ -1039,9 +1039,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.RFFT4_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('RFFT4_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.RFFT4_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFFT4_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="RFFT4_current-error" sx={{ fontWeight: 600 }}>
@@ -1051,10 +1051,10 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.RFFT4_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('RFFT4_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.RFFT4_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFFT4_unit}</Typography></InputAdornment>}
 
                                                                                     />
 
@@ -1062,9 +1062,9 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.RFFT4_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('RFFT4_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.RFFT4_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFFT4_unit}</Typography></InputAdornment>}
 
                                                                                     />
 
@@ -1076,9 +1076,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.Hpyloriab_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Hpyloriab_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Hpyloriab_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="Hpyloriab_current-error" sx={{ fontWeight: 600 }}>
@@ -1088,10 +1088,10 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.Hpyloriab_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Hpyloriab_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Hpyloriab_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
 
                                                                                     />
 
@@ -1099,9 +1099,9 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.Hpyloriab_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Hpyloriab_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Hpyloriab_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
 
                                                                                     />
 
@@ -1113,9 +1113,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('YFPLevel_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.YFPLevel_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="YFPLevel_current-error" sx={{ fontWeight: 600 }}>
@@ -1125,10 +1125,10 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('YFPLevel_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.YFPLevel_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment>}
 
                                                                                     />
 
@@ -1136,9 +1136,9 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Hpyloriab_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.YFPLevel_unit}</InputAdornment>}
+                                                                                          className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('YFPLevel_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment>}
 
                                                                                     />
 
@@ -1150,9 +1150,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.CEALevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('CEALevel_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CEALevel_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CEALevel_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="CEALevel_current-error" sx={{ fontWeight: 600 }}>
@@ -1162,19 +1162,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.CEALevel_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('CEALevel_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CEALevel_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CEALevel_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.CEALevel_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('CEALevel_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CEALevel_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CEALevel_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1187,7 +1187,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA15_3_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA15_3_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="CA15_3_current-error" sx={{ fontWeight: 600 }}>
@@ -1200,7 +1200,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA15_3_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA15_3_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1209,7 +1209,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA15_3_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA15_3_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1222,7 +1222,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA125_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA125_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="CA125_current-error" sx={{ fontWeight: 600 }}>
@@ -1235,7 +1235,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA125_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA125_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1244,7 +1244,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA125_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA125_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1257,7 +1257,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA19_9_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA19_9_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="CA19_9_current-error" sx={{ fontWeight: 600 }}>
@@ -1270,7 +1270,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA19_9_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA19_9_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1279,7 +1279,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA19_9_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CA19_9_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1292,7 +1292,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('EBV_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EBV_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EBV_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="EBV_current-error" sx={{ fontWeight: 600 }}>
@@ -1305,7 +1305,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('EBV_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EBV_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EBV_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1314,7 +1314,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('EBV_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EBV_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EBV_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1327,7 +1327,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('PSA_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.PSA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.PSA_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="PSA_current-error" sx={{ fontWeight: 600 }}>
@@ -1340,7 +1340,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('PSA_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.PSA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.PSA_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1349,7 +1349,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('PSA_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.PSA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.PSA_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1362,7 +1362,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           {...getFieldProps('RFTSH_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.RFTSH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="RFTSH_current-error" sx={{ fontWeight: 600 }}>
@@ -1374,7 +1374,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('RFTSH_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.RFTSH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1383,7 +1383,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('RFTSH_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.RFTSH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1394,9 +1394,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.Homocy_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Homocy_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Homocy_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="Homocy_current-error" sx={{ fontWeight: 600 }}>
@@ -1405,19 +1405,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.Homocy_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Homocy_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Homocy_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.Homocy_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Homocy_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Homocy_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1440,13 +1440,14 @@ export default function Lab() {
                                                 </Container>
                                           </TabPanel>
                                           <TabPanel value="2">
-                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", padding: 2 }}>
+                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", paddingTop: 1 }}>
+                                                      {values.biochemistry_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.biochemistry_confirm_staff} updated at {values.biochemistry_confirm_date}</Typography>}
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
                                                                   height: "100%",
-                                                                  paddingTop: 0,
-                                                                  paddingBottom: 0,
+                                                                  paddingTop: 2,
+                                                                  paddingBottom: 2,
                                                                   marginLeft: 0,
                                                                   marginBottom: 0,
                                                                   '&:last-child td, &:last-child th': { border: 0 },
@@ -1459,7 +1460,7 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell >{values.biochemistry_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.biochemistry_confirm_staff} updated at {values.biochemistry_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell > </TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -1490,9 +1491,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.Glucose_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Glucose_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Glucose_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Glucose_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="Glucose_current-error" sx={{ fontWeight: 600 }}>
@@ -1501,19 +1502,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.Glucose_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Glucose_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Glucose_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Glucose_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.Glucose_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Glucose_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Glucose_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Glucose_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell align="right" >
@@ -1521,9 +1522,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.UFUA_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFUA_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFUA_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="UFUA_current-error" sx={{ fontWeight: 600 }}>
@@ -1532,19 +1533,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.UFUA_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFUA_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFUA_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.UFUA_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFUA_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFUA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFUA_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1555,9 +1556,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HbA1c_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('HbA1c_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.HbA1c_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HbA1c_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="HbA1c_current-error" sx={{ fontWeight: 600 }}>
@@ -1566,19 +1567,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.HbA1c_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HbA1c_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.HbA1c_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HbA1c_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.HbA1c_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('HbA1c_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.HbA1c_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HbA1c_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell align="right" >
@@ -1600,9 +1601,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGTG_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGTG_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGTG_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="BGTG_current-error" sx={{ fontWeight: 600 }}>
@@ -1611,19 +1612,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGTG_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGTG_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGTG_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.BGTG_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGTG_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGTG_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGTG_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1634,9 +1635,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFTBIL_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTBIL_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFTBIL_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTBIL_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="TFTBIL_current-error" sx={{ fontWeight: 600 }}>
@@ -1645,19 +1646,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFTBIL_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFTBIL_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFTBIL_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTBIL_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.TFTBIL_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTBIL_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFTBIL_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTBIL_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1666,9 +1667,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGCHOL_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCHOL_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCHOL_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="BGCHOL_current-error" sx={{ fontWeight: 600 }}>
@@ -1677,19 +1678,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGCHOL_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGCHOL_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCHOL_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.BGCHOL_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCHOL_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCHOL_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCHOL_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1700,9 +1701,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFTP_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTP_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFTP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="TFTP_current-error" sx={{ fontWeight: 600 }}>
@@ -1711,19 +1712,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFTP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFTP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFTP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.TFTP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTP_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFTP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1732,9 +1733,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGHDLC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGHDLC_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGHDLC_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="BGHDLC_current-error" sx={{ fontWeight: 600 }}>
@@ -1743,19 +1744,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGHDLC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGHDLC_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGHDLC_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.BGHDLC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGHDLC_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGHDLC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGHDLC_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1766,9 +1767,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFALB_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALB_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFALB_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALB_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="TFALB_current-error" sx={{ fontWeight: 600 }}>
@@ -1777,19 +1778,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFALB_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFALB_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFALB_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALB_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('TFTP_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFTP_unit}</InputAdornment>}
+                                                                                          className={values.TFALB_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('TFALB_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALB_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1798,9 +1799,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGLDLC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGLDLC_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGLDLC_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="BGLDLC_current-error" sx={{ fontWeight: 600 }}>
@@ -1809,19 +1810,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGLDLC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGLDLC_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGLDLC_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.BGLDLC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGLDLC_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGLDLC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGLDLC_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1832,9 +1833,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFGLO_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFGLO_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFGLO_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFGLO_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="TFGLO_current-error" sx={{ fontWeight: 600 }}>
@@ -1843,19 +1844,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFGLO_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFGLO_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFGLO_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFGLO_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.TFGLO_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFGLO_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFGLO_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFGLO_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1864,9 +1865,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGCH_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCH_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCH_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="BGCH_current-error" sx={{ fontWeight: 600 }}>
@@ -1875,19 +1876,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BGCH_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGCH_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCH_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.BGCH_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCH_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BGCH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCH_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1898,9 +1899,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFALP_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALP_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFALP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="TFALP_current-error" sx={{ fontWeight: 600 }}>
@@ -1909,19 +1910,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFALP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFALP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFALP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.TFALP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALP_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFALP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1938,9 +1939,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFsGOT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGOT_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFsGOT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGOT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="TFsGOT_current-error" sx={{ fontWeight: 600 }}>
@@ -1949,19 +1950,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFsGOT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFsGOT_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFsGOT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGOT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.TFsGOT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGOT_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFsGOT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGOT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1970,30 +1971,30 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.EFCA_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFCA_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFCA_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="EFCA_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CRP_current && errors.CRP_current}
+                                                                                          {touched.EFCA_current && errors.EFCA_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.EFCA_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('EFCA_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFCA_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.EFCA_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFCA_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFCA_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFCA_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -2003,9 +2004,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFsGPT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGPT_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFsGPT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGPT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="TFsGPT_current-error" sx={{ fontWeight: 600 }}>
@@ -2014,19 +2015,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFsGPT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFsGPT_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFsGPT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGPT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.TFsGPT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGPT_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFsGPT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGPT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -2035,9 +2036,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.EFP_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFP_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="EFP_current-error" sx={{ fontWeight: 600 }}>
@@ -2046,19 +2047,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.EFP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('EFP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.EFP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFP_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.EFP_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -2069,9 +2070,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFYGT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFYGT_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFYGT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFYGT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                                     <FormHelperText error id="TFYGT_current-error" sx={{ fontWeight: 600 }}>
@@ -2080,19 +2081,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.TFYGT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFYGT_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFYGT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFYGT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.TFYGT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFYGT_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.TFYGT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFYGT_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -2111,34 +2112,34 @@ export default function Lab() {
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">CRP</Typography>
+                                                                                    <Typography variant="label">HS_CRP</Typography>
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CRP_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
+                                                                                          className={values.hs_CRP_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('hs_CRP_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment>}
 
                                                                                     />
-                                                                                    <FormHelperText error id="CRP_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CRP_current && errors.CRP_current}
+                                                                                    <FormHelperText error id="hs_CRP_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.hs_CRP_current && errors.hs_CRP_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.hs_CRP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          {...getFieldProps('CRP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
+                                                                                          {...getFieldProps('hs_CRP_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CRP_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.CRP_unit}</InputAdornment>}
+                                                                                          className={values.hs_CRP_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('hs_CRP_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -2150,30 +2151,30 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.UFBUN_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFBUN_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
 
                                                                                     />
-                                                                                    <FormHelperText error id="CRP_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CRP_current && errors.CRP_current}
+                                                                                    <FormHelperText error id="UFBUN_current_redstar-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.UFBUN_current_redstar && errors.UFBUN_current_redstar}
                                                                                     </FormHelperText>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.UFBUN_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFBUN_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFBUN_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.UFBUN_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFBUN_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -2184,9 +2185,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.UFCRE_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFCRE_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFCRE_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFCRE_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                                     <FormHelperText error id="UFCRE_current-error" sx={{ fontWeight: 600 }}>
                                                                                           {touched.UFCRE_current && errors.UFCRE_current}
@@ -2194,19 +2195,19 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.UFCRE_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFCRE_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFCRE_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFCRE_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.UFCRE_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.UFBUN_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -2228,7 +2229,8 @@ export default function Lab() {
                                                 </Container>
                                           </TabPanel>
                                           <TabPanel value="3">
-                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%" }}>
+                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", paddingTop: 1 }}>
+                                                      {values.urine_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.urine_confirm_staff} updated at {values.urine_confirm_date}</Typography>}
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
@@ -2246,7 +2248,7 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell>{values.urine_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.urine_confirm_staff} updated at {values.urine_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -2456,12 +2458,12 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBWBC1_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC1_current')}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBWBC2_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC2_current')}
                                                                                     />
                                                                               </TableCell>
@@ -2469,13 +2471,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBWBC1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC1_previous')}
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBWBC2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC2_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -2484,13 +2486,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBWBC1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC1_past')}
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBWBC2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC2_past')}
                                                                                     />
                                                                               </TableCell>
@@ -2567,13 +2569,12 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBEPlit1_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit1_current')}
                                                                                     />
                                                                                     <InputBase
-
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBEPlit2_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit2_current')}
                                                                                     />
                                                                               </TableCell>
@@ -2581,13 +2582,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBEPlit1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit1_previous')}
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBEPlit2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit2_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -2596,13 +2597,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBEPlit1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit1_past')}
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.UBEPlit2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit2_past')}
                                                                                     />
                                                                               </TableCell>
@@ -2660,6 +2661,7 @@ export default function Lab() {
                                                                                                 error={Boolean(touched.URBR_past && errors.URBR_past)}
                                                                                                 {...getFieldProps('URBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
+
                                                                                           >
 
                                                                                                 {URBR_Option.map((URBR) => (
@@ -2681,12 +2683,12 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.Cast1_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast1_current')}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.Cast2_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast2_current')}
                                                                                     />
                                                                               </TableCell>
@@ -2694,13 +2696,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.Cast1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast1_previous')}
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.Cast2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast2_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -2709,13 +2711,13 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.Cast1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast1_past')}
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
-                                                                                          className='textField'
+                                                                                          className={values.Cast2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast2_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3156,7 +3158,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.URDENS_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('URDENS_current')}
                                                                                           error={Boolean(touched.URDENS_current && errors.URDENS_current)}
 
@@ -3167,7 +3169,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.URDENS_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
 
                                                                                           {...getFieldProps('URDENS_previous')}
@@ -3175,7 +3177,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.URDENS_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
 
                                                                                           {...getFieldProps('URDENS_past')}
@@ -3188,7 +3190,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.URTest_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('URTest_current')}
                                                                                           error={Boolean(touched.URTest_current && errors.URTest_current)}
 
@@ -3199,7 +3201,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.URTest_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
 
                                                                                           {...getFieldProps('URTest_previous')}
@@ -3207,7 +3209,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.URTest_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
 
                                                                                           {...getFieldProps('URTest_past')}
@@ -3231,7 +3233,8 @@ export default function Lab() {
                                                 </Container>
                                           </TabPanel>
                                           <TabPanel value="4">
-                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%" }}>
+                                                <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", paddingTop: 1 }}>
+                                                      {values.blood_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.blood_confirm_staff} updated at {values.blood_confirm_date}</Typography>}
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
@@ -3249,7 +3252,7 @@ export default function Lab() {
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
-                                                                              <TableCell>{values.blood_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.blood_confirm_staff} updated at {values.blood_confirm_date}</Typography>}</TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
@@ -3267,10 +3270,10 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodWBC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodWBC_current')}
                                                                                           error={Boolean(touched.BloodWBC_current && errors.BloodWBC_current)}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodWBC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment"><Typography variant="text_adorment">{values.BloodWBC_unit}</Typography></Typography></InputAdornment>}
                                                                                     />
                                                                                     <FormHelperText error id="BloodWBC_current-error" sx={{ fontWeight: 600 }}>
                                                                                           {touched.BloodWBC_current && errors.BloodWBC_current}
@@ -3278,17 +3281,17 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodWBC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodWBC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodWBC_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodWBC_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodWBC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodWBC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodWBC_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodWBC_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3305,9 +3308,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodRBC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodRBC_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodRBC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodRBC_current && errors.BloodRBC_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodRBC_current-error" sx={{ fontWeight: 600 }}>
@@ -3316,17 +3319,17 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodRBC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodRBC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodRBC_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodRBC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodRBC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodRBC_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3335,9 +3338,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW1_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodW1_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodW1_current && errors.BloodW1_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodW1_current-error" sx={{ fontWeight: 600 }}>
@@ -3346,17 +3349,17 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodW1_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW1_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodW1_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3367,9 +3370,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodHB_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodHB_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodHB_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodHB_current && errors.BloodHB_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodHB_current-error" sx={{ fontWeight: 600 }}>
@@ -3378,50 +3381,48 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodHB_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodHB_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodHB_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodHB_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodHB_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodHB_past')}
                                                                                     />
                                                                               </TableCell>
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">Homocysteine</Typography>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">Lymphocytes</Typography>
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                              <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Homocy_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
-
+                                                                                          className={values.BloodW2_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('BloodW2_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW2_current && errors.BloodW2_current)}
                                                                                     />
-                                                                                    <FormHelperText error id="Homocy_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.Homocy_current && errors.Homocy_current}
+                                                                                    <FormHelperText error id="BloodW2_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW2_current && errors.BloodW2_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          {...getFieldProps('Homocy_previous')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
-
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('BloodW2_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          className={values.BloodW2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('Homocy_past')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.Homocy_unit}</InputAdornment>}
-
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('BloodW2_past')}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3431,9 +3432,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodHCT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodHCT_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodHCT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodHCT_current && errors.BloodHCT_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodHCT_current-error" sx={{ fontWeight: 600 }}>
@@ -3442,48 +3443,48 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodHCT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodHCT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodHCT_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodHCT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodHCT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodHCT_past')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell align="right">
-                                                                                    <Typography variant="label">Lymphocytes</Typography>
+                                                                                    <Typography variant="label">Monocytes</Typography>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW2_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW2_current && errors.BloodW2_current)}
+                                                                                          className={values.BloodW3_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('BloodW3_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW3_current && errors.BloodW3_current)}
                                                                                     />
-                                                                                    <FormHelperText error id="BloodW2_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW2_current && errors.BloodW2_current}
+                                                                                    <FormHelperText error id="BloodW3_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW3_current && errors.BloodW3_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW3_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW2_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('BloodW3_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW3_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW2_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW2_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('BloodW3_past')}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3493,9 +3494,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCV_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodMCV_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCV_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodMCV_current && errors.BloodMCV_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodMCV_current-error" sx={{ fontWeight: 600 }}>
@@ -3504,48 +3505,48 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCV_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCV_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodMCV_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCV_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCV_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodMCV_past')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell align="right">
-                                                                                    <Typography variant="label">Monocytes</Typography>
+                                                                                    <Typography variant="label">Eosinophils</Typography>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW3_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW3_current && errors.BloodW3_current)}
+                                                                                          className={values.BloodW4_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('BloodW4_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW4_current && errors.BloodW4_current)}
                                                                                     />
-                                                                                    <FormHelperText error id="BloodW3_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW3_current && errors.BloodW3_current}
+                                                                                    <FormHelperText error id="BloodW4_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW4_current && errors.BloodW4_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW4_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW3_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('BloodW4_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW4_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW3_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW3_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('BloodW4_past')}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3555,9 +3556,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCH_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodMCH_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodMCH_current && errors.BloodMCH_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodMCH_current-error" sx={{ fontWeight: 600 }}>
@@ -3566,48 +3567,48 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCH_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodMCH_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCH_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCH_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodMCH_past')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell align="right">
-                                                                                    <Typography variant="label">Eosinophils</Typography>
+                                                                                    <Typography variant="label">Basophilis</Typography>
                                                                               </TableCell>
-                                                                              <TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW4_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW4_current && errors.BloodW4_current)}
+                                                                                          className={values.BloodW5_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('BloodW5_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment>}
+                                                                                          error={Boolean(touched.BloodW5_current && errors.BloodW5_current)}
                                                                                     />
-                                                                                    <FormHelperText error id="BloodW4_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW4_current && errors.BloodW4_current}
+                                                                                    <FormHelperText error id="BloodW5_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.BloodW5_current && errors.BloodW5_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW5_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW4_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('BloodW5_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodW5_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW4_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW4_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('BloodW5_past')}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3617,9 +3618,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCHC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodMCHC_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCHC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodMCHC_current && errors.BloodMCHC_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodMCHC_current-error" sx={{ fontWeight: 600 }}>
@@ -3628,50 +3629,21 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCHC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCHC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodMCHC_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodMCHC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodMCHC_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodMCHC_past')}
                                                                                     />
                                                                               </TableCell>
-                                                                              <TableCell align="right">
-                                                                                    <Typography variant="label">Basophilis</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodW5_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodW5_current && errors.BloodW5_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="BloodW5_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodW5_current && errors.BloodW5_current}
-                                                                                    </FormHelperText>
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW5_previous')}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodW5_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodW5_past')}
-                                                                                    />
-                                                                              </TableCell>
+
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -3679,9 +3651,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodPLT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodPLT_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodPLT_current && errors.BloodPLT_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodPLT_current-error" sx={{ fontWeight: 600 }}>
@@ -3690,17 +3662,17 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodPLT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodPLT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodPLT_previous')}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          className={values.BloodPLT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodPLT_unit}</InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment>}
                                                                                           {...getFieldProps('BloodPLT_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3712,42 +3684,147 @@ export default function Lab() {
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
+
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
                                                                                     <Typography variant="label">ABO Blood type</Typography>
                                                                               </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.BloodType_current && errors.BloodType_current)}
+                                                                                                {...getFieldProps('BloodType_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {BloodType_Option.map((BloodType) => (
+                                                                                                      <MenuItem
+                                                                                                            value={BloodType.value}
+                                                                                                            key={BloodType.value}
+                                                                                                      >{BloodType.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="BloodType_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.BloodType_current && errors.BloodType_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.BloodType_previous && errors.BloodType_previous)}
+                                                                                                {...getFieldProps('BloodType_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                                disabled
+                                                                                          >
+                                                                                                {BloodType_Option.map((BloodType) => (
+                                                                                                      <MenuItem
+                                                                                                            value={BloodType.value}
+                                                                                                            key={BloodType.value}
+                                                                                                      >{BloodType.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="BloodType_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.BloodType_previous && errors.BloodType_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.BloodType_past && errors.BloodType_past)}
+                                                                                                {...getFieldProps('BloodType_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                                disabled
+                                                                                          >
+                                                                                                {BloodType_Option.map((BloodType) => (
+                                                                                                      <MenuItem
+                                                                                                            value={BloodType.value}
+                                                                                                            key={BloodType.value}
+                                                                                                      >{BloodType.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="BloodType_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.BloodType_past && errors.BloodType_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+
+
+                                                                        </TableRow>
+                                                                        <TableRow>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">Rhesus Typing</Typography>
+                                                                              </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('BloodType_current')}
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodType_unit}</InputAdornment>}
-                                                                                          error={Boolean(touched.BloodType_current && errors.BloodType_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="BloodType_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.BloodType_current && errors.BloodType_current}
-                                                                                    </FormHelperText>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.BloodRH_current && errors.BloodRH_current)}
+                                                                                                {...getFieldProps('BloodRH_current')}
+                                                                                                style={{ textAlign: 'left' }}
+
+                                                                                          >
+                                                                                                {BloodRH_Option.map((BloodRH) => (
+                                                                                                      <MenuItem
+                                                                                                            value={BloodRH.value}
+                                                                                                            key={BloodRH.value}
+                                                                                                      >{BloodRH.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="BloodRH_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.BloodRH_current && errors.BloodRH_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodType_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodType_previous')}
-                                                                                    />
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.BloodRH_previous && errors.BloodRH_previous)}
+                                                                                                {...getFieldProps('BloodRH_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                                disabled
+                                                                                          >
+                                                                                                {BloodRH_Option.map((BloodRH) => (
+                                                                                                      <MenuItem
+                                                                                                            value={BloodRH.value}
+                                                                                                            key={BloodRH.value}
+                                                                                                      >{BloodRH.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="BloodRH_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.BloodRH_previous && errors.BloodRH_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start">{values.BloodType_unit}</InputAdornment>}
-                                                                                          {...getFieldProps('BloodType_past')}
-                                                                                    />
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.BloodRH_past && errors.BloodRH_past)}
+                                                                                                {...getFieldProps('BloodRH_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                                disabled
+                                                                                          >
+                                                                                                {BloodRH_Option.map((BloodRH) => (
+                                                                                                      <MenuItem
+                                                                                                            value={BloodRH.value}
+                                                                                                            key={BloodRH.value}
+                                                                                                      >{BloodRH.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                          <FormHelperText error id="BloodRH_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.BloodRH_past && errors.BloodRH_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
+
+
                                                                         </TableRow>
                                                                   </TableBody>
                                                             </Table>
@@ -3758,7 +3835,6 @@ export default function Lab() {
                                                                         setSubmitAction("blood_test");
                                                                         handleSubmit();
                                                                   }}>
-
                                                                   Confirm
                                                             </Button>
                                                       </TableContainer>
