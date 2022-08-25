@@ -17,6 +17,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Iconify from '../../components/Iconify';
 
 const RootStyle = styled('div')({
+      zIndex: 900,
       display: 'flex',
       minHeight: '100%',
       overflow: 'hidden',
@@ -33,7 +34,7 @@ PageNavBar.propTypes = {
 export default function PageNavBar({ topValue, title_name, to }) {
       return (
             <RootStyle>
-                  <AppBar position="fixed" color="primary" sx={{ top: topValue }}>
+                  <AppBar position="fixed" color="primary" sx={{ top: topValue, zIndex: 900, }}>
                         <Box sx={{ backgroundColor: "#FFFFFF", color: "#211D4E", height: 50, paddingLeft: 10, paddingRight: 10 }}>
                               <Stack
                                     display="flex"

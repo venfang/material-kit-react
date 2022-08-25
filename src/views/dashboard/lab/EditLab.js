@@ -40,18 +40,14 @@ const Item = styled(Paper)(({ theme }) => ({
       color: theme.palette.text.secondary,
 }));
 
-const URLook_Option = [{ value: "Clear", label: "Clear" }, { value: "Turbid", label: "Turbid" }];
-const UREW_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const URS_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const URBR_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const URUBR_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const UBBH_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }, { value: "4+", label: "++++" }];
-const UBKU_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const UBSNO_Option = [{ value: "1", label: "Positive" }, { value: "2", label: "Negative" }];
-const URLEU_Option = [{ value: null, label: "" }, { value: "2", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const URLook_Option = [{ value: "", label: "" }, { value: "1", label: "Clear" }, { value: "2", label: "Turbid" }];
+const FourPlus_Option = [{ value: "", label: "" }, { value: "neg2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }, { value: "4+", label: "++++" }];
+const ThreePlusMinus_Option = [{ value: "", label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const ThreePlus_Option = [{ value: "", label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const PosNeg_Option = [{ value: "", label: "" }, { value: "1", label: "Positive" }, { value: "2", label: "Negative" }];
+const NonReactive_Option = [{ value: "", label: "" }, { value: "1", label: "Reactive" }, { value: "2", label: "Non Reactive" }];
 
-const BloodType_Option = [{ value: "1", label: "Type A" }, { value: "2", label: "Type B" }, { value: "3", label: "Type O" }, { value: "4", label: "Type AB" }];
-const BloodRH_Option = [{ value: "1", label: "Positive" }, { value: "2", label: "Negative" }];
+const BloodType_Option = [{ value: "", label: "" }, { value: "1", label: "Type A" }, { value: "2", label: "Type B" }, { value: "3", label: "Type O" }, { value: "4", label: "Type AB" }];
 
 export default function Lab() {
       const [value, setTabValue] = useState("1");
@@ -68,14 +64,12 @@ export default function Lab() {
             getReport(report_id).then((data) => {
                   formik.setValues(data);
                   formik.setSubmitting(false);
-                  console.log(data);
             }).catch(() => {
                   TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   formik.setSubmitting(false);
             });
             getComment("Urine").then((data) => {
                   setUBOther_Comment(data);
-                  console.log(data);
             }).catch(() => {
                   TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   formik.setSubmitting(false);
@@ -89,339 +83,347 @@ export default function Lab() {
       const formik = useFormik({
             initialValues: {
                   BloodHB_current: '',
-                  BloodHB_past: '-',
-                  BloodHB_previous: '-',
+                  BloodHB_past: '',
+                  BloodHB_previous: '',
                   BloodHB_unit: 'g/dl',
 
 
                   BloodRBC_current: '',
-                  BloodRBC_past: '-',
-                  BloodRBC_previous: '-',
+                  BloodRBC_past: '',
+                  BloodRBC_previous: '',
                   BloodRBC_unit: 'x 10^6/uL',
                   BloodWBC_current: '',
-                  BloodWBC_past: '-',
-                  BloodWBC_previous: '-',
+                  BloodWBC_past: '',
+                  BloodWBC_previous: '',
                   BloodWBC_unit: 'x 10^3/uL',
                   BloodW1_current: '',
-                  BloodW1_past: '-',
-                  BloodW1_previous: '-',
+                  BloodW1_past: '',
+                  BloodW1_previous: '',
                   BloodW1_unit: '%',
                   BloodW2_current: '',
-                  BloodW2_past: '-',
-                  BloodW2_previous: '-',
+                  BloodW2_past: '',
+                  BloodW2_previous: '',
                   BloodW2_unit: '%',
                   BloodW3_current: '',
-                  BloodW3_past: '-',
-                  BloodW3_previous: '-',
+                  BloodW3_past: '',
+                  BloodW3_previous: '',
                   BloodW3_unit: '%',
                   BloodW4_current: '',
-                  BloodW4_past: '-',
-                  BloodW4_previous: '-',
+                  BloodW4_past: '',
+                  BloodW4_previous: '',
                   BloodW4_unit: '%',
                   BloodW5_current: '',
-                  BloodW5_past: '-',
-                  BloodW5_previous: '-',
+                  BloodW5_past: '',
+                  BloodW5_previous: '',
                   BloodW5_unit: '%',
                   BloodPLT_current: '',
-                  BloodPLT_past: '-',
-                  BloodPLT_previous: '-',
+                  BloodPLT_past: '',
+                  BloodPLT_previous: '',
                   BloodPLT_unit: 'x 10^3/uL',
                   BloodHCT_current: '',
-                  BloodHCT_past: '-',
-                  BloodHCT_previous: '-',
+                  BloodHCT_past: '',
+                  BloodHCT_previous: '',
                   BloodHCT_unit: '%',
                   BloodMCH_current: '',
-                  BloodMCH_past: '-',
-                  BloodMCH_previous: '-',
+                  BloodMCH_past: '',
+                  BloodMCH_previous: '',
                   BloodMCH_unit: 'pg',
                   BloodMCV_current: '',
-                  BloodMCV_past: '-',
-                  BloodMCV_previous: '-',
+                  BloodMCV_past: '',
+                  BloodMCV_previous: '',
                   BloodMCV_unit: 'fL',
                   BloodMCHC_current: '',
-                  BloodMCHC_past: '-',
-                  BloodMCHC_previous: '-',
+                  BloodMCHC_past: '',
+                  BloodMCHC_previous: '',
                   BloodMCHC_unit: 'g/dl',
                   BloodType_current: '',
-                  BloodType_previous: '-',
-                  BloodType_past: '-',
+                  BloodType_previous: '',
+                  BloodType_past: '',
 
                   HBsag_Status_current: '2',
                   HBsag_Status_previous: '2',
                   HBsag_Status_past: '2',
                   HBsag_Value_current: '',
-                  HBsag_Value_previous: '-',
-                  HBsag_Value_past: '-',
+                  HBsag_Value_previous: '',
+                  HBsag_Value_past: '',
                   HBsag_unit: 'Negative',
 
                   AntiHBs_Status_current: '2',
                   AntiHBs_Status_previous: '2',
                   AntiHBs_Status_past: '2',
                   AntiHBs_Value_current: '',
-                  AntiHBs_Value_previous: '-',
-                  AntiHBs_Value_past: '-',
+                  AntiHBs_Value_previous: '',
+                  AntiHBs_Value_past: '',
                   AntiHBs_unit: 'Negative',
 
                   RANormal_Status_current: '2',
                   RANormal_Status_previous: '2',
                   RANormal_Status_past: '2',
                   RANormal_Value_current: '',
-                  RANormal_Value_previous: '-',
-                  RANormal_Value_past: '-',
+                  RANormal_Value_previous: '',
+                  RANormal_Value_past: '',
                   RANormal_unit: 'Negative',
 
                   HavIgG_Status_current: '2',
                   HavIgG_Status_previous: '2',
                   HavIgG_Status_past: '2',
                   HavIgG_Value_current: '',
-                  HavIgG_Value_previous: '-',
-                  HavIgG_Value_past: '-',
+                  HavIgG_Value_previous: '',
+                  HavIgG_Value_past: '',
                   HavIgG_unit: 'Negative',
 
                   HIVNormal_Value_current: '',
-                  HIVNormal_Value_previous: '-',
-                  HIVNormal_Value_past: '-',
+                  HIVNormal_Value_previous: '',
+                  HIVNormal_Value_past: '',
                   HIVNormal_Status_current: '2',
                   HIVNormal_Status_previous: '2',
                   HIVNormal_Status_past: '2',
                   HIVNormal_unit: 'Negative',
 
                   VDRLNormal_current: '',
-                  VDRLNormal_previous: '-',
-                  VDRLNormal_past: '-',
+                  VDRLNormal_previous: '',
+                  VDRLNormal_past: '',
                   VDRLNormal_unit: 'Non Reactive',
 
                   RFFT4_current: '',
-                  RFFT4_previous: '-',
-                  RFFT4_past: '-',
+                  RFFT4_previous: '',
+                  RFFT4_past: '',
                   RFFT4_unit: 'pmol/L',
 
                   Hpyloriab_current: '',
-                  Hpyloriab_previous: '-',
-                  Hpyloriab_past: '-',
+                  Hpyloriab_previous: '',
+                  Hpyloriab_past: '',
                   Hpyloriab_unit: 'Negative',
 
                   YFPLevel_current: '',
-                  YFPLevel_previous: '-',
-                  YFPLevel_past: '-',
+                  YFPLevel_previous: '',
+                  YFPLevel_past: '',
                   YFPLevel_unit: 'ng/ml',
 
+                  CVirus_current: '',
+                  CVirus_previous: '',
+                  CVirus_past: '',
+                  CVirus_unit: '',
+
                   CEALevel_current: '',
-                  CEALevel_previous: '-',
-                  CEALevel_past: '-',
+                  CEALevel_previous: '',
+                  CEALevel_past: '',
                   CEALevel_unit: 'ng/ml',
 
                   CA15_3_current: '',
-                  CA15_3_previous: '-',
-                  CA15_3_past: '-',
+                  CA15_3_previous: '',
+                  CA15_3_past: '',
                   CA15_3_unit: 'U/ml',
                   CA125_current: '',
-                  CA125_previous: '-',
-                  CA125_past: '-',
+                  CA125_previous: '',
+                  CA125_past: '',
                   CA125_unit: 'U/ml',
                   CA19_9_current: '',
-                  CA19_9_previous: '-',
-                  CA19_9_past: '-',
+                  CA19_9_previous: '',
+                  CA19_9_past: '',
                   CA19_9_unit: 'U/ml',
 
-                  EBV_current: '',
-                  EBV_previous: '-',
-                  EBV_past: '-',
+                  EBV_Value_current: '',
+                  EBV_Value_previous: '',
+                  EBV_Value_past: '',
+                  EBV_Status_current: '',
+                  EBV_Status_previous: '',
+                  EBV_Status_past: '',
                   EBV_unit: '',
 
                   PSA_current: '',
-                  PSA_previous: '-',
-                  PSA_past: '-',
+                  PSA_previous: '',
+                  PSA_past: '',
                   PSA_unit: 'ng/ml',
 
                   RFTSH_current: '',
-                  RFTSH_previous: '-',
-                  RFTSH_past: '-',
+                  RFTSH_previous: '',
+                  RFTSH_past: '',
                   RFTSH_unit: 'm IU/L',
 
                   Homocy_current: '',
-                  Homocy_previous: '-',
-                  Homocy_past: '-',
+                  Homocy_previous: '',
+                  Homocy_past: '',
                   Homocy_unit: '',
 
 
                   hs_CRP_current: '',
-                  hs_CRP_previous: '-',
-                  hs_CRP_past: '-',
+                  hs_CRP_previous: '',
+                  hs_CRP_past: '',
                   hs_CRP_unit: '',
 
                   HbA1c_current: '',
-                  HbA1c_previous: '-',
-                  HbA1c_past: '-',
+                  HbA1c_previous: '',
+                  HbA1c_past: '',
                   HbA1c_unit: '%',
 
                   UFBUN_current: '',
-                  UFBUN_previous: '-',
-                  UFBUN_past: '-',
+                  UFBUN_previous: '',
+                  UFBUN_past: '',
                   UFBUN_unit: 'mmol/L',
 
                   UFCRE_current: '',
-                  UFCRE_previous: '-',
-                  UFCRE_past: '-',
+                  UFCRE_previous: '',
+                  UFCRE_past: '',
                   UFCRE_unit: 'umol/L',
 
                   EFCA_current: '',
-                  EFCA_previous: '-',
-                  EFCA_past: '-',
+                  EFCA_previous: '',
+                  EFCA_past: '',
                   EFCA_unit: 'mmol/L',
 
                   EFP_current: '',
-                  EFP_previous: '-',
-                  EFP_past: '-',
+                  EFP_previous: '',
+                  EFP_past: '',
                   EFP_unit: 'mmol/L',
 
                   UFUA_current: '',
-                  UFUA_previous: '-',
-                  UFUA_past: '-',
+                  UFUA_previous: '',
+                  UFUA_past: '',
                   UFUA_unit: 'mmol/L',
 
                   TFTP_current: '',
-                  TFTP_previous: '-',
-                  TFTP_past: '-',
+                  TFTP_previous: '',
+                  TFTP_past: '',
                   TFTP_unit: 'g/L',
 
                   TFALB_current: '',
-                  TFALB_previous: '-',
-                  TFALB_past: '-',
+                  TFALB_previous: '',
+                  TFALB_past: '',
                   TFALB_unit: 'g/L',
 
                   TFGLO_current: '',
-                  TFGLO_previous: '-',
-                  TFGLO_past: '-',
+                  TFGLO_previous: '',
+                  TFGLO_past: '',
                   TFGLO_unit: 'g/L',
 
                   TFTBIL_current: '',
-                  TFTBIL_previous: '-',
-                  TFTBIL_past: '-',
+                  TFTBIL_previous: '',
+                  TFTBIL_past: '',
                   TFTBIL_unit: 'g/L',
 
                   TFALP_current: '',
-                  TFALP_previous: '-',
-                  TFALP_past: '-',
+                  TFALP_previous: '',
+                  TFALP_past: '',
                   TFALP_unit: 'U/L',
 
                   TFsGOT_current: '',
-                  TFsGOT_previous: '-',
-                  TFsGOT_past: '-',
+                  TFsGOT_previous: '',
+                  TFsGOT_past: '',
                   TFsGOT_unit: 'U/L',
 
                   TFsGPT_current: '',
-                  TFsGPT_previous: '-',
-                  TFsGPT_past: '-',
+                  TFsGPT_previous: '',
+                  TFsGPT_past: '',
                   TFsGPT_unit: 'U/L',
 
                   TFYGT_current: '',
-                  TFYGT_previous: '-',
-                  TFYGT_past: '-',
+                  TFYGT_previous: '',
+                  TFYGT_past: '',
                   TFYGT_unit: 'U/L',
 
                   Glucose_current: '',
-                  Glucose_previous: '-',
-                  Glucose_past: '-',
+                  Glucose_previous: '',
+                  Glucose_past: '',
                   Glucose_unit: 'mmol/L',
 
                   BGTG_current: '',
-                  BGTG_previous: '-',
-                  BGTG_past: '-',
+                  BGTG_previous: '',
+                  BGTG_past: '',
                   BGTG_unit: 'mmol/L',
 
                   BGCHOL_current: '',
-                  BGCHOL_previous: '-',
-                  BGCHOL_past: '-',
+                  BGCHOL_previous: '',
+                  BGCHOL_past: '',
                   BGCHOL_unit: 'mmol/L',
 
                   BGHDLC_current: '',
-                  BGHDLC_previous: '-',
-                  BGHDLC_past: '-',
+                  BGHDLC_previous: '',
+                  BGHDLC_past: '',
                   BGHDLC_unit: 'mmol/L',
 
                   BGLDLC_current: '',
-                  BGLDLC_previous: '-',
-                  BGLDLC_past: '-',
+                  BGLDLC_previous: '',
+                  BGLDLC_past: '',
                   BGLDLC_unit: 'mmol/L',
 
                   BGCH_current: '',
-                  BGCH_previous: '-',
-                  BGCH_past: '-',
+                  BGCH_previous: '',
+                  BGCH_past: '',
                   BGCH_unit: 'mmol/L',
 
 
                   URLook_current: '',
-                  URLook_previous: '-',
-                  URLook_past: '-',
+                  URLook_previous: '',
+                  URLook_past: '',
 
                   UREW_current: '',
-                  UREW_previous: '-',
-                  UREW_past: '-',
+                  UREW_previous: '',
+                  UREW_past: '',
 
                   URS_current: '',
-                  URS_previous: '-',
-                  URS_past: '-',
+                  URS_previous: '',
+                  URS_past: '',
 
                   URBR_current: '',
-                  URBR_previous: '-',
-                  URBR_past: '-',
+                  URBR_previous: '',
+                  URBR_past: '',
 
                   URUBR_current: '',
-                  URUBR_previous: '-',
-                  URUBR_past: '-',
+                  URUBR_previous: '',
+                  URUBR_past: '',
 
                   UBBH_current: '',
-                  UBBH_previous: '-',
-                  UBBH_past: '-',
+                  UBBH_previous: '',
+                  UBBH_past: '',
 
                   UBKU_current: '',
-                  UBKU_previous: '-',
-                  UBKU_past: '-',
+                  UBKU_previous: '',
+                  UBKU_past: '',
 
                   UBSNO_current: '',
-                  UBSNO_previous: '-',
-                  UBSNO_past: '-',
+                  UBSNO_previous: '',
+                  UBSNO_past: '',
 
                   URLEU_current: '',
-                  URLEU_previous: '-',
-                  URLEU_past: '-',
+                  URLEU_previous: '',
+                  URLEU_past: '',
 
                   URDENS_current: '',
-                  URDENS_previous: '-',
-                  URDENS_past: '-',
+                  URDENS_previous: '',
+                  URDENS_past: '',
 
                   URTest_current: '',
-                  URTest_previous: '-',
-                  URTest_past: '-',
+                  URTest_previous: '',
+                  URTest_past: '',
 
                   UBRBC1_current: '',
-                  UBRBC1_previous: '-',
-                  UBRBC1_past: '-',
+                  UBRBC1_previous: '',
+                  UBRBC1_past: '',
                   UBRBC2_current: '',
-                  UBRBC2_previous: '-',
-                  UBRBC2_past: '-',
+                  UBRBC2_previous: '',
+                  UBRBC2_past: '',
 
                   UBWBC1_current: '',
-                  UBWBC1_previous: '-',
-                  UBWBC1_past: '-',
+                  UBWBC1_previous: '',
+                  UBWBC1_past: '',
                   UBWBC2_current: '',
-                  UBWBC2_previous: '-',
-                  UBWBC2_past: '-',
+                  UBWBC2_previous: '',
+                  UBWBC2_past: '',
 
                   UBEPlit1_current: '',
-                  UBEPlit1_previous: '-',
-                  UBEPlit1_past: '-',
+                  UBEPlit1_previous: '',
+                  UBEPlit1_past: '',
                   UBEPlit2_current: '',
-                  UBEPlit2_previous: '-',
-                  UBEPlit2_past: '-',
+                  UBEPlit2_previous: '',
+                  UBEPlit2_past: '',
 
                   Cast1_current: '',
-                  Cast1_previous: '-',
-                  Cast1_past: '-',
+                  Cast1_previous: '',
+                  Cast1_past: '',
                   Cast2_current: '',
-                  Cast2_previous: '-',
-                  Cast2_past: '-',
+                  Cast2_previous: '',
+                  Cast2_past: '',
 
                   test_date_previous: 'Previous',
                   test_date_past: "Past",
@@ -431,10 +433,8 @@ export default function Lab() {
             onSubmit: () => {
                   formik.setSubmitting(true);
                   if (submitAction === "immunology") {
-                        console.log(formik.values);
                         immunology();
                   } else if (submitAction === "blood_test") {
-                        console.log(formik.values);
                         bloodTest();
                   }
                   else if (submitAction === "urine") {
@@ -469,6 +469,7 @@ export default function Lab() {
             };
             confirmBloodTest(formValues)
                   .then((response) => {
+                        formik.setSubmitting(false);
                         AlertBox(
                               'success',
                               'Update Successfully',
@@ -483,6 +484,7 @@ export default function Lab() {
                               });
                   })
                   .catch((error) => {
+                        formik.setSubmitting(false);
                         AlertBox(
                               'error',
                               'Update Failed',
@@ -495,9 +497,10 @@ export default function Lab() {
                               });
                   }
                   );
-            formik.setSubmitting(false);
+
       }
       function immunology() {
+            formik.setSubmitting(true);
             const formValues = {
                   report_id: report_id,
                   HBsag_Value: values.HBsag_Value_current,
@@ -511,6 +514,7 @@ export default function Lab() {
                   HIVNormal_Value: values.HIVNormal_Value_current,
                   HIVNormal_Status: values.HIVNormal_Status_current,
                   VDRLNormal: values.VDRLNormal_current,
+                  FT3: values.FT3_current,
                   RFFT4: values.RFFT4_current,
                   Hpyloriab: values.Hpyloriab_current,
                   YFPLevel: values.YFPLevel_current,
@@ -518,14 +522,18 @@ export default function Lab() {
                   CA15_3: values.CA15_3_current,
                   CA125: values.CA125_current,
                   CA19_9: values.CA19_9_current,
-                  EBV: values.EBV_current,
+                  EBV_Value: values.EBV_Value_current,
+                  EBV_Status: values.EBV_Status_current,
                   PSA: values.PSA_current,
                   RFTSH: values.RFTSH_current,
                   Homocy: values.Homocy_current,
+                  CVirus: values.CVirus_current,
                   immunology_confirm_staff: Cookies.get('name'),
             };
+            console.log(formValues);
             confirmImmunology(formValues)
                   .then((response) => {
+                        formik.setSubmitting(false);
                         AlertBox(
                               'success',
                               'Update Successfully',
@@ -540,6 +548,7 @@ export default function Lab() {
                               });
                   })
                   .catch((error) => {
+                        formik.setSubmitting(false);
                         AlertBox(
                               'error',
                               'Update Failed',
@@ -553,6 +562,7 @@ export default function Lab() {
             formik.setSubmitting(false);
       }
       function urine() {
+            formik.setSubmitting(true);
             const formValues = {
                   report_id: report_id,
                   URLook: values.URLook_current,
@@ -580,6 +590,7 @@ export default function Lab() {
             };
             confirmUrine(formValues)
                   .then((response) => {
+                        formik.setSubmitting(false);
                         AlertBox(
                               'success',
                               'Update Successfully',
@@ -594,6 +605,7 @@ export default function Lab() {
                               });
                   })
                   .catch((error) => {
+                        formik.setSubmitting(false);
                         AlertBox(
                               'error',
                               'Update Failed',
@@ -609,6 +621,7 @@ export default function Lab() {
             formik.setSubmitting(false);
       }
       function biochemistry() {
+            formik.setSubmitting(true);
             const formValues = {
                   report_id: report_id,
                   hs_CRP: values.hs_CRP_current,
@@ -632,10 +645,14 @@ export default function Lab() {
                   BGHDLC: values.BGHDLC_current,
                   BGLDLC: values.BGLDLC_current,
                   BGCH: values.BGCH_current,
+                  Sodium: values.Sodium_current,
+                  Potassium: values.Potassium_current,
+                  Chloride: values.Chloride_current,
                   biochemistry_confirm_staff: Cookies.get('name'),
             };
             confirmBiochemistry(formValues)
                   .then((response) => {
+                        formik.setSubmitting(false);
                         AlertBox(
                               'success',
                               'Update Successfully',
@@ -650,6 +667,7 @@ export default function Lab() {
                               });
                   })
                   .catch((error) => {
+                        formik.setSubmitting(false);
                         AlertBox(
                               'error',
                               'Update Failed',
@@ -661,7 +679,6 @@ export default function Lab() {
 
                   }
                   );
-            formik.setSubmitting(false);
       }
       return (
             <Page Page title="Edit"  >
@@ -672,7 +689,7 @@ export default function Lab() {
                               margin: 0,
                               padding: 0,
                         }}>
-                              <AppBar position="fixed" color="primary" sx={{ top: topValue + 40 }}>
+                              <AppBar position="fixed" color="primary" sx={{ top: topValue + 40, zIndex: 900, }}>
                                     <Box sx={{ backgroundColor: "#FFFFFF", color: "#211D4E", height: 60, paddingLeft: 10, paddingRight: 10 }}>
                                           <Stack
                                                 display="flex"
@@ -727,15 +744,19 @@ export default function Lab() {
                                                                   marginLeft: 0,
                                                                   marginRight: 0,
                                                                   '&:last-child td, &:last-child th': { border: 0 },
-                                                                  '& td:nth-of-type(2),& th:nth-of-type(2)': { backgroundColor: "#DDDDDD" },
-                                                                  '& td:nth-of-type(3),& th:nth-of-type(3)': { backgroundColor: "#F9F9F9" },
-                                                                  '& td:nth-of-type(4),& th:nth-of-type(4)': { backgroundColor: "#F9F9F9" },
+                                                                  '& td:nth-of-type(6),& th:nth-of-type(6)': { backgroundColor: "#DDDDDD" },
+                                                                  '& td:nth-of-type(7),& th:nth-of-type(7)': { backgroundColor: "#F9F9F9" },
+                                                                  '& td:nth-of-type(8),& th:nth-of-type(8)': { backgroundColor: "#F9F9F9" },
                                                                   '& td:nth-of-type(1)': { paddingLeft: 0, paddingTop: 0, paddingBottom: 0, marginBottom: 0 },
-                                                                  '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 }
+                                                                  '& td:nth-of-type(2),& td:nth-of-type(3),& td:nth-of-type(4),& td:nth-of-type(6),& td:nth-of-type(7),& td:nth-of-type(8)': { paddingTop: 0, paddingBottom: 1, marginTop: 0, marginBottom: 1 },
                                                             }}>
                                                             <Table sx={{ width: "100%", minWidth: 650, height: "100%", tableLayout: "fixed" }} size="small">
                                                                   <TableHead >
                                                                         <TableRow >
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8, backgroundColor: "#DDDDDD" }}>Current</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8, backgroundColor: "#F9F9F9" }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
+                                                                              <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8, backgroundColor: "#F9F9F9" }}>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>Current</TableCell>
                                                                               <TableCell align="center" sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</TableCell>
@@ -747,49 +768,119 @@ export default function Lab() {
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">HBsAg</Typography>
                                                                               </TableCell>
+                                                                              <TableCell sx={{ backgroundColor: "#DDDDDD" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HBsag_Value_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HBsag_Value_current')}
+
+                                                                                                error={Boolean(touched.HBsag_Value_current && errors.HBsag_Value_current)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HBsag_Value_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HBsag_Value_current && errors.HBsag_Value_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.HBsag_Status_current && errors.HBsag_Status_current)}
+                                                                                                {...getFieldProps('HBsag_Status_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((HBsag) => (
+                                                                                                      <MenuItem
+                                                                                                            value={HBsag.value}
+                                                                                                            key={HBsag.value}
+                                                                                                      >{HBsag.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HBsag_Value_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HBsag_Value_previous')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.HBsag_Value_previous && errors.HBsag_Value_previous)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HBsag_Value_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HBsag_Value_previous && errors.HBsag_Value_previous}
+                                                                                          </FormHelperText> </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.HBsag_Status_previous && errors.HBsag_Status_previous)}
+                                                                                                {...getFieldProps('HBsag_Status_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((HBsag) => (
+                                                                                                      <MenuItem
+                                                                                                            value={HBsag.value}
+                                                                                                            key={HBsag.value}
+                                                                                                      >{HBsag.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HBsag_Value_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HBsag_Value_past')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.HBsag_Value_past && errors.HBsag_Value_past)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HBsag_Value_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HBsag_Value_past && errors.HBsag_Value_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
+                                                                                          disabled
+                                                                                          error={Boolean(touched.HBsag_Status_past && errors.HBsag_Status_past)}
+                                                                                          {...getFieldProps('HBsag_Status_past')}
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {PosNeg_Option.map((HBsag) => (
+                                                                                                <MenuItem
+                                                                                                      value={HBsag.value}
+                                                                                                      key={HBsag.value}
+                                                                                                >{HBsag.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
+                                                                              </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">TSH</Typography>
+                                                                              </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className={values.HBsag_Value_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('HBsag_Value_current')}
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('RFTSH_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
 
-                                                                                          error={Boolean(touched.HBsag_Value_current && errors.HBsag_Value_current)}
                                                                                     />
-                                                                                    <FormHelperText error id="HBsag_Value_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.HBsag_Value_current && errors.HBsag_Value_current}
+                                                                                    <FormHelperText error id="RFTSH_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.RFTSH_current && errors.RFTSH_current}
                                                                                     </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
                                                                                     <InputBase
                                                                                           className='textField'
-                                                                                          {...getFieldProps('HBsag_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HBsag_unit}</Typography></InputAdornment>}
-                                                                                          error={Boolean(touched.HBsag_Status_current && errors.HBsag_Status_current)}
+                                                                                          disabled
+                                                                                          {...getFieldProps('RFTSH_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
+
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className={values.HBsag_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          {...getFieldProps('HBsag_Value_previous')}
-
-                                                                                    />
-                                                                                    <InputBase
                                                                                           className='textField'
-                                                                                          {...getFieldProps('HBsag_Status_previous')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HBsag_unit}</Typography></InputAdornment>}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.HBsag_Value_past_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          disabled
-                                                                                          {...getFieldProps('HBsag_Value_past')}
+                                                                                          {...getFieldProps('RFTSH_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
 
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('HBsag_Status_past')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HBsag_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -797,243 +888,208 @@ export default function Lab() {
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">Anti-HBs</Typography>
                                                                               </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          className={values.AntiHBs_Value_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('AntiHBs_Value_current')}
+                                                                              <TableCell sx={{ backgroundColor: "#DDDDDD" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.AntiHBs_Value_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('AntiHBs_Value_current')}
 
-                                                                                          error={Boolean(touched.AntiHBs_Value_current && errors.AntiHBs_Value_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="AntiHBs_Status_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.AntiHBs_Status_current && errors.AntiHBs_Status_current}
-                                                                                    </FormHelperText>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('AntiHBs_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.AntiHBs_unit}</Typography></InputAdornment>}
-                                                                                          error={Boolean(touched.AntiHBs_Status_current && errors.AntiHBs_Status_current)}
-                                                                                    />
+                                                                                                error={Boolean(touched.AntiHBs_Value_current && errors.AntiHBs_Value_current)}
+                                                                                          />
+                                                                                          <FormHelperText error id="AntiHBs_Value_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.AntiHBs_Value_current && errors.AntiHBs_Value_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.AntiHBs_Status_current && errors.AntiHBs_Status_current)}
+                                                                                                {...getFieldProps('AntiHBs_Status_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((AntiHBs) => (
+                                                                                                      <MenuItem
+                                                                                                            value={AntiHBs.value}
+                                                                                                            key={AntiHBs.value}
+                                                                                                      >{AntiHBs.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.AntiHBs_Value_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                              <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.AntiHBs_Value_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('AntiHBs_Value_previous')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.AntiHBs_Value_previous && errors.AntiHBs_Value_previous)}
+                                                                                          />
+                                                                                          <FormHelperText error id="AntiHBs_Value_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.AntiHBs_Value_previous && errors.AntiHBs_Value_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
-                                                                                          {...getFieldProps('AntiHBs_Value_previous')}
-
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          className='textField'
+                                                                                          error={Boolean(touched.AntiHBs_Status_previous && errors.AntiHBs_Status_previous)}
                                                                                           {...getFieldProps('AntiHBs_Status_previous')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.AntiHBs_unit}</Typography></InputAdornment>}
-                                                                                    />
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {PosNeg_Option.map((AntiHBs) => (
+                                                                                                <MenuItem
+                                                                                                      value={AntiHBs.value}
+                                                                                                      key={AntiHBs.value}
+                                                                                                >{AntiHBs.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.AntiHBs_Value_past_redstar === null ? 'textField' : 'textField_red'}
-
-                                                                                          disabled
-                                                                                          {...getFieldProps('AntiHBs_Value_past')}
-
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          className='textField'
+                                                                              <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.AntiHBs_Value_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('AntiHBs_Value_past')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.AntiHBs_Value_past && errors.AntiHBs_Value_past)}
+                                                                                          />
+                                                                                          <FormHelperText error id="AntiHBs_Value_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.AntiHBs_Value_past && errors.AntiHBs_Value_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
+                                                                                          error={Boolean(touched.AntiHBs_Status_past && errors.AntiHBs_Status_past)}
                                                                                           {...getFieldProps('AntiHBs_Status_past')}
+                                                                                          style={{ textAlign: 'left' }}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.AntiHBs_unit}</Typography></InputAdornment>}
-                                                                                    />
+                                                                                    >
+                                                                                          {PosNeg_Option.map((AntiHBs) => (
+                                                                                                <MenuItem
+                                                                                                      value={AntiHBs.value}
+                                                                                                      key={AntiHBs.value}
+                                                                                                >{AntiHBs.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">RA Factor(RF)</Typography>
+                                                                                    <Typography variant="label">F-T3</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className={values.RANormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('RANormal_Value_current')}
+                                                                                          className={values.FT3_current === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('FT3_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment>}
 
-                                                                                          error={Boolean(touched.RANormal_Value_current && errors.RANormal_Value_current)}
                                                                                     />
-                                                                                    <FormHelperText error id="RANormal_Status_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.RANormal_Status_current && errors.RANormal_Status_current}
+                                                                                    <FormHelperText error id="RFFT4_current-FT3_current" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.FT3_current && errors.FT3_current}
                                                                                     </FormHelperText>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('RANormal_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RANormal_unit}</Typography></InputAdornment>}
-                                                                                          error={Boolean(touched.RANormal_Status_current && errors.RANormal_Status_current)}
-                                                                                    />
+
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className={values.RANormal_Value_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          className={values.FT3_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          {...getFieldProps('RANormal_Value_previous')}
+                                                                                          {...getFieldProps('FT3_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment>}
 
                                                                                     />
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('RANormal_Status_previous')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RANormal_unit}</Typography></InputAdornment>}
-                                                                                    />
+
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className={values.RANormal_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          {...getFieldProps('RANormal_Value_past')}
+                                                                                          className={values.FT3_past === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('FT3_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment>}
 
                                                                                     />
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('RANormal_Status_past')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RANormal_unit}</Typography></InputAdornment>}
-                                                                                    />
+
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">Total Anti-HAV</Typography>
                                                                               </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          className={values.HavIgG_Value_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('HavIgG_Value_current')}
+                                                                              <TableCell sx={{ backgroundColor: "#DDDDDD" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HavIgG_Value_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HavIgG_Value_current')}
 
-                                                                                          error={Boolean(touched.HavIgG_Value_current && errors.HavIgG_Value_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="HavIgG_Value_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.HavIgG_Value_current && errors.HavIgG_Value_current}
-                                                                                    </FormHelperText>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('HavIgG_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HavIgG_unit}</Typography></InputAdornment>}
+                                                                                                error={Boolean(touched.HavIgG_Value_current && errors.HavIgG_Value_current)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HavIgG_Value_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HavIgG_Value_current && errors.HavIgG_Value_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
                                                                                           error={Boolean(touched.HavIgG_Status_current && errors.HavIgG_Status_current)}
-                                                                                    />
+                                                                                          {...getFieldProps('HavIgG_Status_current')}
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {PosNeg_Option.map((HavIgG) => (
+                                                                                                <MenuItem
+                                                                                                      value={HavIgG.value}
+                                                                                                      key={HavIgG.value}
+                                                                                                >{HavIgG.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.HavIgG_Value_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                              <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HavIgG_Value_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HavIgG_Value_previous')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.HavIgG_Value_previous && errors.HavIgG_Value_previous)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HavIgG_Value_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HavIgG_Value_previous && errors.HavIgG_Value_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
-                                                                                          {...getFieldProps('HavIgG_Value_previous')}
-
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          className='textField'
+                                                                                          error={Boolean(touched.HavIgG_Status_previous && errors.HavIgG_Status_previous)}
                                                                                           {...getFieldProps('HavIgG_Status_previous')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HavIgG_unit}</Typography></InputAdornment>}
-                                                                                    />
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {PosNeg_Option.map((HavIgG) => (
+                                                                                                <MenuItem
+                                                                                                      value={HavIgG.value}
+                                                                                                      key={HavIgG.value}
+                                                                                                >{HavIgG.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.HavIgG_Value_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                              <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HavIgG_Value_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HavIgG_Value_past')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.HavIgG_Value_past && errors.HavIgG_Value_past)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HavIgG_Value_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HavIgG_Value_past && errors.HavIgG_Value_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
-                                                                                          {...getFieldProps('HavIgG_Value_past')}
-
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          className='textField'
+                                                                                          error={Boolean(touched.HavIgG_Status_past && errors.HavIgG_Status_past)}
                                                                                           {...getFieldProps('HavIgG_Status_past')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HavIgG_unit}</Typography></InputAdornment>}
-                                                                                    />
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {PosNeg_Option.map((HavIgG) => (
+                                                                                                <MenuItem
+                                                                                                      value={HavIgG.value}
+                                                                                                      key={HavIgG.value}
+                                                                                                >{HavIgG.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">AIDS</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          className={values.HIVNormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('HIVNormal_Value_current')}
-
-                                                                                          error={Boolean(touched.HIVNormal_Value_current && errors.HIVNormal_Value_current)}
-                                                                                    />
-                                                                                    <FormHelperText error id="HIVNormal_Value_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.HIVNormal_Value_current && errors.HIVNormal_Value_current}
-                                                                                    </FormHelperText>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('HIVNormal_Status_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HIVNormal_unit}</Typography></InputAdornment>}
-                                                                                          error={Boolean(touched.HIVNormal_Status_current && errors.HIVNormal_Status_current)}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.HIVNormal_Value_previous_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          disabled
-                                                                                          {...getFieldProps('HIVNormal_Value_previous')}
-
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('HIVNormal_Status_previous')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HIVNormal_unit}</Typography></InputAdornment>}
-                                                                                    />
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.HIVNormal_Value_past_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          disabled
-                                                                                          {...getFieldProps('HIVNormal_Value_past')}
-
-                                                                                    />
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('HIVNormal_Status_past')}
-                                                                                          disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HavIgG_unit}</Typography></InputAdornment>}
-                                                                                    />
-                                                                              </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
-                                                                              <TableCell align="right" >
-                                                                                    <Typography variant="label">RPR</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          className={values.VDRLNormal_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('VDRLNormal_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.VDRLNormal_unit}</Typography></InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="VDRLNormal_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.VDRLNormal_current && errors.VDRLNormal_current}
-                                                                                    </FormHelperText>
-
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.VDRLNormal_previous_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          disabled
-                                                                                          {...getFieldProps('VDRLNormal_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.VDRLNormal_unit}</Typography></InputAdornment>}
-
-                                                                                    />
-
-                                                                              </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className={values.VDRLNormal_past_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('VDRLNormal_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.VDRLNormal_unit}</Typography></InputAdornment>}
-
-                                                                                    />
-
-                                                                              </TableCell>
-                                                                        </TableRow>
-
-
-                                                                        <TableRow >
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">F-T4</Typography>
                                                                               </TableCell>
@@ -1072,42 +1128,93 @@ export default function Lab() {
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">H.pylori Ab</Typography>
+                                                                                    <Typography variant="label">EBV anti-body</Typography>
                                                                               </TableCell>
-                                                                              <TableCell >
-                                                                                    <InputBase
-                                                                                          className={values.Hpyloriab_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('Hpyloriab_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, backgroundColor: "#DDDDDD" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.EBV_Value_current === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('EBV_Value_current')}
 
-                                                                                    />
-                                                                                    <FormHelperText error id="Hpyloriab_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.Hpyloriab_current && errors.Hpyloriab_current}
-                                                                                    </FormHelperText>
-
+                                                                                                error={Boolean(touched.EBV_Value_current && errors.EBV_Value_current)}
+                                                                                          />
+                                                                                          <FormHelperText error id="EBV_Value_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.EBV_Value_current && errors.EBV_Value_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.EBV_Status_current && errors.EBV_Status_current)}
+                                                                                                {...getFieldProps('EBV_Status_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((EBV) => (
+                                                                                                      <MenuItem
+                                                                                                            value={EBV.value}
+                                                                                                            key={EBV.value}
+                                                                                                      >{EBV.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          className={values.Hpyloriab_previous_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          disabled
-                                                                                          {...getFieldProps('Hpyloriab_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, background: "#F9F9F9" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                disabled
+                                                                                                className={values.EBV_Value_previous === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('EBV_Value_previous')}
 
-                                                                                    />
-
+                                                                                                error={Boolean(touched.EBV_Value_previous && errors.EBV_Value_previous)}
+                                                                                          />
+                                                                                          <FormHelperText error id="EBV_Value_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.EBV_Value_previous && errors.EBV_Value_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.EBV_Status_previous && errors.EBV_Status_previous)}
+                                                                                                {...getFieldProps('EBV_Status_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((EBV) => (
+                                                                                                      <MenuItem
+                                                                                                            value={EBV.value}
+                                                                                                            key={EBV.value}
+                                                                                                      >{EBV.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                              <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className={values.Hpyloriab_past_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('Hpyloriab_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, background: "#F9F9F9" }}>
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                disabled
+                                                                                                className={values.EBV_Value_past === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('EBV_Value_past')}
 
-                                                                                    />
-
+                                                                                                error={Boolean(touched.EBV_Value_past && errors.EBV_Value_past)}
+                                                                                          />
+                                                                                          <FormHelperText error id="EBV_Value_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.EBV_Value_past && errors.EBV_Value_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.EBV_Status_past && errors.EBV_Status_past)}
+                                                                                                {...getFieldProps('EBV_Status_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((EBV) => (
+                                                                                                      <MenuItem
+                                                                                                            value={EBV.value}
+                                                                                                            key={EBV.value}
+                                                                                                      >{EBV.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow >
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">a-FP</Typography>
                                                                               </TableCell>
@@ -1144,9 +1251,13 @@ export default function Lab() {
 
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">CEA(General/Smoker)</Typography>
+                                                                                    <Typography variant="label">CEA (General/Smoker)</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
@@ -1179,147 +1290,314 @@ export default function Lab() {
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">CA15-3</Typography>
+                                                                                    <Typography variant="label">RA Factor(RF)</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CA15_3_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.RANormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('RANormal_Value_current')}
 
-                                                                                    />
-                                                                                    <FormHelperText error id="CA15_3_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CA15_3_current && errors.CA15_3_current}
-                                                                                    </FormHelperText>
-
+                                                                                                error={Boolean(touched.RANormal_Value_current && errors.RANormal_Value_current)}
+                                                                                          />
+                                                                                          <FormHelperText error id="RANormal_Value_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.RANormal_Value_current && errors.RANormal_Value_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
+                                                                                          error={Boolean(touched.RANormal_Status_current && errors.RANormal_Status_current)}
+                                                                                          {...getFieldProps('RANormal_Status_current')}
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {PosNeg_Option.map((RANormal) => (
+                                                                                                <MenuItem
+                                                                                                      value={RANormal.value}
+                                                                                                      key={RANormal.value}
+                                                                                                >{RANormal.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.RANormal_Value_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('RANormal_Value_previous')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.RANormal_Value_previous && errors.RANormal_Value_previous)}
+                                                                                          />
+                                                                                          <FormHelperText error id="RANormal_Value_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.RANormal_Value_previous && errors.RANormal_Value_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
-                                                                                          {...getFieldProps('CA15_3_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
-
-                                                                                    />
+                                                                                          error={Boolean(touched.RANormal_Status_previous && errors.RANormal_Status_previous)}
+                                                                                          {...getFieldProps('RANormal_Status_previous')}
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {PosNeg_Option.map((RANormal) => (
+                                                                                                <MenuItem
+                                                                                                      value={RANormal.value}
+                                                                                                      key={RANormal.value}
+                                                                                                >{RANormal.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.RANormal_Value_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('RANormal_Value_past')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.RANormal_Value_past && errors.RANormal_Value_past)}
+                                                                                          />
+                                                                                          <FormHelperText error id="RANormal_Value_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.RANormal_Value_past && errors.RANormal_Value_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CA15_3_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
-
-                                                                                    />
+                                                                                          error={Boolean(touched.RANormal_Status_past && errors.RANormal_Status_past)}
+                                                                                          {...getFieldProps('RANormal_Status_past')}
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {PosNeg_Option.map((RANormal) => (
+                                                                                                <MenuItem
+                                                                                                      value={RANormal.value}
+                                                                                                      key={RANormal.value}
+                                                                                                >{RANormal.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">CA125</Typography>
+                                                                                    <Typography variant="label">RPR</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CA125_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
 
-                                                                                    />
-                                                                                    <FormHelperText error id="CA125_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CA125_current && errors.CA125_current}
-                                                                                    </FormHelperText>
-
+                                                                                                error={Boolean(touched.VDRLNormal_current && errors.VDRLNormal_current)}
+                                                                                                {...getFieldProps('VDRLNormal_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((VDRLNormal) => (
+                                                                                                      <MenuItem
+                                                                                                            value={VDRLNormal.value}
+                                                                                                            key={VDRLNormal.value}
+                                                                                                      >{VDRLNormal.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('CA125_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
-
-                                                                                    />
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.VDRLNormal_previous && errors.VDRLNormal_previous)}
+                                                                                                {...getFieldProps('VDRLNormal_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((VDRLNormal) => (
+                                                                                                      <MenuItem
+                                                                                                            value={VDRLNormal.value}
+                                                                                                            key={VDRLNormal.value}
+                                                                                                      >{VDRLNormal.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CA125_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
-
-                                                                                    />
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.VDRLNormal_past && errors.VDRLNormal_past)}
+                                                                                                {...getFieldProps('VDRLNormal_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((VDRLNormal) => (
+                                                                                                      <MenuItem
+                                                                                                            value={VDRLNormal.value}
+                                                                                                            key={VDRLNormal.value}
+                                                                                                      >{VDRLNormal.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">CA19-9</Typography>
+                                                                                    <Typography variant="label">Anti-HCV</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CA19_9_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
-
-                                                                                    />
-                                                                                    <FormHelperText error id="CA19_9_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.CA19_9_current && errors.CA19_9_current}
-                                                                                    </FormHelperText>
-
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                error={Boolean(touched.CVirus_current && errors.CVirus_current)}
+                                                                                                {...getFieldProps('CVirus_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {NonReactive_Option.map((CVirus) => (
+                                                                                                      <MenuItem
+                                                                                                            value={CVirus.value}
+                                                                                                            key={CVirus.value}
+                                                                                                      >{CVirus.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          disabled
-                                                                                          {...getFieldProps('CA19_9_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
-
-                                                                                    />
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.CVirus_previous && errors.CVirus_current)}
+                                                                                                {...getFieldProps('CVirus_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {NonReactive_Option.map((CVirus) => (
+                                                                                                      <MenuItem
+                                                                                                            value={CVirus.value}
+                                                                                                            key={CVirus.value}
+                                                                                                      >{CVirus.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('CA19_9_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
-
-                                                                                    />
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                error={Boolean(touched.CVirus_past && errors.CVirus_past)}
+                                                                                                {...getFieldProps('CVirus_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {NonReactive_Option.map((CVirus) => (
+                                                                                                      <MenuItem
+                                                                                                            value={CVirus.value}
+                                                                                                            key={CVirus.value}
+                                                                                                      >{CVirus.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">EBV anti-body</Typography>
+                                                                                    <Typography variant="label">AIDS</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
-                                                                                    <InputBase
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('EBV_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EBV_unit}</Typography></InputAdornment>}
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HIVNormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HIVNormal_Value_current')}
 
-                                                                                    />
-                                                                                    <FormHelperText error id="EBV_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.EBV_current && errors.EBV_current}
-                                                                                    </FormHelperText>
-
+                                                                                                error={Boolean(touched.HIVNormal_Value_current && errors.HIVNormal_Value_current)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HIVNormal_Value_current-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HIVNormal_Value_current && errors.HIVNormal_Value_current}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
+                                                                                          error={Boolean(touched.HIVNormal_Status_current && errors.HIVNormal_Status_current)}
+                                                                                          {...getFieldProps('HIVNormal_Status_current')}
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {NonReactive_Option.map((HIVNormal) => (
+                                                                                                <MenuItem
+                                                                                                      value={HIVNormal.value}
+                                                                                                      key={HIVNormal.value}
+                                                                                                >{HIVNormal.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
-                                                                                          className='textField'
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HIVNormal_Value_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HIVNormal_Value_previous')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.HIVNormal_Value_previous && errors.HIVNormal_Value_previous)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HIVNormal_Value_previous-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HIVNormal_Value_previous && errors.HIVNormal_Value_previous}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
-                                                                                          {...getFieldProps('EBV_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EBV_unit}</Typography></InputAdornment>}
-
-                                                                                    />
+                                                                                          error={Boolean(touched.HIVNormal_Status_previous && errors.HIVNormal_Status_previous)}
+                                                                                          {...getFieldProps('HIVNormal_Status_previous')}
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {NonReactive_Option.map((HIVNormal) => (
+                                                                                                <MenuItem
+                                                                                                      value={HIVNormal.value}
+                                                                                                      key={HIVNormal.value}
+                                                                                                >{HIVNormal.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
-                                                                                    <InputBase
+                                                                                    <FormControl fullWidth>
+                                                                                          <InputBase
+                                                                                                className={values.HIVNormal_Value_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                                {...getFieldProps('HIVNormal_Value_past')}
+                                                                                                disabled
+                                                                                                error={Boolean(touched.HIVNormal_Value_past && errors.HIVNormal_Value_past)}
+                                                                                          />
+                                                                                          <FormHelperText error id="HIVNormal_Value_past-error" sx={{ fontWeight: 600 }}>
+                                                                                                {touched.HIVNormal_Value_past && errors.HIVNormal_Value_past}
+                                                                                          </FormHelperText>
+                                                                                    </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
-                                                                                          className='textField'
-                                                                                          {...getFieldProps('EBV_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EBV_unit}</Typography></InputAdornment>}
-
-                                                                                    />
+                                                                                          error={Boolean(touched.HIVNormal_Status_past && errors.HIVNormal_Status_past)}
+                                                                                          {...getFieldProps('HIVNormal_Status_past')}
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                    >
+                                                                                          {NonReactive_Option.map((HIVNormal) => (
+                                                                                                <MenuItem
+                                                                                                      value={HIVNormal.value}
+                                                                                                      key={HIVNormal.value}
+                                                                                                >{HIVNormal.label}</MenuItem>
+                                                                                          )
+                                                                                          )}
+                                                                                    </Select>
+                                                                                    </FormControl>
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">PSA</Typography>
                                                                               </TableCell>
@@ -1354,27 +1632,32 @@ export default function Lab() {
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">TSH</Typography>
+                                                                                    <Typography variant="label">CA15-3</Typography>
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           className='textField'
-                                                                                          {...getFieldProps('RFTSH_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('CA15_3_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
 
                                                                                     />
-                                                                                    <FormHelperText error id="RFTSH_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.RFTSH_current && errors.RFTSH_current}
+                                                                                    <FormHelperText error id="CA15_3_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.CA15_3_current && errors.CA15_3_current}
                                                                                     </FormHelperText>
+
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           className='textField'
                                                                                           disabled
-                                                                                          {...getFieldProps('RFTSH_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('CA15_3_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -1382,13 +1665,136 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           disabled
                                                                                           className='textField'
-                                                                                          {...getFieldProps('RFTSH_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
+                                                                                          {...getFieldProps('CA15_3_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
-                                                                        <TableRow >
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">CA125</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('CA125_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="CA125_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.CA125_current && errors.CA125_current}
+                                                                                    </FormHelperText>
+
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('CA125_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('CA125_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">CA19-9</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('CA19_9_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="CA19_9_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.CA19_9_current && errors.CA19_9_current}
+                                                                                    </FormHelperText>
+
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className='textField'
+                                                                                          disabled
+                                                                                          {...getFieldProps('CA19_9_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className='textField'
+                                                                                          {...getFieldProps('CA19_9_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">H.pylori Ab</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell >
+                                                                                    <InputBase
+                                                                                          className={values.Hpyloriab_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Hpyloriab_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="Hpyloriab_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.Hpyloriab_current && errors.Hpyloriab_current}
+                                                                                    </FormHelperText>
+
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className={values.Hpyloriab_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          disabled
+                                                                                          {...getFieldProps('Hpyloriab_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className={values.Hpyloriab_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Hpyloriab_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">Homocysteine</Typography>
                                                                               </TableCell>
@@ -1422,7 +1828,6 @@ export default function Lab() {
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
-
                                                                   </TableBody>
 
 
@@ -2183,7 +2588,7 @@ export default function Lab() {
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">Creatinine</Typography>
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                              <TableCell >
                                                                                     <InputBase
                                                                                           className={values.UFCRE_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFCRE_current')}
@@ -2193,7 +2598,7 @@ export default function Lab() {
                                                                                           {touched.UFCRE_current && errors.UFCRE_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                              <TableCell >
                                                                                     <InputBase
                                                                                           className={values.UFCRE_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
@@ -2202,12 +2607,122 @@ export default function Lab() {
 
                                                                                     />
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                              <TableCell >
                                                                                     <InputBase
                                                                                           disabled
                                                                                           className={values.UFCRE_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_past')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow>
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label_group">Electrolytes</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Sodium</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className={values.Sodium_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Sodium_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Sodium_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="Sodium_current_redstar-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.Sodium_current_redstar && errors.Sodium_current_redstar}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className={values.Sodium_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          disabled
+                                                                                          {...getFieldProps('Sodium_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Sodium_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className={values.Sodium_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Sodium_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Sodium_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Potassium</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className={values.Potassium_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Potassium_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Potassium_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="Potassium_current_redstar-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.Potassium_current_redstar && errors.Potassium_current_redstar}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          className={values.Potassium_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          disabled
+                                                                                          {...getFieldProps('Potassium_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Potassium_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className={values.Potassium_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Potassium_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Potassium_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow >
+                                                                              <TableCell align="right" >
+                                                                                    <Typography variant="label">Chloride</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <InputBase
+                                                                                          className={values.Chloride_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Chloride_current')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Chloride_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                                    <FormHelperText error id="Chloride_current_redstar-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.Chloride_current_redstar && errors.Chloride_current_redstar}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <InputBase
+                                                                                          className={values.Chloride_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          disabled
+                                                                                          {...getFieldProps('Chloride_previous')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Chloride_unit}</Typography></InputAdornment>}
+
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <InputBase
+                                                                                          disabled
+                                                                                          className={values.Chloride_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Chloride_past')}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Chloride_unit}</Typography></InputAdornment>}
 
                                                                                     />
                                                                               </TableCell>
@@ -2397,7 +2912,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UREW_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UREW_Option.map((UREW) => (
+                                                                                                {ThreePlusMinus_Option.map((UREW) => (
                                                                                                       <MenuItem
                                                                                                             value={UREW.value}
                                                                                                             key={UREW.value}
@@ -2418,7 +2933,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UREW_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UREW_Option.map((UREW) => (
+                                                                                                {ThreePlusMinus_Option.map((UREW) => (
                                                                                                       <MenuItem
                                                                                                             value={UREW.value}
                                                                                                             key={UREW.value}
@@ -2439,7 +2954,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UREW_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UREW_Option.map((UREW) => (
+                                                                                                {ThreePlusMinus_Option.map((UREW) => (
                                                                                                       <MenuItem
                                                                                                             value={UREW.value}
                                                                                                             key={UREW.value}
@@ -2508,7 +3023,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URS_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URS_Option.map((URS) => (
+                                                                                                {ThreePlusMinus_Option.map((URS) => (
                                                                                                       <MenuItem
                                                                                                             value={URS.value}
                                                                                                             key={URS.value}
@@ -2529,7 +3044,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URS_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URS_Option.map((URS) => (
+                                                                                                {ThreePlusMinus_Option.map((URS) => (
                                                                                                       <MenuItem
                                                                                                             value={URS.value}
                                                                                                             key={URS.value}
@@ -2550,7 +3065,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URS_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URS_Option.map((URS) => (
+                                                                                                {ThreePlusMinus_Option.map((URS) => (
                                                                                                       <MenuItem
                                                                                                             value={URS.value}
                                                                                                             key={URS.value}
@@ -2619,7 +3134,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URBR_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URBR_Option.map((URBR) => (
+                                                                                                {ThreePlus_Option.map((URBR) => (
                                                                                                       <MenuItem
                                                                                                             value={URBR.value}
                                                                                                             key={URBR.value}
@@ -2641,7 +3156,7 @@ export default function Lab() {
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
 
-                                                                                                {URBR_Option.map((URBR) => (
+                                                                                                {ThreePlus_Option.map((URBR) => (
                                                                                                       <MenuItem
                                                                                                             value={URBR.value}
                                                                                                             key={URBR.value}
@@ -2664,7 +3179,7 @@ export default function Lab() {
 
                                                                                           >
 
-                                                                                                {URBR_Option.map((URBR) => (
+                                                                                                {ThreePlus_Option.map((URBR) => (
                                                                                                       <MenuItem
                                                                                                             value={URBR.value}
                                                                                                             key={URBR.value}
@@ -2734,7 +3249,7 @@ export default function Lab() {
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
 
-                                                                                                {URUBR_Option.map((URUBR) => (
+                                                                                                {ThreePlus_Option.map((URUBR) => (
                                                                                                       <MenuItem
                                                                                                             value={URUBR.value}
                                                                                                             key={URUBR.value}
@@ -2755,7 +3270,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URUBR_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URUBR_Option.map((URUBR) => (
+                                                                                                {ThreePlus_Option.map((URUBR) => (
                                                                                                       <MenuItem
                                                                                                             value={URUBR.value}
                                                                                                             key={URUBR.value}
@@ -2776,7 +3291,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URUBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URUBR_Option.map((URUBR) => (
+                                                                                                {ThreePlus_Option.map((URUBR) => (
                                                                                                       <MenuItem
                                                                                                             value={URUBR.value}
                                                                                                             key={URUBR.value}
@@ -2799,9 +3314,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('Bacter_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {ThreePlus_Option.map((Bacter) => (
+                                                                                                      <MenuItem
+                                                                                                            value={Bacter.value}
+                                                                                                            key={Bacter.value}
+                                                                                                      >{Bacter.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="Bacter_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.Bacter_current && errors.Bacter_current}
@@ -2816,9 +3335,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('Bacter_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {ThreePlus_Option.map((Bacter) => (
+                                                                                                      <MenuItem
+                                                                                                            value={Bacter.value}
+                                                                                                            key={Bacter.value}
+                                                                                                      >{Bacter.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="Bacter_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.Bacter_previous && errors.Bacter_previous}
@@ -2833,9 +3356,13 @@ export default function Lab() {
                                                                                                 {...getFieldProps('Bacter_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                <MenuItem value="testing">
-                                                                                                      Testing
-                                                                                                </MenuItem>
+                                                                                                {ThreePlus_Option.map((Bacter) => (
+                                                                                                      <MenuItem
+                                                                                                            value={Bacter.value}
+                                                                                                            key={Bacter.value}
+                                                                                                      >{Bacter.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
                                                                                           </Select>
                                                                                           <FormHelperText error id="Bacter_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.Bacter_past && errors.Bacter_past}
@@ -2854,7 +3381,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBBH_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBBH_Option.map((UBBH) => (
+                                                                                                {FourPlus_Option.map((UBBH) => (
                                                                                                       <MenuItem
                                                                                                             value={UBBH.value}
                                                                                                             key={UBBH.value}
@@ -2875,7 +3402,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBBH_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBBH_Option.map((UBBH) => (
+                                                                                                {FourPlus_Option.map((UBBH) => (
                                                                                                       <MenuItem
                                                                                                             value={UBBH.value}
                                                                                                             key={UBBH.value}
@@ -2896,7 +3423,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBBH_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBBH_Option.map((UBBH) => (
+                                                                                                {FourPlus_Option.map((UBBH) => (
                                                                                                       <MenuItem
                                                                                                             value={UBBH.value}
                                                                                                             key={UBBH.value}
@@ -2961,7 +3488,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBKU_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBKU_Option.map((UBKU) => (
+                                                                                                {ThreePlusMinus_Option.map((UBKU) => (
                                                                                                       <MenuItem
                                                                                                             value={UBKU.value}
                                                                                                             key={UBKU.value}
@@ -2982,7 +3509,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBKU_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBKU_Option.map((UBKU) => (
+                                                                                                {ThreePlusMinus_Option.map((UBKU) => (
                                                                                                       <MenuItem
                                                                                                             value={UBKU.value}
                                                                                                             key={UBKU.value}
@@ -3003,7 +3530,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBKU_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBKU_Option.map((UBKU) => (
+                                                                                                {ThreePlusMinus_Option.map((UBKU) => (
                                                                                                       <MenuItem
                                                                                                             value={UBKU.value}
                                                                                                             key={UBKU.value}
@@ -3029,7 +3556,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBSNO_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBSNO_Option.map((UBSNO) => (
+                                                                                                {PosNeg_Option.map((UBSNO) => (
                                                                                                       <MenuItem
                                                                                                             value={UBSNO.value}
                                                                                                             key={UBSNO.value}
@@ -3050,7 +3577,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBSNO_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBSNO_Option.map((UBSNO) => (
+                                                                                                {PosNeg_Option.map((UBSNO) => (
                                                                                                       <MenuItem
                                                                                                             value={UBSNO.value}
                                                                                                             key={UBSNO.value}
@@ -3071,7 +3598,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('UBSNO_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {UBSNO_Option.map((UBSNO) => (
+                                                                                                {PosNeg_Option.map((UBSNO) => (
                                                                                                       <MenuItem
                                                                                                             value={UBSNO.value}
                                                                                                             key={UBSNO.value}
@@ -3096,7 +3623,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLEU_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URLEU_Option.map((URLEU) => (
+                                                                                                {ThreePlus_Option.map((URLEU) => (
                                                                                                       <MenuItem
                                                                                                             value={URLEU.value}
                                                                                                             key={URLEU.value}
@@ -3117,7 +3644,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLEU_previous')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URLEU_Option.map((URLEU) => (
+                                                                                                {ThreePlus_Option.map((URLEU) => (
                                                                                                       <MenuItem
                                                                                                             value={URLEU.value}
                                                                                                             key={URLEU.value}
@@ -3138,7 +3665,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('URLEU_past')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {URLEU_Option.map((URLEU) => (
+                                                                                                {ThreePlus_Option.map((URLEU) => (
                                                                                                       <MenuItem
                                                                                                             value={URLEU.value}
                                                                                                             key={URLEU.value}
@@ -3768,7 +4295,7 @@ export default function Lab() {
                                                                                                 style={{ textAlign: 'left' }}
 
                                                                                           >
-                                                                                                {BloodRH_Option.map((BloodRH) => (
+                                                                                                {PosNeg_Option.map((BloodRH) => (
                                                                                                       <MenuItem
                                                                                                             value={BloodRH.value}
                                                                                                             key={BloodRH.value}
@@ -3789,7 +4316,7 @@ export default function Lab() {
                                                                                                 style={{ textAlign: 'left' }}
                                                                                                 disabled
                                                                                           >
-                                                                                                {BloodRH_Option.map((BloodRH) => (
+                                                                                                {PosNeg_Option.map((BloodRH) => (
                                                                                                       <MenuItem
                                                                                                             value={BloodRH.value}
                                                                                                             key={BloodRH.value}
@@ -3810,7 +4337,7 @@ export default function Lab() {
                                                                                                 style={{ textAlign: 'left' }}
                                                                                                 disabled
                                                                                           >
-                                                                                                {BloodRH_Option.map((BloodRH) => (
+                                                                                                {PosNeg_Option.map((BloodRH) => (
                                                                                                       <MenuItem
                                                                                                             value={BloodRH.value}
                                                                                                             key={BloodRH.value}

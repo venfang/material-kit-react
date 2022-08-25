@@ -8,13 +8,14 @@ const RootStyle = styled('div')({
       display: 'flex',
       minHeight: '100%',
       overflow: 'hidden',
+      zIndex: 900,
       backgroundColor: "#211D4E"
 });
 
 export default function test({ topValue, report }) {
       return (
             <RootStyle>
-                  <AppBar position="fixed" color="primary" sx={{ top: topValue }}>
+                  <AppBar position="fixed" color="primary" sx={{ top: topValue, zIndex: 900, }}>
                         <div style={{ backgroundColor: "#211D4E", color: "#FFFFFF", height: 40 }}>
                               <div style={{
                                     height: "100%",
