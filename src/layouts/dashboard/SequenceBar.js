@@ -28,11 +28,11 @@ export default function test({ topValue, report }) {
                                           height="100%"
                                           width="100%"
                                     >
-                                          <Box sx={{ display: "flex" }}><Typography variant="title_blue">{`Sequence No. `}</Typography><Typography variant="title_blue_small">{`${report.report_id} `}</Typography></Box>
+                                          <Box sx={{ display: "flex" }}><Typography variant="title_blue">{`Barcode `}</Typography><Typography variant="title_blue_small">{`${report.barcode}`}</Typography></Box>
                                           <Box sx={{ display: "flex" }}><Typography variant="title_blue">{`Name `}</Typography><Typography variant="title_blue_small">{`${report.last_name} ${report.first_name} `}</Typography></Box>
                                           <Box sx={{ display: "flex" }}><Typography variant="title_blue">{`Age `}</Typography><Typography variant="title_blue_small">{`${report.age} `}</Typography></Box>
                                           <Box sx={{ display: "flex" }}><Typography variant="title_blue">{`Gender `}</Typography><Typography variant="title_blue_small">{`${report.gender} `}</Typography></Box>
-                                          <Box sx={{ display: "flex" }}><Typography variant="title_blue">{`Package `}</Typography><Typography variant="title_blue_small">{`${report.package_id} `}</Typography></Box>
+                                          <Box sx={{ display: "flex" }}><Typography variant="title_blue">{`Package `}</Typography><Typography variant="title_blue_small">{`${report.package_name} `}</Typography></Box>
                                     </Stack>
                               </div>
                         </div>

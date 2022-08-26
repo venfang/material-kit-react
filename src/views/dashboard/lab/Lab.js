@@ -70,14 +70,16 @@ export default function Lab() {
                   <PageNavBar topValue={topValue} title_name={title_name} to={to} />
                   <Container sx={{ marginTop: 8, paddingRight: 8, paddingLeft: 8, width: "100%", height: "100%" }} disableGutters={true} >
                         <TableContainer component={Paper}>
-                              <Table sx={{ minWidth: 700 }} aria-label="customized table" size="small">
+                              <Table sx={{ minWidth: 800 }} aria-label="customized table" size="small">
                                     <TableHead>
                                           <TableRow>
-                                                <StyledTableCell align='center'>Seq No.</StyledTableCell>
+                                                <StyledTableCell align='center'>Barcode</StyledTableCell>
                                                 <StyledTableCell align="center">Name</StyledTableCell>
+                                                <StyledTableCell align="center">I/C</StyledTableCell>
                                                 <StyledTableCell align="center">Age</StyledTableCell>
                                                 <StyledTableCell align="center">Gender</StyledTableCell>
                                                 <StyledTableCell align="center">Package</StyledTableCell>
+                                                <StyledTableCell align="center">Facility</StyledTableCell>
                                                 <StyledTableCell align="center">Immunology Test</StyledTableCell>
                                                 <StyledTableCell align="center">Biochemistry Test</StyledTableCell>
                                                 <StyledTableCell align="center">Urine Test</StyledTableCell>
@@ -154,10 +156,13 @@ export default function Lab() {
                                                             }}
                                                       >
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  {row.report_id}
+                                                                  {row.barcode}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   {`${row.last_name} ${row.first_name}`}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell component="th" scope="row" align='center'>
+                                                                  {row.ic_no}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   {row.age}
@@ -166,7 +171,10 @@ export default function Lab() {
                                                                   {row.gender}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  {row.package_id}
+                                                                  {row.package_name}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell component="th" scope="row" align='center'>
+                                                                  {row.name}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorImmunology} /> {textImmunology}</Typography>

@@ -19,3 +19,9 @@ export const confirmBiochemistry = (values) => axios.put(`${process.env.REACT_AP
 export const confirmUrine = (values) => axios.put(`${process.env.REACT_APP_API}Report/confirmUrine`, values);
 
 
+export const releaseBloodTest = (values) => axios.put(`${process.env.REACT_APP_API}Report/releaseBloodTest`, values);
+export const releaseImmunology = (values) => axios.put(`${process.env.REACT_APP_API}Report/releaseImmunology`, values);
+export const releaseBiochemistry = (values) => axios.put(`${process.env.REACT_APP_API}Report/releaseBiochemistry`, values);
+export const releaseUrine = (values) => axios.put(`${process.env.REACT_APP_API}Report/releaseUrine`, values);
+
+

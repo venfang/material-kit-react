@@ -29,7 +29,7 @@ import Iconify from '../../../components/Iconify';
 import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import SequenceBar from '../../../layouts/dashboard/SequenceBar';
 
-import { getReport, confirmBloodTest, confirmImmunology, confirmBiochemistry, confirmUrine } from '../../../data/lab/lab';
+import { getReport, confirmBloodTest, confirmImmunology, confirmBiochemistry, confirmUrine, releaseBloodTest, releaseImmunology, releaseBiochemistry, releaseUrine } from '../../../data/lab/lab';
 import { getComment } from '../../../data/comment/comment';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -46,7 +46,7 @@ const ThreePlusMinus_Option = [{ value: "", label: "" }, { value: "neg", label: 
 const ThreePlus_Option = [{ value: "", label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
 const PosNeg_Option = [{ value: "", label: "" }, { value: "1", label: "Positive" }, { value: "2", label: "Negative" }];
 const NonReactive_Option = [{ value: "", label: "" }, { value: "1", label: "Reactive" }, { value: "2", label: "Non Reactive" }];
-
+const AntiHBs_Status_Option = [{ value: "", label: "" }, { value: "1", label: "Non Immune" }, { value: "2", label: "Low Level Immune" }, { value: "3", label: "Immune" }]
 const BloodType_Option = [{ value: "", label: "" }, { value: "1", label: "Type A" }, { value: "2", label: "Type B" }, { value: "3", label: "Type O" }, { value: "4", label: "Type AB" }];
 
 export default function Lab() {
@@ -189,6 +189,11 @@ export default function Lab() {
                   RFFT4_previous: '',
                   RFFT4_past: '',
                   RFFT4_unit: 'pmol/L',
+
+                  FT3_current: '',
+                  FT3_previous: '',
+                  FT3_past: '',
+                  FT3_unit: '',
 
                   Hpyloriab_current: '',
                   Hpyloriab_previous: '',
@@ -432,22 +437,32 @@ export default function Lab() {
             validationSchema: LabSchema,
             onSubmit: () => {
                   formik.setSubmitting(true);
-                  if (submitAction === "immunology") {
-                        immunology();
-                  } else if (submitAction === "blood_test") {
-                        bloodTest();
+                  if (submitAction === "immunologyConfirm") {
+                        immunologyConfirm();
+                  } else if (submitAction === "bloodTestConfirm") {
+                        bloodTestConfirm();
                   }
-                  else if (submitAction === "urine") {
-                        urine();
-                  } else if (submitAction === "biochemistry") {
-                        biochemistry();
+                  else if (submitAction === "urineConfirm") {
+                        urineConfirm();
+                  } else if (submitAction === "biochemistryConfirm") {
+                        biochemistryConfirm();
+                  }
+                  else if (submitAction === "immunologyRelease") {
+                        immunologyRelease();
+                  } else if (submitAction === "bloodTestRelease") {
+                        bloodTestRelease();
+                  }
+                  else if (submitAction === "urineRelease") {
+                        urineRelease();
+                  } else if (submitAction === "biochemistryRelease") {
+                        biochemistryRelease();
                   }
 
             },
       });
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-      function bloodTest() {
+      function bloodTestConfirm() {
             const formValues = {
                   report_id: report_id,
                   BloodHB: values.BloodHB_current,
@@ -473,7 +488,7 @@ export default function Lab() {
                         AlertBox(
                               'success',
                               'Update Successfully',
-                              "Blood Test has been updated.",
+                              "Blood Test has been confirm.",
                               false,
                               '',
                               true,
@@ -499,7 +514,7 @@ export default function Lab() {
                   );
 
       }
-      function immunology() {
+      function immunologyConfirm() {
             formik.setSubmitting(true);
             const formValues = {
                   report_id: report_id,
@@ -537,7 +552,7 @@ export default function Lab() {
                         AlertBox(
                               'success',
                               'Update Successfully',
-                              "Immunology has been updated.",
+                              "Immunology has been confirm.",
                               false,
                               '',
                               true,
@@ -559,9 +574,8 @@ export default function Lab() {
                               'OK')
                   }
                   );
-            formik.setSubmitting(false);
       }
-      function urine() {
+      function urineConfirm() {
             formik.setSubmitting(true);
             const formValues = {
                   report_id: report_id,
@@ -588,13 +602,14 @@ export default function Lab() {
                   UBOther: values.UBOther_current,
                   urine_confirm_staff: Cookies.get('name'),
             };
+            console.log(formValues);
             confirmUrine(formValues)
                   .then((response) => {
                         formik.setSubmitting(false);
                         AlertBox(
                               'success',
                               'Update Successfully',
-                              "Urine has been updated.",
+                              "Urine has been confirm.",
                               false,
                               '',
                               true,
@@ -618,9 +633,8 @@ export default function Lab() {
                               });
                   }
                   );
-            formik.setSubmitting(false);
       }
-      function biochemistry() {
+      function biochemistryConfirm() {
             formik.setSubmitting(true);
             const formValues = {
                   report_id: report_id,
@@ -656,7 +670,7 @@ export default function Lab() {
                         AlertBox(
                               'success',
                               'Update Successfully',
-                              "Biochemistry has been updated.",
+                              "Biochemistry has been confirm.",
                               false,
                               '',
                               true,
@@ -680,10 +694,245 @@ export default function Lab() {
                   }
                   );
       }
+
+
+      function bloodTestRelease() {
+            const formValues = {
+                  report_id: report_id,
+                  BloodHB: values.BloodHB_current,
+                  BloodRBC: values.BloodRBC_current,
+                  BloodWBC: values.BloodWBC_current,
+                  BloodW1: values.BloodW1_current,
+                  BloodW2: values.BloodW2_current,
+                  BloodW3: values.BloodW3_current,
+                  BloodW4: values.BloodW4_current,
+                  BloodW5: values.BloodW5_current,
+                  BloodPLT: values.BloodPLT_current,
+                  BloodHCT: values.BloodHCT_current,
+                  BloodMCH: values.BloodMCH_current,
+                  BloodMCV: values.BloodMCV_current,
+                  BloodMCHC: values.BloodMCHC_current,
+                  BloodType: values.BloodType_current,
+                  BloodRH: values.BloodRH_current,
+                  blood_release_staff: Cookies.get('name'),
+            };
+            releaseBloodTest(formValues)
+                  .then((response) => {
+                        formik.setSubmitting(false);
+                        AlertBox(
+                              'success',
+                              'Update Successfully',
+                              "Blood Test has been release.",
+                              false,
+                              '',
+                              true,
+                              'OK'
+                        )
+                              .then(() => {
+                                    window.location.reload();
+                              });
+                  })
+                  .catch((error) => {
+                        formik.setSubmitting(false);
+                        AlertBox(
+                              'error',
+                              'Release Failed',
+                              error.response.data.message,
+                              false,
+                              '',
+                              true,
+                              'OK').then(() => {
+
+                              });
+                  }
+                  );
+
+      }
+      function immunologyRelease() {
+            formik.setSubmitting(true);
+            const formValues = {
+                  report_id: report_id,
+                  HBsag_Value: values.HBsag_Value_current,
+                  HBsag_Status: values.HBsag_Status_current,
+                  AntiHBs_Value: values.AntiHBs_Value_current,
+                  AntiHBs_Status: values.AntiHBs_Status_current,
+                  RANormal_Value: values.RANormal_Value_current,
+                  RANormal_Status: values.RANormal_Status_current,
+                  HavIgG_Value: values.HavIgG_Value_current,
+                  HavIgG_Status: values.HavIgG_Status_current,
+                  HIVNormal_Value: values.HIVNormal_Value_current,
+                  HIVNormal_Status: values.HIVNormal_Status_current,
+                  VDRLNormal: values.VDRLNormal_current,
+                  FT3: values.FT3_current,
+                  RFFT4: values.RFFT4_current,
+                  Hpyloriab: values.Hpyloriab_current,
+                  YFPLevel: values.YFPLevel_current,
+                  CEALevel: values.CEALevel_current,
+                  CA15_3: values.CA15_3_current,
+                  CA125: values.CA125_current,
+                  CA19_9: values.CA19_9_current,
+                  EBV_Value: values.EBV_Value_current,
+                  EBV_Status: values.EBV_Status_current,
+                  PSA: values.PSA_current,
+                  RFTSH: values.RFTSH_current,
+                  Homocy: values.Homocy_current,
+                  CVirus: values.CVirus_current,
+                  immunology_release_staff: Cookies.get('name'),
+            };
+            console.log(formValues);
+            releaseImmunology(formValues)
+                  .then((response) => {
+                        formik.setSubmitting(false);
+                        AlertBox(
+                              'success',
+                              'Update Successfully',
+                              "Immunology has been release.",
+                              false,
+                              '',
+                              true,
+                              'OK'
+                        )
+                              .then(() => {
+                                    window.location.reload();
+                              });
+                  })
+                  .catch((error) => {
+                        formik.setSubmitting(false);
+                        AlertBox(
+                              'error',
+                              'Update Failed',
+                              error.response.data.message,
+                              false,
+                              '',
+                              true,
+                              'OK')
+                  }
+                  );
+
+      }
+      function urineRelease() {
+            formik.setSubmitting(true);
+            const formValues = {
+                  report_id: report_id,
+                  URLook: values.URLook_current,
+                  UREW: values.UREW_current,
+                  URS: values.URS_current,
+                  URBR: values.URBR_current,
+                  URUBR: values.URUBR_current,
+                  UBBH: values.UBBH_current,
+                  UBKU: values.UBKU_current,
+                  UBSNO: values.UBSNO_current,
+                  URLEU: values.URLEU_current,
+                  URDENS: values.URDENS_current,
+                  URTest: values.URTest_current,
+                  UBRBC1: values.UBRBC1_current,
+                  UBRBC2: values.UBRBC2_current,
+                  UBWBC1: values.UBWBC1_current,
+                  UBWBC2: values.UBWBC2_current,
+                  UBEPlit1: values.UBEPlit1_current,
+                  UBEPlit2: values.UBEPlit2_current,
+                  Cast1: values.Cast1_current,
+                  Cast2: values.Cast2_current,
+                  Bacter: values.Bacter_current,
+                  UBOther: values.UBOther_current,
+                  urine_release_staff: Cookies.get('name'),
+            };
+            releaseUrine(formValues)
+                  .then((response) => {
+                        formik.setSubmitting(false);
+                        AlertBox(
+                              'success',
+                              'Update Successfully',
+                              "Urine has been release.",
+                              false,
+                              '',
+                              true,
+                              'OK'
+                        )
+                              .then(() => {
+                                    window.location.reload();
+                              });
+                  })
+                  .catch((error) => {
+                        formik.setSubmitting(false);
+                        AlertBox(
+                              'error',
+                              'Release Failed',
+                              error.response.data.message,
+                              false,
+                              '',
+                              true,
+                              'OK').then(() => {
+
+                              });
+                  }
+                  );
+
+      }
+      function biochemistryRelease() {
+            formik.setSubmitting(true);
+            const formValues = {
+                  report_id: report_id,
+                  hs_CRP: values.hs_CRP_current,
+                  HbA1c: values.HbA1c_current,
+                  UFBUN: values.UFBUN_current,
+                  UFCRE: values.UFCRE_current,
+                  EFCA: values.EFCA_current,
+                  EFP: values.EFP_current,
+                  UFUA: values.UFUA_current,
+                  TFTP: values.TFTP_current,
+                  TFALB: values.TFALB_current,
+                  TFGLO: values.TFGLO_current,
+                  TFTBIL: values.TFTBIL_current,
+                  TFALP: values.TFALP_current,
+                  TFsGOT: values.TFsGOT_current,
+                  TFsGPT: values.TFsGPT_current,
+                  TFYGT: values.TFYGT_current,
+                  Glucose: values.Glucose_current,
+                  BGTG: values.BGTG_current,
+                  BGCHOL: values.BGCHOL_current,
+                  BGHDLC: values.BGHDLC_current,
+                  BGLDLC: values.BGLDLC_current,
+                  BGCH: values.BGCH_current,
+                  Sodium: values.Sodium_current,
+                  Potassium: values.Potassium_current,
+                  Chloride: values.Chloride_current,
+                  biochemistry_release_staff: Cookies.get('name'),
+            };
+            releaseBiochemistry(formValues)
+                  .then((response) => {
+                        formik.setSubmitting(false);
+                        AlertBox(
+                              'success',
+                              'Update Successfully',
+                              "Biochemistry has been release.",
+                              false,
+                              '',
+                              true,
+                              'OK'
+                        )
+                              .then(() => {
+                                    window.location.reload();
+                              });
+                  })
+                  .catch((error) => {
+                        formik.setSubmitting(false);
+                        AlertBox(
+                              'error',
+                              'Release Failed',
+                              error.response.data.message,
+                              false,
+                              '',
+                              true,
+                              'OK')
+
+                  }
+                  );
+      }
       return (
             <Page Page title="Edit"  >
                   <Loader spinner={isSubmitting} />
-                  <SequenceBar topValue={topValue} report={{ report_id: formik.values.report_id, last_name: formik.values.last_name, first_name: formik.values.first_name, age: formik.values.age, package_id: formik.values.package_id, gender: formik.values.gender }} />
+                  <SequenceBar topValue={topValue} report={{ report_id: formik.values.report_id, last_name: formik.values.last_name, first_name: formik.values.first_name, age: formik.values.age, package_id: formik.values.package_id, package_name: formik.values.package_name, gender: formik.values.gender, barcode: formik.values.barcode }} />
                   <Container sx={{ marginTop: 11, width: "100%", height: "100%" }} disableGutters={true} >
                         <TabContext value={value} sx={{
                               margin: 0,
@@ -721,10 +970,10 @@ export default function Lab() {
                                                       }}
 
                                                 >
-                                                      {formik.values.immunology_confirm_staff !== "1" && <Tab label="Immunology" value="1" />}
-                                                      {formik.values.biochemistry_confirm_staff !== "1" && <Tab label="Biochemistry" value="2" />}
-                                                      {formik.values.urine_confirm_staff !== "1" && <Tab label="Urine, Faeces & Groups" value="3" />}
-                                                      {formik.values.blood_confirm_staff !== "1" && <Tab label="Blood Test" value="4" />}
+                                                      <Tab label="Immunology" value="1" />
+                                                      <Tab label="Biochemistry" value="2" />
+                                                      <Tab label="Urine, Faeces & Groups" value="3" />
+                                                      <Tab label="Blood Test" value="4" />
                                                 </Tabs>
                                           </Stack>
                                     </Box>
@@ -734,7 +983,8 @@ export default function Lab() {
                                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                                           <TabPanel value="1">
                                                 <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", paddingTop: 1 }}>
-                                                      {values.immunology_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.immunology_confirm_staff} updated at {values.immunology_confirm_date}</Typography>}
+                                                      {values.immunology_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.immunology_confirm_staff} confirmed at {values.immunology_confirm_date}</Typography>}
+                                                      {values.immunology_release_staff !== null && values.immunology_confirm_staff === null && <Typography sx={{ fontSize: 12 }}>{values.immunology_release_staff} released at {values.immunology_release_date}</Typography>}
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
@@ -870,7 +1120,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('RFTSH_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -879,7 +1129,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('RFTSH_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -906,7 +1156,7 @@ export default function Lab() {
                                                                                                 {...getFieldProps('AntiHBs_Status_current')}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
-                                                                                                {PosNeg_Option.map((AntiHBs) => (
+                                                                                                {AntiHBs_Status_Option.map((AntiHBs) => (
                                                                                                       <MenuItem
                                                                                                             value={AntiHBs.value}
                                                                                                             key={AntiHBs.value}
@@ -933,7 +1183,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('AntiHBs_Status_previous')}
                                                                                           style={{ textAlign: 'left' }}
                                                                                     >
-                                                                                          {PosNeg_Option.map((AntiHBs) => (
+                                                                                          {AntiHBs_Status_Option.map((AntiHBs) => (
                                                                                                 <MenuItem
                                                                                                       value={AntiHBs.value}
                                                                                                       key={AntiHBs.value}
@@ -960,7 +1210,7 @@ export default function Lab() {
                                                                                           style={{ textAlign: 'left' }}
                                                                                           disabled
                                                                                     >
-                                                                                          {PosNeg_Option.map((AntiHBs) => (
+                                                                                          {AntiHBs_Status_Option.map((AntiHBs) => (
                                                                                                 <MenuItem
                                                                                                       value={AntiHBs.value}
                                                                                                       key={AntiHBs.value}
@@ -975,12 +1225,12 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className={values.FT3_current === null ? 'textField' : 'textField_red'}
+                                                                                          className={values.FT3_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('FT3_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment>}
 
                                                                                     />
-                                                                                    <FormHelperText error id="RFFT4_current-FT3_current" sx={{ fontWeight: 600 }}>
+                                                                                    <FormHelperText error id="FT3_current-FT3_current" sx={{ fontWeight: 600 }}>
                                                                                           {touched.FT3_current && errors.FT3_current}
                                                                                     </FormHelperText>
 
@@ -990,7 +1240,7 @@ export default function Lab() {
                                                                                           className={values.FT3_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('FT3_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
 
@@ -998,14 +1248,15 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <InputBase
                                                                                           disabled
-                                                                                          className={values.FT3_past === null ? 'textField' : 'textField_red'}
+                                                                                          className={values.FT3_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('FT3_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
 
                                                                               </TableCell>
                                                                         </TableRow>
+
                                                                         <TableRow >
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">Total Anti-HAV</Typography>
@@ -1110,7 +1361,7 @@ export default function Lab() {
                                                                                           className={values.RFFT4_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('RFFT4_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFFT4_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.RFFT4_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
 
@@ -1120,7 +1371,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.RFFT4_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('RFFT4_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFFT4_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.RFFT4_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
 
@@ -1235,7 +1486,7 @@ export default function Lab() {
                                                                                           className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('YFPLevel_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
 
@@ -1245,17 +1496,41 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('YFPLevel_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
 
                                                                               </TableCell>
                                                                         </TableRow>
+
+
                                                                         <TableRow>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> <Button
+                                                                                    size="large"
+                                                                                    type="button"
+                                                                                    variant="contained"
+                                                                                    onClick={() => {
+                                                                                          setSubmitAction("immunologyConfirm");
+                                                                                          handleSubmit();
+                                                                                    }}
+                                                                              >
+                                                                                    Confirm
+                                                                              </Button></TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}>
+                                                                                    {values.immunology_release_staff !== null && values.immunology_confirm_staff === null && <Button
+                                                                                          size="large"
+                                                                                          type="button"
+                                                                                          variant="contained"
+                                                                                          onClick={() => {
+                                                                                                setSubmitAction("immunologyRelease");
+                                                                                                handleSubmit();
+                                                                                          }}
+                                                                                    >
+                                                                                          Release
+                                                                                    </Button>}
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">CEA (General/Smoker)</Typography>
                                                                               </TableCell>
@@ -1276,7 +1551,7 @@ export default function Lab() {
                                                                                           className={values.CEALevel_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('CEALevel_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CEALevel_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.CEALevel_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1285,7 +1560,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.CEALevel_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('CEALevel_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CEALevel_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.CEALevel_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1378,8 +1653,7 @@ export default function Lab() {
                                                                                     </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
+                                                                        </TableRow><TableRow>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
@@ -1441,8 +1715,7 @@ export default function Lab() {
                                                                                           </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
+                                                                        </TableRow><TableRow>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
@@ -1618,7 +1891,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('PSA_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.PSA_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.PSA_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1627,7 +1900,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('PSA_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.PSA_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.PSA_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1657,7 +1930,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA15_3_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1666,7 +1939,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA15_3_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1696,7 +1969,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA125_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1705,7 +1978,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA125_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1735,7 +2008,7 @@ export default function Lab() {
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA19_9_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1744,7 +2017,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA19_9_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1774,7 +2047,7 @@ export default function Lab() {
                                                                                           className={values.Hpyloriab_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Hpyloriab_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
 
@@ -1784,7 +2057,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.Hpyloriab_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Hpyloriab_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
 
@@ -1809,21 +2082,21 @@ export default function Lab() {
                                                                                           {touched.Homocy_current && errors.Homocy_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
-                                                                              <TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           className={values.Homocy_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Homocy_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Homocy_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.Homocy_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
-                                                                              <TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           disabled
                                                                                           className={values.Homocy_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Homocy_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Homocy_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.Homocy_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1832,21 +2105,14 @@ export default function Lab() {
 
 
                                                             </Table>
-                                                            <Button
-                                                                  size="large"
-                                                                  variant="contained"
-                                                                  onClick={() => {
-                                                                        setSubmitAction("immunology");
-                                                                        handleSubmit();
-                                                                  }}>
-                                                                  Confirm
-                                                            </Button>
+
                                                       </TableContainer>
                                                 </Container>
                                           </TabPanel>
                                           <TabPanel value="2">
                                                 <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", paddingTop: 1 }}>
-                                                      {values.biochemistry_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.biochemistry_confirm_staff} updated at {values.biochemistry_confirm_date}</Typography>}
+                                                      {values.biochemistry_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.biochemistry_confirm_staff} confirmed at {values.biochemistry_confirm_date}</Typography>}
+                                                      {values.biochemistry_release_staff !== null && values.biochemistry_confirm_staff === null && <Typography sx={{ fontSize: 12 }}>{values.biochemistry_release_staff} released at {values.biochemistry_release_date}</Typography>}
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
@@ -1910,7 +2176,7 @@ export default function Lab() {
                                                                                           className={values.Glucose_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Glucose_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Glucose_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.Glucose_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1919,7 +2185,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.Glucose_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Glucose_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Glucose_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.Glucose_unit}</Typography></InputAdornment> : null}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell align="right" >
@@ -1941,7 +2207,7 @@ export default function Lab() {
                                                                                           className={values.UFUA_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFUA_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFUA_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.UFUA_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1950,7 +2216,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.UFUA_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFUA_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFUA_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.UFUA_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1975,7 +2241,7 @@ export default function Lab() {
                                                                                           className={values.HbA1c_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HbA1c_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HbA1c_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.HbA1c_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -1984,7 +2250,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.HbA1c_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('HbA1c_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HbA1c_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.HbA1c_unit}</Typography></InputAdornment> : null}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell align="right" >
@@ -2020,7 +2286,7 @@ export default function Lab() {
                                                                                           className={values.BGTG_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGTG_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGTG_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGTG_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2029,7 +2295,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.BGTG_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGTG_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGTG_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGTG_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2054,7 +2320,7 @@ export default function Lab() {
                                                                                           className={values.TFTBIL_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFTBIL_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTBIL_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFTBIL_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2063,7 +2329,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.TFTBIL_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTBIL_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTBIL_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFTBIL_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2086,7 +2352,7 @@ export default function Lab() {
                                                                                           className={values.BGCHOL_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGCHOL_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCHOL_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGCHOL_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2095,7 +2361,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.BGCHOL_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCHOL_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCHOL_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGCHOL_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2120,7 +2386,7 @@ export default function Lab() {
                                                                                           className={values.TFTP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFTP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTP_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFTP_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2129,7 +2395,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.TFTP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTP_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTP_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFTP_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2152,7 +2418,7 @@ export default function Lab() {
                                                                                           className={values.BGHDLC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGHDLC_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGHDLC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGHDLC_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2161,7 +2427,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.BGHDLC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGHDLC_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGHDLC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGHDLC_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2186,7 +2452,7 @@ export default function Lab() {
                                                                                           className={values.TFALB_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFALB_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALB_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFALB_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2195,7 +2461,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.TFALB_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALB_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALB_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFALB_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2218,7 +2484,7 @@ export default function Lab() {
                                                                                           className={values.BGLDLC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGLDLC_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGLDLC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGLDLC_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2227,7 +2493,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.BGLDLC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGLDLC_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGLDLC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGLDLC_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2252,7 +2518,7 @@ export default function Lab() {
                                                                                           className={values.TFGLO_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFGLO_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFGLO_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFGLO_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2261,7 +2527,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.TFGLO_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFGLO_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFGLO_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFGLO_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2284,7 +2550,7 @@ export default function Lab() {
                                                                                           className={values.BGCH_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGCH_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCH_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGCH_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2293,7 +2559,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.BGCH_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCH_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCH_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.BGCH_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2318,7 +2584,7 @@ export default function Lab() {
                                                                                           className={values.TFALP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFALP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALP_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFALP_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2327,7 +2593,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.TFALP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALP_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALP_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFALP_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2358,7 +2624,7 @@ export default function Lab() {
                                                                                           className={values.TFsGOT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFsGOT_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGOT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFsGOT_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2367,7 +2633,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.TFsGOT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGOT_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGOT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFsGOT_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2390,7 +2656,7 @@ export default function Lab() {
                                                                                           className={values.EFCA_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('EFCA_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFCA_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.EFCA_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2399,7 +2665,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.EFCA_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFCA_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFCA_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.EFCA_unit}</Typography></InputAdornment> : null}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -2423,7 +2689,7 @@ export default function Lab() {
                                                                                           className={values.TFsGPT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFsGPT_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGPT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFsGPT_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2432,7 +2698,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.TFsGPT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGPT_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGPT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFsGPT_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2455,7 +2721,7 @@ export default function Lab() {
                                                                                           className={values.EFP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('EFP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFP_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.EFP_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2464,7 +2730,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.EFP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFP_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFP_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.EFP_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2489,7 +2755,7 @@ export default function Lab() {
                                                                                           className={values.TFYGT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFYGT_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFYGT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFYGT_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2498,7 +2764,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.TFYGT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFYGT_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFYGT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.TFYGT_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2535,7 +2801,7 @@ export default function Lab() {
                                                                                           className={values.hs_CRP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('hs_CRP_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2544,7 +2810,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.hs_CRP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('hs_CRP_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2570,7 +2836,7 @@ export default function Lab() {
                                                                                           className={values.UFBUN_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFBUN_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2579,7 +2845,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.UFBUN_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2603,7 +2869,7 @@ export default function Lab() {
                                                                                           className={values.UFCRE_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFCRE_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFCRE_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.UFCRE_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2612,15 +2878,43 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.UFCRE_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> <Button
+                                                                                    size="large"
+                                                                                    type="button"
+                                                                                    variant="contained"
+                                                                                    onClick={() => {
+                                                                                          setSubmitAction("biochemistryConfirm");
+                                                                                          handleSubmit();
+                                                                                    }}
+                                                                              >
+                                                                                    Confirm
+                                                                              </Button></TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}>
+                                                                                    {values.biochemistry_release_staff !== null && values.biochemistry_confirm_staff === null && <Button
+                                                                                          size="large"
+                                                                                          type="button"
+                                                                                          variant="contained"
+                                                                                          onClick={() => {
+                                                                                                setSubmitAction("biochemistryRelease");
+                                                                                                handleSubmit();
+                                                                                          }}
+                                                                                    >
+                                                                                          Release
+                                                                                    </Button>
+                                                                                    }
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label_group">Electrolytes</Typography>
                                                                               </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
@@ -2645,7 +2939,7 @@ export default function Lab() {
                                                                                           className={values.Sodium_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Sodium_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Sodium_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.Sodium_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2654,7 +2948,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.Sodium_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Sodium_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Sodium_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.Sodium_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2679,7 +2973,7 @@ export default function Lab() {
                                                                                           className={values.Potassium_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Potassium_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Potassium_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.Potassium_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2688,7 +2982,7 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.Potassium_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Potassium_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Potassium_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.Potassium_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2713,7 +3007,7 @@ export default function Lab() {
                                                                                           className={values.Chloride_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Chloride_previous')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Chloride_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.Chloride_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
@@ -2722,30 +3016,20 @@ export default function Lab() {
                                                                                           disabled
                                                                                           className={values.Chloride_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Chloride_past')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Chloride_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.Chloride_unit}</Typography></InputAdornment> : null}
 
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
                                                                   </TableBody>
                                                             </Table>
-                                                            <Button
-                                                                  size="large"
-                                                                  type="button"
-                                                                  variant="contained"
-                                                                  onClick={() => {
-                                                                        setSubmitAction("biochemistry");
-                                                                        handleSubmit();
-                                                                  }}
-                                                            >
-                                                                  Confirm
-                                                            </Button>
                                                       </TableContainer>
                                                 </Container>
                                           </TabPanel>
                                           <TabPanel value="3">
                                                 <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", paddingTop: 1 }}>
                                                       {values.urine_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.urine_confirm_staff} updated at {values.urine_confirm_date}</Typography>}
+                                                      {values.urine_release_staff !== null && values.urine_confirm_staff === null && <Typography sx={{ fontSize: 12 }}>{values.urine_release_staff} released at {values.urine_release_date}</Typography>}
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
@@ -2864,11 +3148,13 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className='textField'
                                                                                           {...getFieldProps('UBRBC1_current')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
                                                                                           className='textField'
                                                                                           {...getFieldProps('UBRBC2_current')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
@@ -2877,12 +3163,14 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className='textField'
                                                                                           {...getFieldProps('UBRBC1_previous')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
                                                                                           className='textField'
                                                                                           {...getFieldProps('UBRBC2_previous')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
 
@@ -2892,12 +3180,14 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className='textField'
                                                                                           {...getFieldProps('UBRBC1_past')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
                                                                                           className='textField'
                                                                                           {...getFieldProps('UBRBC2_past')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -2975,11 +3265,13 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBWBC1_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC1_current')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBWBC2_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC2_current')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
@@ -2988,12 +3280,14 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBWBC1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC1_previous')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBWBC2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC2_previous')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
 
@@ -3003,12 +3297,14 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBWBC1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC1_past')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBWBC2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBWBC2_past')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3086,11 +3382,13 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBEPlit1_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit1_current')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBEPlit2_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit2_current')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
@@ -3099,12 +3397,14 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBEPlit1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit1_previous')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBEPlit2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit2_previous')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
 
@@ -3114,12 +3414,14 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBEPlit1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit1_past')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.UBEPlit2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UBEPlit2_past')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3200,11 +3502,13 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.Cast1_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast1_current')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.Cast2_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast2_current')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
@@ -3213,12 +3517,14 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.Cast1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast1_previous')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.Cast2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast2_previous')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
 
@@ -3228,12 +3534,14 @@ export default function Lab() {
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.Cast1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast1_past')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                                     <InputBase
                                                                                           disabled
                                                                                           sx={{ width: "50%" }}
                                                                                           className={values.Cast2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Cast2_past')}
+                                                                                          placeholder="[NIL]"
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3439,7 +3747,7 @@ export default function Lab() {
                                                                               <TableCell align="right" >
                                                                                     <Typography variant="label">Other</Typography>
                                                                               </TableCell>
-                                                                              <TableCell >
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 error={Boolean(touched.UBOther_current && errors.UBOther_current)}
@@ -3460,7 +3768,7 @@ export default function Lab() {
                                                                                     </FormControl>
 
                                                                               </TableCell>
-                                                                              <TableCell >
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           disabled
                                                                                           className='textField'
@@ -3468,7 +3776,7 @@ export default function Lab() {
                                                                                     />
 
                                                                               </TableCell>
-                                                                              <TableCell >
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           disabled
                                                                                           className='textField'
@@ -3611,6 +3919,32 @@ export default function Lab() {
                                                                                           </FormHelperText>
                                                                                     </FormControl>
                                                                               </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> <Button
+                                                                                    size="large"
+                                                                                    type="button"
+                                                                                    variant="contained"
+                                                                                    onClick={() => {
+                                                                                          setSubmitAction("urineConfirm");
+                                                                                          handleSubmit();
+                                                                                    }}
+                                                                              >
+                                                                                    Confirm
+                                                                              </Button></TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}>
+                                                                                    {values.urine_release_staff !== null && values.urine_confirm_staff === null && <Button
+                                                                                          size="large"
+                                                                                          type="button"
+                                                                                          variant="contained"
+                                                                                          onClick={() => {
+                                                                                                setSubmitAction("urineRelease");
+                                                                                                handleSubmit();
+                                                                                          }}
+                                                                                    >
+                                                                                          Release
+                                                                                    </Button>}
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
                                                                               <TableCell align="right" >
@@ -3715,7 +4049,7 @@ export default function Lab() {
                                                                               <TableCell align="right">
                                                                                     <Typography variant="label">PH</Typography>
                                                                               </TableCell>
-                                                                              <TableCell >
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           className={values.URTest_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('URTest_current')}
@@ -3726,7 +4060,7 @@ export default function Lab() {
                                                                                           {touched.URTest_current && errors.URTest_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
-                                                                              <TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           className={values.URTest_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
@@ -3734,7 +4068,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('URTest_previous')}
                                                                                     />
                                                                               </TableCell>
-                                                                              <TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
                                                                                           className={values.URTest_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
@@ -3746,22 +4080,13 @@ export default function Lab() {
 
                                                                   </TableBody>
                                                             </Table>
-                                                            <Button
-                                                                  size="large"
-                                                                  variant="contained"
-                                                                  onClick={() => {
-                                                                        setSubmitAction("urine");
-                                                                        handleSubmit();
-                                                                  }}>
-
-                                                                  Confirm
-                                                            </Button>
                                                       </TableContainer>
                                                 </Container>
                                           </TabPanel>
                                           <TabPanel value="4">
                                                 <Container sx={{ backgroundColor: "#FFFFFF", height: "100%", paddingTop: 1 }}>
-                                                      {values.blood_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.blood_confirm_staff} updated at {values.blood_confirm_date}</Typography>}
+                                                      {values.blood_confirm_staff !== null && <Typography sx={{ fontSize: 12 }}>{values.blood_confirm_staff} confirmed at {values.blood_confirm_date}</Typography>}
+                                                      {values.blood_release_staff !== null && values.blood_confirm_staff === null && <Typography sx={{ fontSize: 12 }}>{values.blood_release_staff} released at {values.blood_release_date}</Typography>}
                                                       <TableContainer
                                                             component={Paper}
                                                             sx={{
@@ -3810,7 +4135,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodWBC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodWBC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodWBC_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodWBC_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -3818,7 +4143,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodWBC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodWBC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodWBC_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodWBC_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3848,7 +4173,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodRBC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodRBC_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -3856,7 +4181,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodRBC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodRBC_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3878,7 +4203,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW1_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -3886,7 +4211,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW1_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3910,7 +4235,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodHB_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodHB_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -3918,7 +4243,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodHB_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodHB_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3940,7 +4265,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW2_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -3948,7 +4273,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW2_past')}
                                                                                     />
                                                                               </TableCell>
@@ -3972,7 +4297,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodHCT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodHCT_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -3980,7 +4305,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodHCT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodHCT_past')}
                                                                                     />
                                                                               </TableCell>
@@ -4002,7 +4327,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW3_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW3_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -4010,7 +4335,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW3_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW3_past')}
                                                                                     />
                                                                               </TableCell>
@@ -4034,7 +4359,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodMCV_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodMCV_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -4042,7 +4367,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodMCV_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodMCV_past')}
                                                                                     />
                                                                               </TableCell>
@@ -4064,7 +4389,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW4_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW4_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -4072,7 +4397,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW4_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW4_past')}
                                                                                     />
                                                                               </TableCell>
@@ -4096,7 +4421,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodMCH_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodMCH_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -4104,7 +4429,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodMCH_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodMCH_past')}
                                                                                     />
                                                                               </TableCell>
@@ -4126,7 +4451,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW5_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW5_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -4134,7 +4459,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodW5_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodW5_past')}
                                                                                     />
                                                                               </TableCell>
@@ -4158,7 +4483,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodMCHC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodMCHC_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -4166,7 +4491,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodMCHC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodMCHC_past')}
                                                                                     />
                                                                               </TableCell>
@@ -4180,7 +4505,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodPLT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodPLT_current')}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></Typography></InputAdornment>}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment>}
                                                                                           error={Boolean(touched.BloodPLT_current && errors.BloodPLT_current)}
                                                                                     />
                                                                                     <FormHelperText error id="BloodPLT_current-error" sx={{ fontWeight: 600 }}>
@@ -4191,7 +4516,7 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodPLT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodPLT_previous')}
                                                                                     />
                                                                               </TableCell>
@@ -4199,10 +4524,36 @@ export default function Lab() {
                                                                                     <InputBase
                                                                                           className={values.BloodPLT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment>}
+                                                                                          endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodPLT_past')}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> <Button
+                                                                                    size="large"
+                                                                                    type="button"
+                                                                                    variant="contained"
+                                                                                    onClick={() => {
+                                                                                          setSubmitAction("bloodTestConfirm");
+                                                                                          handleSubmit();
+                                                                                    }}
+                                                                              >
+                                                                                    Confirm
+                                                                              </Button></TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}>
+                                                                                    {values.blood_release_staff !== null && values.blood_confirm_staff === null && <Button
+                                                                                          size="large"
+                                                                                          type="button"
+                                                                                          variant="contained"
+                                                                                          onClick={() => {
+                                                                                                setSubmitAction("bloodTestRelease");
+                                                                                                handleSubmit();
+                                                                                          }}
+                                                                                    >
+                                                                                          Release
+                                                                                    </Button>}
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -4355,15 +4706,6 @@ export default function Lab() {
                                                                         </TableRow>
                                                                   </TableBody>
                                                             </Table>
-                                                            <Button
-                                                                  size="large"
-                                                                  variant="contained"
-                                                                  onClick={() => {
-                                                                        setSubmitAction("blood_test");
-                                                                        handleSubmit();
-                                                                  }}>
-                                                                  Confirm
-                                                            </Button>
                                                       </TableContainer>
                                                 </Container>
                                           </TabPanel>
