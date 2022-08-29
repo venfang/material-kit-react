@@ -105,22 +105,10 @@ export default function DashboardNavbar({ onOpenSidebar }) {
               <Logo
                 sx={{
                   mx: 1,
-                  width: { xs: '40px !important', lg: '60px !important' },
+                  width: { xs: '40px !important', lg: '150px !important' },
                   height: { xs: '40px !important', lg: '60px !important' },
                 }}
               />
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  flexDirection: 'column',
-                }}
-              >
-                <Typography variant="h5" sx={{ mx: 2 }}>
-                  BIOGENIX
-                </Typography>
-              </Box>
             </Box>
           </Stack>
 

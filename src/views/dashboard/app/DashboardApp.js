@@ -17,6 +17,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import ArticleIcon from '@mui/icons-material/Article';
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import ScienceIcon from '@mui/icons-material/Science';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import GroupIcon from '@mui/icons-material/Group';
 import Page from '../../../components/Page';
 import Iconify from '../../../components/Iconify';
@@ -157,7 +158,7 @@ export default function DashboardApp() {
                 Health & Screening
               </Typography>
             </Box>
-            <Grid container spacing={3}  >
+            <Grid container spacing={1}  >
               <Grid item xs={12} sm={2} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/lab" sx={{ textDecoration: "none" }}>
                 <Card
                   sx={{
@@ -182,6 +183,34 @@ export default function DashboardApp() {
                     </Grid>
                     <Grid item sx={{ height: '30%' }}>
                       <Typography variant="label">{'Lab Test'}</Typography>
+                    </Grid>
+                  </Grid>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={2} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/lab" sx={{ textDecoration: "none" }}>
+                <Card
+                  sx={{
+                    position: 'relative',
+                    margin: '0 auto',
+                    p: 1,
+                    textAlign: 'center',
+                    width: 150,
+                    height: 150,
+                    background: 'linear-gradient(to top right, #eeeeee -50%, #ffffff 100%)',
+                  }}
+                >
+                  <Grid
+                    container
+                    direction={'column'}
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{ height: '100%' }}
+                  >
+                    <Grid item sx={{ height: '60%' }}>
+                      <SummarizeIcon sx={{ height: '100%', width: '100%', color: '#1e88e5' }} />
+                    </Grid>
+                    <Grid item sx={{ height: '30%' }}>
+                      <Typography variant="label">{'Verify Report'}</Typography>
                     </Grid>
                   </Grid>
                 </Card>

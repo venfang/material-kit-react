@@ -30,6 +30,7 @@ import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import SequenceBar from '../../../layouts/dashboard/SequenceBar';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
 
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
       [`&.${tableCellClasses.head}`]: {
             backgroundColor: "#1565c0",
@@ -84,6 +85,7 @@ export default function Lab() {
                                                 <StyledTableCell align="center">Biochemistry Test</StyledTableCell>
                                                 <StyledTableCell align="center">Urine Test</StyledTableCell>
                                                 <StyledTableCell align="center">Blood Test</StyledTableCell>
+                                                <StyledTableCell align="center">Verify report</StyledTableCell>
                                           </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -100,53 +102,54 @@ export default function Lab() {
                                                       colorImmunology = "#00c853";
                                                       textImmunology = "Completed";
                                                 }
-                                                else if (row.immunology_confirm_date === null && row.immunology_confirm_staff === null) {
-                                                      colorImmunology = "#e65100"
-                                                      textImmunology = "Pending";
+                                                else if (row.immunology_release_date !== null && row.immunology_release_staff !== null) {
+                                                      colorImmunology = "#1565c0"
+                                                      textImmunology = "Release";
                                                 }
                                                 else {
-                                                      colorImmunology = "transparent"
-                                                      textImmunology = "-";
+                                                      colorImmunology = "#e65100"
+                                                      textImmunology = "Pending";
                                                 }
 
                                                 if (row.blood_confirm_date !== null && row.blood_confirm_staff !== null) {
                                                       colorBlood = "#00c853";
                                                       textBlood = "Completed";
                                                 }
-                                                else if (row.blood_confirm_date === null && row.blood_confirm_staff === null) {
-                                                      colorBlood = "#e65100"
-                                                      textBlood = "Pending";
+                                                else if (row.blood_release_date !== null && row.blood_release_staff !== null) {
+                                                      colorBlood = "#1565c0"
+                                                      textBlood = "Release";
                                                 }
                                                 else {
-                                                      colorBlood = "transparent"
-                                                      textBlood = "-";
+                                                      colorBlood = "#e65100"
+                                                      textBlood = "Pending";
                                                 }
 
                                                 if (row.urine_confirm_date !== null && row.urine_confirm_staff !== null) {
                                                       colorUrine = "#00c853";
                                                       textUrine = "Completed";
                                                 }
-                                                else if (row.urine_confirm_date === null && row.urine_confirm_staff === null) {
-                                                      colorUrine = "#e65100"
-                                                      textUrine = "Pending";
+                                                else if (row.urine_release_date !== null && row.urine_release_staff !== null) {
+                                                      colorUrine = "#1565c0"
+                                                      textUrine = "Release";
                                                 }
                                                 else {
-                                                      colorUrine = "transparent"
-                                                      textUrine = "-";
+                                                      colorUrine = "#e65100"
+                                                      textUrine = "Pending";
                                                 }
 
                                                 if (row.biochemistry_confirm_date !== null && row.biochemistry_confirm_staff !== null) {
                                                       colorBiochemistry = "#00c853";
                                                       textBiochemistry = "Completed";
                                                 }
-                                                else if (row.biochemistry_confirm_date === null && row.biochemistry_confirm_staff === null) {
+                                                else if (row.biochemistry_release_date !== null && row.biochemistry_release_staff !== null) {
+                                                      colorBiochemistry = "#1565c0"
+                                                      textBiochemistry = "Release";
+                                                }
+                                                else {
                                                       colorBiochemistry = "#e65100"
                                                       textBiochemistry = "Pending";
                                                 }
-                                                else {
-                                                      colorBiochemistry = "transparent"
-                                                      textBiochemistry = "-";
-                                                }
+
 
                                                 return (
                                                       <StyledTableRow
@@ -188,6 +191,12 @@ export default function Lab() {
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBlood} /> {textBlood}</Typography>
                                                             </StyledTableCell>
+                                                            <StyledTableCell component="th" scope="row" align='center'>
+                                                                  <Button component={RouterLink} to={`./edit/${row.report_id}`}>
+                                                                        <Iconify icon="ant-design:file-pdf-outlined" />
+                                                                  </Button>
+                                                            </StyledTableCell>
+
                                                       </StyledTableRow>
                                                 )
                                           }

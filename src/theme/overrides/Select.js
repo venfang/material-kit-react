@@ -23,7 +23,23 @@ export default function Select(theme) {
       return {
             MuiSelect: {
                   styleOverrides: {
+
                         root: {
+                              "&.red": {
+                                    backgroundColor: "#FFFFFF",
+                                    boxShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.2)",
+                                    border: "0.1px solid #bdbdbd",
+                                    borderRadius: 2,
+                                    height: "40px",
+                                    fontWeight: 500,
+                                    color: "#FF0000 !important",
+                                    WebkitTextFillColor: "#FF0000 !important",
+                                    ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
+                                    '&.Mui-disabled': {
+                                          backgroundColor: "#EDEDED",
+                                    },
+
+                              },
                               backgroundColor: "#FFFFFF",
                               boxShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.2)",
                               border: "0.1px solid #bdbdbd",
@@ -36,8 +52,6 @@ export default function Select(theme) {
                               '&.Mui-disabled': {
                                     backgroundColor: "#EDEDED",
                               },
-
-
                         }
                   }
             }

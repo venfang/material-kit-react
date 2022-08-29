@@ -40,14 +40,14 @@ const Item = styled(Paper)(({ theme }) => ({
       color: theme.palette.text.secondary,
 }));
 
-const URLook_Option = [{ value: "", label: "" }, { value: "1", label: "Clear" }, { value: "2", label: "Turbid" }];
-const FourPlus_Option = [{ value: "", label: "" }, { value: "neg2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }, { value: "4+", label: "++++" }];
-const ThreePlusMinus_Option = [{ value: "", label: "" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const ThreePlus_Option = [{ value: "", label: "" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
-const PosNeg_Option = [{ value: "", label: "" }, { value: "1", label: "Positive" }, { value: "2", label: "Negative" }];
-const NonReactive_Option = [{ value: "", label: "" }, { value: "1", label: "Reactive" }, { value: "2", label: "Non Reactive" }];
-const AntiHBs_Status_Option = [{ value: "", label: "" }, { value: "1", label: "Non Immune" }, { value: "2", label: "Low Level Immune" }, { value: "3", label: "Immune" }]
-const BloodType_Option = [{ value: "", label: "" }, { value: "1", label: "Type A" }, { value: "2", label: "Type B" }, { value: "3", label: "Type O" }, { value: "4", label: "Type AB" }];
+const URLook_Option = [{ value: "-1", label: "" }, { value: "1", label: "Clear" }, { value: "2", label: "Turbid", color: "#FFFFFF" }];
+const FourPlus_Option = [{ value: "", label: "" }, { value: "-1", label: "[NATD]" }, { value: "neg2", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }, { value: "4+", label: "++++" }];
+const ThreePlusMinus_Option = [{ value: "", label: "" }, { value: "-1", label: "[NATD]" }, { value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const ThreePlus_Option = [{ value: "", label: "" }, { value: "-1", label: "[NATD]" }, { value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
+const PosNeg_Option = [{ value: "", label: "" }, { value: "-1", label: "[NATD]" }, { value: "1", label: "Positive" }, { value: "2", label: "Negative" }];
+const NonReactive_Option = [{ value: "", label: "" }, { value: "-1", label: "[NATD]" }, { value: "1", label: "Reactive" }, { value: "2", label: "Non Reactive" }];
+const AntiHBs_Status_Option = [{ value: "", label: "" }, { value: "-1", label: "[NATD]" }, { value: "1", label: "Non Immune" }, { value: "2", label: "Low Level Immune" }, { value: "3", label: "Immune" }]
+const BloodType_Option = [{ value: "", label: "" }, { value: "-1", label: "[NATD]" }, { value: "1", label: "Type A" }, { value: "2", label: "Type B" }, { value: "3", label: "Type O" }, { value: "4", label: "Type AB" }];
 
 export default function Lab() {
       const [value, setTabValue] = useState("1");
@@ -59,6 +59,7 @@ export default function Lab() {
       }
       const [submitAction, setSubmitAction] = useState("");
       const [UBOther_Comment, setUBOther_Comment] = useState([]);
+
       useEffect(() => {
             formik.setSubmitting(true);
             getReport(report_id).then((data) => {
@@ -929,6 +930,20 @@ export default function Lab() {
                   }
                   );
       }
+      const handleChange = (e) => {
+            // let tempValue = formik.values.UBOther_current;
+            // formik.setFieldValue("UBOther_current",
+            //       e.target.value === 'string' ? tempValue.split(',') : tempValue,
+            // );
+            formik.values.UBOther_current(
+                  // On autofill we get a stringified value.
+                  typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value,
+            );
+      };
+      useEffect(() => {
+            console.log(formik.values.UBOther_current);
+      }, [formik.values.UBOther_current]);
+
       return (
             <Page Page title="Edit"  >
                   <Loader spinner={isSubmitting} />
@@ -1021,6 +1036,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ backgroundColor: "#DDDDDD" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder="[NATD]"
                                                                                                 className={values.HBsag_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HBsag_Value_current')}
 
@@ -1032,6 +1048,7 @@ export default function Lab() {
                                                                                     </FormControl>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.HBsag_Status_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.HBsag_Status_current && errors.HBsag_Status_current)}
                                                                                                 {...getFieldProps('HBsag_Status_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1049,6 +1066,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                                 className={values.HBsag_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HBsag_Value_previous')}
                                                                                                 disabled
@@ -1060,6 +1078,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.HBsag_Status_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.HBsag_Status_previous && errors.HBsag_Status_previous)}
                                                                                                 {...getFieldProps('HBsag_Status_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1077,6 +1096,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                                 className={values.HBsag_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HBsag_Value_past')}
                                                                                                 disabled
@@ -1085,20 +1105,23 @@ export default function Lab() {
                                                                                           <FormHelperText error id="HBsag_Value_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.HBsag_Value_past && errors.HBsag_Value_past}
                                                                                           </FormHelperText>
-                                                                                    </FormControl> <FormControl fullWidth><Select
-                                                                                          disabled
-                                                                                          error={Boolean(touched.HBsag_Status_past && errors.HBsag_Status_past)}
-                                                                                          {...getFieldProps('HBsag_Status_past')}
-                                                                                          style={{ textAlign: 'left' }}
-                                                                                    >
-                                                                                          {PosNeg_Option.map((HBsag) => (
-                                                                                                <MenuItem
-                                                                                                      value={HBsag.value}
-                                                                                                      key={HBsag.value}
-                                                                                                >{HBsag.label}</MenuItem>
-                                                                                          )
-                                                                                          )}
-                                                                                    </Select>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                className={values.HBsag_Status_current_redstar === null ? null : 'red'}
+                                                                                                error={Boolean(touched.HBsag_Status_past && errors.HBsag_Status_past)}
+                                                                                                {...getFieldProps('HBsag_Status_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((HBsag) => (
+                                                                                                      <MenuItem
+                                                                                                            value={HBsag.value}
+                                                                                                            key={HBsag.value}
+                                                                                                      >{HBsag.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
                                                                               <TableCell align="right" >
@@ -1106,7 +1129,8 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
+                                                                                          className={values.RFTSH_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('RFTSH_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment>}
 
@@ -1117,7 +1141,8 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className='textField'
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
+                                                                                          className={values.RFTSH_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('RFTSH_previous')}
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment> : null}
@@ -1126,8 +1151,9 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
-                                                                                          className='textField'
+                                                                                          className={values.RFTSH_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('RFTSH_past')}
                                                                                           endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.RFTSH_unit}</Typography></InputAdornment> : null}
 
@@ -1141,6 +1167,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ backgroundColor: "#DDDDDD" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder="[NATD]"
                                                                                                 className={values.AntiHBs_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('AntiHBs_Value_current')}
 
@@ -1152,6 +1179,7 @@ export default function Lab() {
                                                                                     </FormControl>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.AntiHBs_Status_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.AntiHBs_Status_current && errors.AntiHBs_Status_current)}
                                                                                                 {...getFieldProps('AntiHBs_Status_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1169,6 +1197,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                                 className={values.AntiHBs_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('AntiHBs_Value_previous')}
                                                                                                 disabled
@@ -1177,25 +1206,29 @@ export default function Lab() {
                                                                                           <FormHelperText error id="AntiHBs_Value_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.AntiHBs_Value_previous && errors.AntiHBs_Value_previous}
                                                                                           </FormHelperText>
-                                                                                    </FormControl> <FormControl fullWidth><Select
-                                                                                          disabled
-                                                                                          error={Boolean(touched.AntiHBs_Status_previous && errors.AntiHBs_Status_previous)}
-                                                                                          {...getFieldProps('AntiHBs_Status_previous')}
-                                                                                          style={{ textAlign: 'left' }}
-                                                                                    >
-                                                                                          {AntiHBs_Status_Option.map((AntiHBs) => (
-                                                                                                <MenuItem
-                                                                                                      value={AntiHBs.value}
-                                                                                                      key={AntiHBs.value}
-                                                                                                >{AntiHBs.label}</MenuItem>
-                                                                                          )
-                                                                                          )}
-                                                                                    </Select>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                className={values.AntiHBs_Status_previous_redstar === null ? null : 'red'}
+                                                                                                error={Boolean(touched.AntiHBs_Status_previous && errors.AntiHBs_Status_previous)}
+                                                                                                {...getFieldProps('AntiHBs_Status_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {AntiHBs_Status_Option.map((AntiHBs) => (
+                                                                                                      <MenuItem
+                                                                                                            value={AntiHBs.value}
+                                                                                                            key={AntiHBs.value}
+                                                                                                      >{AntiHBs.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
                                                                               <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                                 className={values.AntiHBs_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('AntiHBs_Value_past')}
                                                                                                 disabled
@@ -1204,20 +1237,23 @@ export default function Lab() {
                                                                                           <FormHelperText error id="AntiHBs_Value_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.AntiHBs_Value_past && errors.AntiHBs_Value_past}
                                                                                           </FormHelperText>
-                                                                                    </FormControl> <FormControl fullWidth><Select
-                                                                                          error={Boolean(touched.AntiHBs_Status_past && errors.AntiHBs_Status_past)}
-                                                                                          {...getFieldProps('AntiHBs_Status_past')}
-                                                                                          style={{ textAlign: 'left' }}
-                                                                                          disabled
-                                                                                    >
-                                                                                          {AntiHBs_Status_Option.map((AntiHBs) => (
-                                                                                                <MenuItem
-                                                                                                      value={AntiHBs.value}
-                                                                                                      key={AntiHBs.value}
-                                                                                                >{AntiHBs.label}</MenuItem>
-                                                                                          )
-                                                                                          )}
-                                                                                    </Select>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                className={values.AntiHBs_Status_past_redstar === null ? null : 'red'}
+                                                                                                error={Boolean(touched.AntiHBs_Status_past && errors.AntiHBs_Status_past)}
+                                                                                                {...getFieldProps('AntiHBs_Status_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                                disabled
+                                                                                          >
+                                                                                                {AntiHBs_Status_Option.map((AntiHBs) => (
+                                                                                                      <MenuItem
+                                                                                                            value={AntiHBs.value}
+                                                                                                            key={AntiHBs.value}
+                                                                                                      >{AntiHBs.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
                                                                               <TableCell align="right" >
@@ -1225,6 +1261,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.FT3_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('FT3_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.FT3_unit}</Typography></InputAdornment>}
@@ -1237,6 +1274,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.FT3_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('FT3_previous')}
@@ -1247,6 +1285,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.FT3_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('FT3_past')}
@@ -1264,6 +1303,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ backgroundColor: "#DDDDDD" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder="[NATD]"
                                                                                                 className={values.HavIgG_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HavIgG_Value_current')}
 
@@ -1272,24 +1312,28 @@ export default function Lab() {
                                                                                           <FormHelperText error id="HavIgG_Value_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.HavIgG_Value_current && errors.HavIgG_Value_current}
                                                                                           </FormHelperText>
-                                                                                    </FormControl> <FormControl fullWidth><Select
-                                                                                          error={Boolean(touched.HavIgG_Status_current && errors.HavIgG_Status_current)}
-                                                                                          {...getFieldProps('HavIgG_Status_current')}
-                                                                                          style={{ textAlign: 'left' }}
-                                                                                    >
-                                                                                          {PosNeg_Option.map((HavIgG) => (
-                                                                                                <MenuItem
-                                                                                                      value={HavIgG.value}
-                                                                                                      key={HavIgG.value}
-                                                                                                >{HavIgG.label}</MenuItem>
-                                                                                          )
-                                                                                          )}
-                                                                                    </Select>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                className={values.HavIgG_Status_current_redstar === null ? null : 'red'}
+                                                                                                error={Boolean(touched.HavIgG_Status_current && errors.HavIgG_Status_current)}
+                                                                                                {...getFieldProps('HavIgG_Status_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {PosNeg_Option.map((HavIgG) => (
+                                                                                                      <MenuItem
+                                                                                                            value={HavIgG.value}
+                                                                                                            key={HavIgG.value}
+                                                                                                      >{HavIgG.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
                                                                               <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                                 className={values.HavIgG_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HavIgG_Value_previous')}
                                                                                                 disabled
@@ -1300,6 +1344,7 @@ export default function Lab() {
                                                                                           </FormHelperText>
                                                                                     </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
+                                                                                          className={values.HavIgG_Status_previous_redstar === null ? null : 'red'}
                                                                                           error={Boolean(touched.HavIgG_Status_previous && errors.HavIgG_Status_previous)}
                                                                                           {...getFieldProps('HavIgG_Status_previous')}
                                                                                           style={{ textAlign: 'left' }}
@@ -1317,6 +1362,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ backgroundColor: "#F9F9F9" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                                 className={values.HavIgG_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HavIgG_Value_past')}
                                                                                                 disabled
@@ -1327,6 +1373,7 @@ export default function Lab() {
                                                                                           </FormHelperText>
                                                                                     </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
+                                                                                          className={values.HavIgG_Status_past_redstar === null ? null : 'red'}
                                                                                           error={Boolean(touched.HavIgG_Status_past && errors.HavIgG_Status_past)}
                                                                                           {...getFieldProps('HavIgG_Status_past')}
                                                                                           style={{ textAlign: 'left' }}
@@ -1346,6 +1393,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.RFFT4_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('RFFT4_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.RFFT4_unit}</Typography></InputAdornment>}
@@ -1358,6 +1406,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.RFFT4_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('RFFT4_previous')}
@@ -1368,6 +1417,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.RFFT4_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('RFFT4_past')}
@@ -1384,9 +1434,9 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, backgroundColor: "#DDDDDD" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
-                                                                                                className={values.EBV_Value_current === null ? 'textField' : 'textField_red'}
+                                                                                                placeholder="[NATD]"
+                                                                                                className={values.EBV_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('EBV_Value_current')}
-
                                                                                                 error={Boolean(touched.EBV_Value_current && errors.EBV_Value_current)}
                                                                                           />
                                                                                           <FormHelperText error id="EBV_Value_current-error" sx={{ fontWeight: 600 }}>
@@ -1394,6 +1444,7 @@ export default function Lab() {
                                                                                           </FormHelperText>
                                                                                     </FormControl> <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.EBV_Status_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.EBV_Status_current && errors.EBV_Status_current)}
                                                                                                 {...getFieldProps('EBV_Status_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1411,8 +1462,9 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, background: "#F9F9F9" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                                 disabled
-                                                                                                className={values.EBV_Value_previous === null ? 'textField' : 'textField_red'}
+                                                                                                className={values.EBV_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('EBV_Value_previous')}
 
                                                                                                 error={Boolean(touched.EBV_Value_previous && errors.EBV_Value_previous)}
@@ -1423,6 +1475,7 @@ export default function Lab() {
                                                                                     </FormControl> <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.EBV_Status_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.EBV_Status_previous && errors.EBV_Status_previous)}
                                                                                                 {...getFieldProps('EBV_Status_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1440,8 +1493,9 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, background: "#F9F9F9" }}>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                                 disabled
-                                                                                                className={values.EBV_Value_past === null ? 'textField' : 'textField_red'}
+                                                                                                className={values.EBV_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('EBV_Value_past')}
 
                                                                                                 error={Boolean(touched.EBV_Value_past && errors.EBV_Value_past)}
@@ -1452,6 +1506,7 @@ export default function Lab() {
                                                                                     </FormControl> <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.EBV_Status_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.EBV_Status_past && errors.EBV_Status_past)}
                                                                                                 {...getFieldProps('EBV_Status_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1471,6 +1526,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('YFPLevel_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment>}
@@ -1483,6 +1539,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('YFPLevel_previous')}
@@ -1493,6 +1550,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('YFPLevel_past')}
@@ -1536,6 +1594,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.CEALevel_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('CEALevel_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CEALevel_unit}</Typography></InputAdornment>}
@@ -1548,6 +1607,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.CEALevel_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('CEALevel_previous')}
@@ -1557,6 +1617,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.CEALevel_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('CEALevel_past')}
@@ -1576,6 +1637,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder="[NATD]"
                                                                                                 className={values.RANormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('RANormal_Value_current')}
 
@@ -1585,6 +1647,7 @@ export default function Lab() {
                                                                                                 {touched.RANormal_Value_current && errors.RANormal_Value_current}
                                                                                           </FormHelperText>
                                                                                     </FormControl> <FormControl fullWidth><Select
+                                                                                          className={values.RANormal_Status_current_redstar === null ? null : 'red'}
                                                                                           error={Boolean(touched.RANormal_Status_current && errors.RANormal_Status_current)}
                                                                                           {...getFieldProps('RANormal_Status_current')}
                                                                                           style={{ textAlign: 'left' }}
@@ -1602,6 +1665,7 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                                 className={values.RANormal_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('RANormal_Value_previous')}
                                                                                                 disabled
@@ -1612,6 +1676,7 @@ export default function Lab() {
                                                                                           </FormHelperText>
                                                                                     </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
+                                                                                          className={values.RANormal_Status_previous_redstar === null ? null : 'red'}
                                                                                           error={Boolean(touched.RANormal_Status_previous && errors.RANormal_Status_previous)}
                                                                                           {...getFieldProps('RANormal_Status_previous')}
                                                                                           style={{ textAlign: 'left' }}
@@ -1629,6 +1694,7 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                                 className={values.RANormal_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('RANormal_Value_past')}
                                                                                                 disabled
@@ -1639,6 +1705,7 @@ export default function Lab() {
                                                                                           </FormHelperText>
                                                                                     </FormControl> <FormControl fullWidth><Select
                                                                                           disabled
+                                                                                          className={values.RANormal_Status_past_redstar === null ? null : 'red'}
                                                                                           error={Boolean(touched.RANormal_Status_past && errors.RANormal_Status_past)}
                                                                                           {...getFieldProps('RANormal_Status_past')}
                                                                                           style={{ textAlign: 'left' }}
@@ -1664,7 +1731,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
-
+                                                                                                className={values.VDRLNormal_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.VDRLNormal_current && errors.VDRLNormal_current)}
                                                                                                 {...getFieldProps('VDRLNormal_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1683,6 +1750,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.VDRLNormal_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.VDRLNormal_previous && errors.VDRLNormal_previous)}
                                                                                                 {...getFieldProps('VDRLNormal_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1701,6 +1769,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.VDRLNormal_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.VDRLNormal_past && errors.VDRLNormal_past)}
                                                                                                 {...getFieldProps('VDRLNormal_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1726,6 +1795,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.CVirus_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.CVirus_current && errors.CVirus_current)}
                                                                                                 {...getFieldProps('CVirus_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1744,6 +1814,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.CVirus_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.CVirus_previous && errors.CVirus_current)}
                                                                                                 {...getFieldProps('CVirus_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1762,6 +1833,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.CVirus_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.CVirus_past && errors.CVirus_past)}
                                                                                                 {...getFieldProps('CVirus_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -1788,6 +1860,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder="[NATD]"
                                                                                                 className={values.HIVNormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HIVNormal_Value_current')}
 
@@ -1796,24 +1869,28 @@ export default function Lab() {
                                                                                           <FormHelperText error id="HIVNormal_Value_current-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.HIVNormal_Value_current && errors.HIVNormal_Value_current}
                                                                                           </FormHelperText>
-                                                                                    </FormControl> <FormControl fullWidth><Select
-                                                                                          error={Boolean(touched.HIVNormal_Status_current && errors.HIVNormal_Status_current)}
-                                                                                          {...getFieldProps('HIVNormal_Status_current')}
-                                                                                          style={{ textAlign: 'left' }}
-                                                                                    >
-                                                                                          {NonReactive_Option.map((HIVNormal) => (
-                                                                                                <MenuItem
-                                                                                                      value={HIVNormal.value}
-                                                                                                      key={HIVNormal.value}
-                                                                                                >{HIVNormal.label}</MenuItem>
-                                                                                          )
-                                                                                          )}
-                                                                                    </Select>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                className={values.HIVNormal_Status_current_redstar === null ? null : 'red'}
+                                                                                                error={Boolean(touched.HIVNormal_Status_current && errors.HIVNormal_Status_current)}
+                                                                                                {...getFieldProps('HIVNormal_Status_current')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {NonReactive_Option.map((HIVNormal) => (
+                                                                                                      <MenuItem
+                                                                                                            value={HIVNormal.value}
+                                                                                                            key={HIVNormal.value}
+                                                                                                      >{HIVNormal.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                                 className={values.HIVNormal_Value_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HIVNormal_Value_previous')}
                                                                                                 disabled
@@ -1822,25 +1899,29 @@ export default function Lab() {
                                                                                           <FormHelperText error id="HIVNormal_Value_previous-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.HIVNormal_Value_previous && errors.HIVNormal_Value_previous}
                                                                                           </FormHelperText>
-                                                                                    </FormControl> <FormControl fullWidth><Select
-                                                                                          disabled
-                                                                                          error={Boolean(touched.HIVNormal_Status_previous && errors.HIVNormal_Status_previous)}
-                                                                                          {...getFieldProps('HIVNormal_Status_previous')}
-                                                                                          style={{ textAlign: 'left' }}
-                                                                                    >
-                                                                                          {NonReactive_Option.map((HIVNormal) => (
-                                                                                                <MenuItem
-                                                                                                      value={HIVNormal.value}
-                                                                                                      key={HIVNormal.value}
-                                                                                                >{HIVNormal.label}</MenuItem>
-                                                                                          )
-                                                                                          )}
-                                                                                    </Select>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                className={values.HIVNormal_Status_previous_redstar === null ? null : 'red'}
+                                                                                                error={Boolean(touched.HIVNormal_Status_previous && errors.HIVNormal_Status_previous)}
+                                                                                                {...getFieldProps('HIVNormal_Status_previous')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {NonReactive_Option.map((HIVNormal) => (
+                                                                                                      <MenuItem
+                                                                                                            value={HIVNormal.value}
+                                                                                                            key={HIVNormal.value}
+                                                                                                      >{HIVNormal.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <InputBase
+                                                                                                placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                                 className={values.HIVNormal_Value_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 {...getFieldProps('HIVNormal_Value_past')}
                                                                                                 disabled
@@ -1849,20 +1930,23 @@ export default function Lab() {
                                                                                           <FormHelperText error id="HIVNormal_Value_past-error" sx={{ fontWeight: 600 }}>
                                                                                                 {touched.HIVNormal_Value_past && errors.HIVNormal_Value_past}
                                                                                           </FormHelperText>
-                                                                                    </FormControl> <FormControl fullWidth><Select
-                                                                                          disabled
-                                                                                          error={Boolean(touched.HIVNormal_Status_past && errors.HIVNormal_Status_past)}
-                                                                                          {...getFieldProps('HIVNormal_Status_past')}
-                                                                                          style={{ textAlign: 'left' }}
-                                                                                    >
-                                                                                          {NonReactive_Option.map((HIVNormal) => (
-                                                                                                <MenuItem
-                                                                                                      value={HIVNormal.value}
-                                                                                                      key={HIVNormal.value}
-                                                                                                >{HIVNormal.label}</MenuItem>
-                                                                                          )
-                                                                                          )}
-                                                                                    </Select>
+                                                                                    </FormControl>
+                                                                                    <FormControl fullWidth>
+                                                                                          <Select
+                                                                                                disabled
+                                                                                                className={values.HIVNormal_Status_past_redstar === null ? null : 'red'}
+                                                                                                error={Boolean(touched.HIVNormal_Status_past && errors.HIVNormal_Status_past)}
+                                                                                                {...getFieldProps('HIVNormal_Status_past')}
+                                                                                                style={{ textAlign: 'left' }}
+                                                                                          >
+                                                                                                {NonReactive_Option.map((HIVNormal) => (
+                                                                                                      <MenuItem
+                                                                                                            value={HIVNormal.value}
+                                                                                                            key={HIVNormal.value}
+                                                                                                      >{HIVNormal.label}</MenuItem>
+                                                                                                )
+                                                                                                )}
+                                                                                          </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
                                                                         </TableRow>
@@ -1876,6 +1960,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className='textField'
                                                                                           {...getFieldProps('PSA_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.PSA_unit}</Typography></InputAdornment>}
@@ -1888,6 +1973,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('PSA_previous')}
@@ -1897,6 +1983,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('PSA_past')}
@@ -1915,6 +2002,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA15_3_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA15_3_unit}</Typography></InputAdornment>}
@@ -1927,6 +2015,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA15_3_previous')}
@@ -1936,6 +2025,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA15_3_past')}
@@ -1954,6 +2044,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA125_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA125_unit}</Typography></InputAdornment>}
@@ -1966,6 +2057,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA125_previous')}
@@ -1975,6 +2067,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA125_past')}
@@ -1993,6 +2086,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA19_9_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CA19_9_unit}</Typography></InputAdornment>}
@@ -2005,6 +2099,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className='textField'
                                                                                           disabled
                                                                                           {...getFieldProps('CA19_9_previous')}
@@ -2014,6 +2109,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('CA19_9_past')}
@@ -2032,6 +2128,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.Hpyloriab_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Hpyloriab_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Hpyloriab_unit}</Typography></InputAdornment>}
@@ -2044,6 +2141,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.Hpyloriab_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Hpyloriab_previous')}
@@ -2054,6 +2152,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.Hpyloriab_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Hpyloriab_past')}
@@ -2073,6 +2172,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.Homocy_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Homocy_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Homocy_unit}</Typography></InputAdornment>}
@@ -2084,6 +2184,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.Homocy_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Homocy_previous')}
@@ -2093,6 +2194,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.Homocy_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Homocy_past')}
@@ -2162,6 +2264,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.Glucose_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Glucose_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Glucose_unit}</Typography></InputAdornment>}
@@ -2173,6 +2276,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.Glucose_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Glucose_previous')}
@@ -2182,6 +2286,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.Glucose_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Glucose_past')}
@@ -2193,6 +2298,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.UFUA_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFUA_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFUA_unit}</Typography></InputAdornment>}
@@ -2204,6 +2310,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.UFUA_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFUA_previous')}
@@ -2213,6 +2320,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.UFUA_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFUA_past')}
@@ -2227,6 +2335,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.HbA1c_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('HbA1c_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.HbA1c_unit}</Typography></InputAdornment>}
@@ -2238,6 +2347,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.HbA1c_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('HbA1c_previous')}
@@ -2247,6 +2357,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.HbA1c_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('HbA1c_past')}
@@ -2272,6 +2383,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BGTG_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGTG_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGTG_unit}</Typography></InputAdornment>}
@@ -2283,6 +2395,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BGTG_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGTG_previous')}
@@ -2292,6 +2405,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.BGTG_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGTG_past')}
@@ -2306,6 +2420,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.TFTBIL_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTBIL_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTBIL_unit}</Typography></InputAdornment>}
@@ -2317,6 +2432,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.TFTBIL_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFTBIL_previous')}
@@ -2326,6 +2442,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.TFTBIL_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTBIL_past')}
@@ -2338,6 +2455,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BGCHOL_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCHOL_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCHOL_unit}</Typography></InputAdornment>}
@@ -2349,6 +2467,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BGCHOL_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGCHOL_previous')}
@@ -2358,6 +2477,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.BGCHOL_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCHOL_past')}
@@ -2372,6 +2492,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.TFTP_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTP_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFTP_unit}</Typography></InputAdornment>}
@@ -2383,6 +2504,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.TFTP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFTP_previous')}
@@ -2392,6 +2514,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.TFTP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFTP_past')}
@@ -2404,6 +2527,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BGHDLC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGHDLC_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGHDLC_unit}</Typography></InputAdornment>}
@@ -2415,6 +2539,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BGHDLC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGHDLC_previous')}
@@ -2424,6 +2549,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.BGHDLC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGHDLC_past')}
@@ -2438,6 +2564,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.TFALB_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALB_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALB_unit}</Typography></InputAdornment>}
@@ -2449,6 +2576,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.TFALB_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFALB_previous')}
@@ -2458,6 +2586,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.TFALB_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALB_past')}
@@ -2470,6 +2599,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BGLDLC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGLDLC_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGLDLC_unit}</Typography></InputAdornment>}
@@ -2481,6 +2611,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BGLDLC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGLDLC_previous')}
@@ -2490,6 +2621,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.BGLDLC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGLDLC_past')}
@@ -2504,6 +2636,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.TFGLO_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFGLO_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFGLO_unit}</Typography></InputAdornment>}
@@ -2515,6 +2648,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.TFGLO_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFGLO_previous')}
@@ -2524,6 +2658,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.TFGLO_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFGLO_past')}
@@ -2536,6 +2671,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BGCH_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCH_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BGCH_unit}</Typography></InputAdornment>}
@@ -2547,6 +2683,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BGCH_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('BGCH_previous')}
@@ -2556,6 +2693,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.BGCH_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BGCH_past')}
@@ -2570,6 +2708,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.TFALP_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALP_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFALP_unit}</Typography></InputAdornment>}
@@ -2581,6 +2720,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.TFALP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFALP_previous')}
@@ -2590,6 +2730,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.TFALP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFALP_past')}
@@ -2610,6 +2751,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.TFsGOT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGOT_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGOT_unit}</Typography></InputAdornment>}
@@ -2621,6 +2763,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.TFsGOT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFsGOT_previous')}
@@ -2630,6 +2773,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.TFsGOT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGOT_past')}
@@ -2642,6 +2786,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.EFCA_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFCA_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFCA_unit}</Typography></InputAdornment>}
@@ -2653,6 +2798,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.EFCA_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('EFCA_previous')}
@@ -2662,6 +2808,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.EFCA_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFCA_past')}
@@ -2675,6 +2822,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.TFsGPT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGPT_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFsGPT_unit}</Typography></InputAdornment>}
@@ -2686,6 +2834,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.TFsGPT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFsGPT_previous')}
@@ -2695,6 +2844,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.TFsGPT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFsGPT_past')}
@@ -2707,6 +2857,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.EFP_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFP_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.EFP_unit}</Typography></InputAdornment>}
@@ -2718,6 +2869,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.EFP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('EFP_previous')}
@@ -2727,6 +2879,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.EFP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('EFP_past')}
@@ -2741,6 +2894,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.TFYGT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFYGT_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.TFYGT_unit}</Typography></InputAdornment>}
@@ -2752,6 +2906,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.TFYGT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('TFYGT_previous')}
@@ -2761,6 +2916,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.TFYGT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('TFYGT_past')}
@@ -2787,6 +2943,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.hs_CRP_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('hs_CRP_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment>}
@@ -2798,6 +2955,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.hs_CRP_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('hs_CRP_previous')}
@@ -2807,6 +2965,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.hs_CRP_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('hs_CRP_past')}
@@ -2822,6 +2981,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.UFBUN_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFBUN_unit}</Typography></InputAdornment>}
@@ -2833,6 +2993,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.UFBUN_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFBUN_previous')}
@@ -2842,6 +3003,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.UFBUN_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_past')}
@@ -2856,6 +3018,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.UFCRE_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFCRE_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.UFCRE_unit}</Typography></InputAdornment>}
@@ -2866,6 +3029,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.UFCRE_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('UFCRE_previous')}
@@ -2875,6 +3039,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.UFCRE_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('UFBUN_past')}
@@ -2925,6 +3090,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.Sodium_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Sodium_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Sodium_unit}</Typography></InputAdornment>}
@@ -2936,6 +3102,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.Sodium_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Sodium_previous')}
@@ -2945,6 +3112,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.Sodium_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Sodium_past')}
@@ -2959,6 +3127,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.Potassium_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Potassium_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Potassium_unit}</Typography></InputAdornment>}
@@ -2970,6 +3139,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.Potassium_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Potassium_previous')}
@@ -2979,6 +3149,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.Potassium_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Potassium_past')}
@@ -2993,6 +3164,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.Chloride_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Chloride_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.Chloride_unit}</Typography></InputAdornment>}
@@ -3004,6 +3176,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.Chloride_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           {...getFieldProps('Chloride_previous')}
@@ -3013,6 +3186,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className={values.Chloride_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('Chloride_past')}
@@ -3081,6 +3255,7 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.URLook_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URLook_current && errors.URLook_current)}
                                                                                                 {...getFieldProps('URLook_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3089,6 +3264,7 @@ export default function Lab() {
                                                                                                       <MenuItem
                                                                                                             value={URLook.value}
                                                                                                             key={URLook.value}
+                                                                                                            color={URLook.color}
                                                                                                       >{URLook.label}</MenuItem>
                                                                                                 )
                                                                                                 )}
@@ -3102,6 +3278,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URLook_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URLook_previous && errors.URLook_previous)}
                                                                                                 {...getFieldProps('URLook_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3123,6 +3300,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URLook_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URLook_past && errors.URLook_past)}
                                                                                                 {...getFieldProps('URLook_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3198,6 +3376,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.UREW_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UREW_current && errors.UREW_current)}
                                                                                                 {...getFieldProps('UREW_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3219,6 +3398,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.UREW_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UREW_previous && errors.UREW_previous)}
                                                                                                 {...getFieldProps('UREW_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3240,6 +3420,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.UREW_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UREW_past && errors.UREW_past)}
                                                                                                 {...getFieldProps('UREW_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3315,6 +3496,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.URS_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URS_current && errors.URS_current)}
                                                                                                 {...getFieldProps('URS_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3336,6 +3518,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URS_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URS_previous && errors.URS_previous)}
                                                                                                 {...getFieldProps('URS_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3357,6 +3540,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URS_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URS_past && errors.URS_past)}
                                                                                                 {...getFieldProps('URS_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3432,6 +3616,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.URBR_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URBR_current && errors.URBR_current)}
                                                                                                 {...getFieldProps('URBR_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3453,6 +3638,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URBR_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URBR_previous && errors.URBR_previous)}
                                                                                                 {...getFieldProps('URBR_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3475,10 +3661,10 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URBR_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URBR_past && errors.URBR_past)}
                                                                                                 {...getFieldProps('URBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
-
                                                                                           >
 
                                                                                                 {ThreePlus_Option.map((URBR) => (
@@ -3552,6 +3738,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.URUBR_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URUBR_current && errors.URUBR_current)}
                                                                                                 {...getFieldProps('URUBR_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3574,6 +3761,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URUBR_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URUBR_previous && errors.URUBR_previous)}
                                                                                                 {...getFieldProps('URUBR_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3595,6 +3783,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URUBR_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URUBR_past && errors.URUBR_past)}
                                                                                                 {...getFieldProps('URUBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3618,6 +3807,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.Bacter_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.Bacter_current && errors.Bacter_current)}
                                                                                                 {...getFieldProps('Bacter_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3639,6 +3829,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.Bacter_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.Bacter_previous && errors.Bacter_previous)}
                                                                                                 {...getFieldProps('Bacter_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3660,6 +3851,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.Bacter_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.Bacter_past && errors.Bacter_past)}
                                                                                                 {...getFieldProps('Bacter_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3685,6 +3877,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.UBBH_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBBH_current && errors.UBBH_current)}
                                                                                                 {...getFieldProps('UBBH_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3706,6 +3899,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.UBBH_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBBH_previous && errors.UBBH_previous)}
                                                                                                 {...getFieldProps('UBBH_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3727,6 +3921,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.UBBH_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBBH_past && errors.UBBH_past)}
                                                                                                 {...getFieldProps('UBBH_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3750,8 +3945,12 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                multiple
+                                                                                                className={values.UBOther_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBOther_current && errors.UBOther_current)}
-                                                                                                {...getFieldProps('UBOther_current')}
+                                                                                                //  {...getFieldProps('UBOther_current')}
+                                                                                                value={formik.values.UBOther_current}
+                                                                                                onChange={handleChange}
                                                                                                 style={{ textAlign: 'left' }}
                                                                                           >
                                                                                                 {UBOther_Comment.map((UBOther) => (
@@ -3770,6 +3969,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('UBOther_previous')}
@@ -3778,6 +3978,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           disabled
                                                                                           className='textField'
                                                                                           {...getFieldProps('UBOther_past')}
@@ -3792,6 +3993,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.UBKU_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBKU_current && errors.UBKU_current)}
                                                                                                 {...getFieldProps('UBKU_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3813,6 +4015,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.UBKU_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBKU_previous && errors.UBKU_previous)}
                                                                                                 {...getFieldProps('UBKU_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3834,6 +4037,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.UBKU_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBKU_past && errors.UBKU_past)}
                                                                                                 {...getFieldProps('UBKU_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3860,6 +4064,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.UBSNO_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBSNO_current && errors.UBSNO_current)}
                                                                                                 {...getFieldProps('UBSNO_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3881,6 +4086,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.UBSNO_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBSNO_previous && errors.UBSNO_previous)}
                                                                                                 {...getFieldProps('UBSNO_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3902,6 +4108,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.UBSNO_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.UBSNO_past && errors.UBSNO_past)}
                                                                                                 {...getFieldProps('UBSNO_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3953,6 +4160,7 @@ export default function Lab() {
                                                                               <TableCell >
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.URLEU_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URLEU_current && errors.URLEU_current)}
                                                                                                 {...getFieldProps('URLEU_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3974,6 +4182,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URLEU_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URLEU_previous && errors.URLEU_previous)}
                                                                                                 {...getFieldProps('URLEU_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3995,6 +4204,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
+                                                                                                className={values.URLEU_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.URLEU_past && errors.URLEU_past)}
                                                                                                 {...getFieldProps('URLEU_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4019,6 +4229,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.URDENS_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('URDENS_current')}
                                                                                           error={Boolean(touched.URDENS_current && errors.URDENS_current)}
@@ -4030,6 +4241,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.URDENS_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
 
@@ -4038,6 +4250,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.URDENS_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
 
@@ -4051,6 +4264,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.URTest_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('URTest_current')}
                                                                                           error={Boolean(touched.URTest_current && errors.URTest_current)}
@@ -4062,6 +4276,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.URTest_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
 
@@ -4070,6 +4285,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.URTest_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
 
@@ -4122,6 +4338,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BloodWBC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodWBC_current')}
                                                                                           error={Boolean(touched.BloodWBC_current && errors.BloodWBC_current)}
@@ -4133,6 +4350,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodWBC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodWBC_unit}</Typography></InputAdornment> : null}
@@ -4141,6 +4359,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodWBC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodWBC_unit}</Typography></InputAdornment> : null}
@@ -4160,6 +4379,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
+                                                                                          laceholder="[NATD]"
                                                                                           className={values.BloodRBC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodRBC_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment>}
@@ -4171,6 +4391,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodRBC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment> : null}
@@ -4179,7 +4400,8 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          className={values.BloodRBC_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
+                                                                                          className={values.BloodRBC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodRBC_unit}</Typography></InputAdornment> : null}
                                                                                           {...getFieldProps('BloodRBC_past')}
@@ -4190,6 +4412,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW1_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodW1_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment>}
@@ -4201,6 +4424,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW1_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment> : null}
@@ -4209,6 +4433,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW1_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW1_unit}</Typography></InputAdornment> : null}
@@ -4222,6 +4447,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          laceholder="[NATD]"
                                                                                           className={values.BloodHB_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodHB_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment>}
@@ -4233,6 +4459,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodHB_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment> : null}
@@ -4241,6 +4468,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodHB_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodHB_unit}</Typography></InputAdornment> : null}
@@ -4252,6 +4480,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          laceholder="[NATD]"
                                                                                           className={values.BloodW2_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodW2_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment>}
@@ -4263,6 +4492,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW2_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment> : null}
@@ -4271,6 +4501,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW2_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW2_unit}</Typography></InputAdornment> : null}
@@ -4284,6 +4515,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BloodHCT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodHCT_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment>}
@@ -4295,6 +4527,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodHCT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment> : null}
@@ -4303,6 +4536,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodHCT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodHCT_unit}</Typography></InputAdornment> : null}
@@ -4314,6 +4548,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BloodW3_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodW3_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment>}
@@ -4325,6 +4560,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW3_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment> : null}
@@ -4333,6 +4569,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW3_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW3_unit}</Typography></InputAdornment> : null}
@@ -4346,6 +4583,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BloodMCV_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodMCV_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment>}
@@ -4357,6 +4595,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodMCV_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment> : null}
@@ -4365,6 +4604,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodMCV_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCV_unit}</Typography></InputAdornment> : null}
@@ -4376,6 +4616,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BloodW4_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodW4_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment>}
@@ -4387,6 +4628,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW4_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment> : null}
@@ -4395,6 +4637,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW4_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW4_unit}</Typography></InputAdornment> : null}
@@ -4408,6 +4651,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder='[NATD]'
                                                                                           className={values.BloodMCH_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodMCH_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment>}
@@ -4419,6 +4663,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodMCH_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment> : null}
@@ -4427,6 +4672,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodMCH_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCH_unit}</Typography></InputAdornment> : null}
@@ -4438,6 +4684,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BloodW5_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodW5_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment>}
@@ -4449,6 +4696,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW5_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment> : null}
@@ -4457,6 +4705,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodW5_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment> : null}
@@ -4470,6 +4719,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          palceholder="[NATD]"
                                                                                           className={values.BloodMCHC_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodMCHC_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment>}
@@ -4481,6 +4731,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodMCHC_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment> : null}
@@ -4489,6 +4740,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodMCHC_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment> : null}
@@ -4503,6 +4755,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder="[NATD]"
                                                                                           className={values.BloodPLT_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                           {...getFieldProps('BloodPLT_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment>}
@@ -4514,6 +4767,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_previous !== null ? `[NATD]` : null}
                                                                                           className={values.BloodPLT_previous_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment> : null}
@@ -4522,6 +4776,7 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
+                                                                                          placeholder={values.test_date_past !== null ? `[NATD]` : null}
                                                                                           className={values.BloodPLT_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           disabled
                                                                                           endAdornment={values.test_date_past != null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment> : null}
@@ -4571,6 +4826,7 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.BloodType_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.BloodType_current && errors.BloodType_current)}
                                                                                                 {...getFieldProps('BloodType_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4592,6 +4848,7 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.BloodType_cprevious_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.BloodType_previous && errors.BloodType_previous)}
                                                                                                 {...getFieldProps('BloodType_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4613,6 +4870,7 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.BloodType_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.BloodType_past && errors.BloodType_past)}
                                                                                                 {...getFieldProps('BloodType_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4641,6 +4899,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.BloodRH_current_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.BloodRH_current && errors.BloodRH_current)}
                                                                                                 {...getFieldProps('BloodRH_current')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4662,6 +4921,7 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.BloodRH_previous_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.BloodRH_previous && errors.BloodRH_previous)}
                                                                                                 {...getFieldProps('BloodRH_previous')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4683,6 +4943,7 @@ export default function Lab() {
                                                                               <TableCell>
                                                                                     <FormControl fullWidth>
                                                                                           <Select
+                                                                                                className={values.BloodRH_past_redstar === null ? null : 'red'}
                                                                                                 error={Boolean(touched.BloodRH_past && errors.BloodRH_past)}
                                                                                                 {...getFieldProps('BloodRH_past')}
                                                                                                 style={{ textAlign: 'left' }}
