@@ -52,11 +52,11 @@ export default function PageNavBar({ topValue, title_name, to }) {
                                     <Typography variant="title_page" >{title_name}</Typography>
 
                                     <Box sx={{ width: 350 }}>
-                                          <InputBase
+                                          {/* <InputBase
                                                 className='textField'
                                                 placeholder="Search.."
                                                 startAdornment={<InputAdornment position="end"><SearchIcon style={{ color: "#1565c0" }} /></InputAdornment>}
-                                          />
+                                          /> */}
                                     </Box>
                               </Stack>
                         </Box>

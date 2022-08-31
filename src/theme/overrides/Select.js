@@ -38,7 +38,6 @@ export default function Select(theme) {
                                     '&.Mui-disabled': {
                                           backgroundColor: "#EDEDED",
                                     },
-
                               },
                               backgroundColor: "#FFFFFF",
                               boxShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.2)",
@@ -51,6 +50,8 @@ export default function Select(theme) {
                               ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 12 }),
                               '&.Mui-disabled': {
                                     backgroundColor: "#EDEDED",
+                                    color: "#5A567B !important",
+                                    WebkitTextFillColor: "#5A567B !important",
                               },
                         }
                   }

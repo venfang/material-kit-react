@@ -111,7 +111,7 @@ const typography = {
     fontWeight: 600,
     lineHeight: 0.5,
     fontSize: pxToRem(10),
-    textTransform: 'capitalize',
+    textTransform: 'none',
     ...responsiveFontSizes({ xs: 6, sm: 6, md: 9, lg: 9 }),
     color: '#211D4E',
   },
