@@ -5,11 +5,11 @@ import Cookies from 'js-cookie';
 import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 //
-import Blog from '../views/Blog';
-import User from '../views/User';
+import User from '../views/dashboard/user/User';
+import CreateUser from '../views/dashboard/user/CreateUser';
+import EditUser from '../views/dashboard/user/EditUser';
 import Login from '../views/auth/Login';
 import NotFound from '../views/Page404';
-import Products from '../views/Products';
 import DashboardApp from '../views/dashboard/app/DashboardApp';
 import Lab from "../views/dashboard/lab/Lab";
 import EditLab from "../views/dashboard/lab/EditLab";
@@ -23,11 +23,11 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'app', element: showCookieUserID !== undefined ? <DashboardApp /> : <Navigate to="/login" replace /> },
-        { path: 'user', element: showCookieUserID !== undefined ? <User /> : <Navigate to="/login" replace /> },
-        { path: 'products', element: showCookieUserID !== undefined ? <Products /> : <Navigate to="/login" replace /> },
-        { path: 'blog', element: showCookieUserID !== undefined ? <Blog /> : <Navigate to="/login" replace /> },
         { path: 'lab', element: showCookieUserID !== undefined ? <Lab /> : <Navigate to="/login" replace /> },
         { path: 'lab/edit/:report_id', element: showCookieUserID !== undefined ? <EditLab /> : <Navigate to="/login" replace /> },
+        { path: 'user', element: showCookieUserID !== undefined ? <User /> : <Navigate to="/login" replace /> },
+        { path: 'user/create', element: showCookieUserID !== undefined ? <CreateUser /> : <Navigate to="/login" replace /> },
+        { path: 'user/edit/:user_id', element: showCookieUserID !== undefined ? <EditUser /> : <Navigate to="/login" replace /> },
       ],
     },
     {

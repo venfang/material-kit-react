@@ -217,6 +217,44 @@ export default function DashboardApp() {
               </Grid>
             </Grid>
           </Box>
+          <Box sx={{ mb: 4 }}>
+            <Box display="flex" justifyContent="left" alignItems="center" sx={{ mb: 1.5 }}>
+              <MedicalInformationIcon sx={{ height: '30px', width: '30px' }} />
+              <Typography variant="h5" sx={{ mx: 1 }}>
+                General
+              </Typography>
+            </Box>
+            <Grid container spacing={1}  >
+              <Grid item xs={12} sm={2} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/user" sx={{ textDecoration: "none" }}>
+                <Card
+                  sx={{
+                    position: 'relative',
+                    margin: '0 auto',
+                    p: 1,
+                    textAlign: 'center',
+                    width: 150,
+                    height: 150,
+                    background: 'linear-gradient(to top right, #eeeeee -50%, #ffffff 100%)',
+                  }}
+                >
+                  <Grid
+                    container
+                    direction={'column'}
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{ height: '100%' }}
+                  >
+                    <Grid item sx={{ height: '60%' }}>
+                      <GroupIcon sx={{ height: '100%', width: '100%', color: '#1e88e5' }} />
+                    </Grid>
+                    <Grid item sx={{ height: '30%' }}>
+                      <Typography variant="label">{'User'}</Typography>
+                    </Grid>
+                  </Grid>
+                </Card>
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
       </Container >
     </Page >

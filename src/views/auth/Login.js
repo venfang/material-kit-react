@@ -33,6 +33,7 @@ const RootStyle = styled('div')(({ theme }) => ({
     alignItems: 'center',
     height: '100vh',
   },
+
 }));
 
 const HeaderStyle = styled('header')(({ theme }) => ({
@@ -80,18 +81,24 @@ export default function Login() {
     <Page title="Login">
       <RootStyle>
         {/* <HeaderStyle>
-          <Logo />
+          <Box display="flex" justifyContent="center" alignItems="center">
+
+          </Box>
         </HeaderStyle> */}
 
-        {/* {mdUp && (
+        {mdUp && (
           <SectionStyle>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              BioGenic App
-            </Typography>
-            <img src="/static/illustrations/illustration_login.png" alt="login" />
+            <Logo
+              sx={{
+                mx: 8,
+                width: { xs: '100px !important', lg: '250px !important' },
+                height: { xs: '100px !important', lg: '100px !important' },
+              }} />
+            {/* <svg viewBox="0 0 1440 320">
+              <path fill="#FFFFFF" fillOpacity="1" d="M0,96L80,96C160,96,320,96,480,106.7C640,117,800,139,960,138.7C1120,139,1280,117,1360,106.7L1440,96L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z" />
+            </svg> */}
           </SectionStyle>
-        )} */}
-
+        )}
         <SectionStyle>
           <Container maxWidth="sm">
             <ContentStyle>

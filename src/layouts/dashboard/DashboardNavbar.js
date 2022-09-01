@@ -122,7 +122,17 @@ export default function DashboardNavbar({ onOpenSidebar }) {
             >
               <Iconify icon="eva:menu-2-fill" />
             </IconButton>
-
+            <Button
+              // onClick={ }
+              variant="outlined"
+              size="medium"
+              startIcon={<AccountCircleIcon />}
+              sx={{
+                display: { xs: 'none', sm: 'none', md: 'inline-flex', lg: 'inline-flex' },
+              }}
+            >
+              Profile
+            </Button>
             <Button
               onClick={handleLogout}
               variant="outlined"

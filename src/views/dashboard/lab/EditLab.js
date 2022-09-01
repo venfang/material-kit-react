@@ -9,19 +9,17 @@
 // eslint-disable-next-line prefer-template
 /* eslint-disable react/jsx-boolean-value */
 
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import { faker } from '@faker-js/faker';
 import * as React from 'react';
 import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom';
-import { useFormik, Form, FormikProvider, validateYupSchema } from 'formik';
+import { useFormik, Form, FormikProvider } from 'formik';
 import Cookies from 'js-cookie';
 // @mui
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
-import { useTheme, alpha, styled } from '@mui/material/styles';
-import { Grid, Container, Autocomplete, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Typography, Checkbox, AppBar, FormHelperText, MenuItem, Select, Radio, FormControl, FormControlLabel, RadioGroup, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Container, Autocomplete, Dialog, DialogTitle, DialogContent, DialogActions, Typography, Checkbox, AppBar, FormHelperText, MenuItem, Select, FormControl, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
 import Loader from '../../../components/loader/Loader';
 // components
 import Page from '../../../components/Page';
@@ -40,7 +38,7 @@ const Item = styled(Paper)(({ theme }) => ({
       color: theme.palette.text.secondary,
 }));
 
-const URLook_Option = [{ value: "1", label: "Clear" }, { value: "2", label: "Turbid", color: "#FFFFFF" }];
+const URLook_Option = [{ value: "1", label: "Clear" }, { value: "2", label: "Turbid" }];
 const FourPlus_Option = [{ value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }, { value: "4+", label: "++++" }];
 const ThreePlusMinus_Option = [{ value: "neg", label: "Negative" }, { value: "+/-", label: "+-" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
 const ThreePlus_Option = [{ value: "neg", label: "Negative" }, { value: "1+", label: "+" }, { value: "2+", label: "++" }, { value: "3+", label: "+++" }];
@@ -268,10 +266,10 @@ export default function Lab() {
                   Homocy_unit: '',
 
 
-                  hs_CRP_current: '',
-                  hs_CRP_previous: '',
-                  hs_CRP_past: '',
-                  hs_CRP_unit: '',
+                  CRP_current: '',
+                  CRP_previous: '',
+                  CRP_past: '',
+                  CRP_unit: '',
 
                   HbA1c_current: '',
                   HbA1c_previous: '',
@@ -662,7 +660,7 @@ export default function Lab() {
                   report_id: report_id,
                   gender: values.gender,
                   age: values.age,
-                  hs_CRP: values.hs_CRP_current,
+                  CRP: values.CRP_current,
                   HbA1c: values.HbA1c_current,
                   UFBUN: values.UFBUN_current,
                   UFCRE: values.UFCRE_current,
@@ -903,7 +901,7 @@ export default function Lab() {
                   report_id: report_id,
                   gender: values.gender,
                   age: values.age,
-                  hs_CRP: values.hs_CRP_current,
+                  CRP: values.CRP_current,
                   HbA1c: values.HbA1c_current,
                   UFBUN: values.UFBUN_current,
                   UFCRE: values.UFCRE_current,
@@ -1095,7 +1093,17 @@ export default function Lab() {
                                                                                                 placeholder={definePlaceholder(values.HBsag_Value_current)}
                                                                                                 disabled={defineDisabled(values.HBsag_Value_current)}
                                                                                                 value={defineValue(values.HBsag_Value_current)}
-                                                                                                onChange={(e) => formik.setFieldValue("HBsag_Value_current", e.target.value)}
+                                                                                                onChange={
+                                                                                                      (e) => {
+                                                                                                            formik.setFieldValue("HBsag_Value_current", e.target.value);
+                                                                                                            if (e.target.value >= 1) {
+                                                                                                                  formik.setFieldValue("HBsag_Status_current", "1");
+                                                                                                            }
+                                                                                                            else {
+                                                                                                                  formik.setFieldValue("HBsag_Status_current", "2");
+                                                                                                            }
+                                                                                                      }
+                                                                                                }
                                                                                                 className={values.HBsag_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 error={Boolean(touched.HBsag_Value_current && errors.HBsag_Value_current)}
                                                                                           />
@@ -1116,7 +1124,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HBsag_Status_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.HBsag_Status_current === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.HBsag_Status_current && errors.HBsag_Status_current)}
                                                                                                       {...getFieldProps('HBsag_Status_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1160,7 +1168,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HBsag_Status_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.HBsag_Status_previous === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.HBsag_Status_previous && errors.HBsag_Status_previous)}
                                                                                                       {...getFieldProps('HBsag_Status_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1203,7 +1211,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HBsag_Status_past_redstar === null ? null : 'red'}
+                                                                                                      className={values.HBsag_Status_past === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.HBsag_Status_past && errors.HBsag_Status_past)}
                                                                                                       {...getFieldProps('HBsag_Status_past')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1265,7 +1273,20 @@ export default function Lab() {
                                                                                                 placeholder={definePlaceholder(values.AntiHBs_Value_current)}
                                                                                                 disabled={defineDisabled(values.AntiHBs_Value_current)}
                                                                                                 value={defineValue(values.AntiHBs_Value_current)}
-                                                                                                onChange={(e) => formik.setFieldValue("AntiHBs_Value_current", e.target.value)}
+                                                                                                onChange={
+                                                                                                      (e) => {
+                                                                                                            formik.setFieldValue("AntiHBs_Value_current", e.target.value);
+                                                                                                            if (e.target.value < 10) {
+                                                                                                                  formik.setFieldValue("AntiHBs_Status_current", "1");
+                                                                                                            }
+                                                                                                            else if (e.target.value >= 10 && e.target.value <= 50) {
+                                                                                                                  formik.setFieldValue("AntiHBs_Status_current", "2");
+                                                                                                            }
+                                                                                                            else {
+                                                                                                                  formik.setFieldValue("AntiHBs_Status_current", "3");
+                                                                                                            }
+                                                                                                      }
+                                                                                                }
                                                                                                 className={values.AntiHBs_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 error={Boolean(touched.AntiHBs_Value_current && errors.AntiHBs_Value_current)}
                                                                                           />
@@ -1435,7 +1456,17 @@ export default function Lab() {
                                                                                                 placeholder={definePlaceholder(values.HavIgG_Value_current)}
                                                                                                 disabled={defineDisabled(values.HavIgG_Value_current)}
                                                                                                 value={defineValue(values.HavIgG_Value_current)}
-                                                                                                onChange={(e) => formik.setFieldValue("HavIgG_Value_current", e.target.value)}
+                                                                                                onChange={
+                                                                                                      (e) => {
+                                                                                                            formik.setFieldValue("HavIgG_Value_current", e.target.value);
+                                                                                                            if (e.target.value > 1) {
+                                                                                                                  formik.setFieldValue("HavIgG_Status_current", "2");
+                                                                                                            }
+                                                                                                            else {
+                                                                                                                  formik.setFieldValue("HavIgG_Status_current", "1");
+                                                                                                            }
+                                                                                                      }
+                                                                                                }
                                                                                                 className={values.HavIgG_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 error={Boolean(touched.HavIgG_Value_current && errors.HavIgG_Value_current)}
                                                                                           />
@@ -1605,7 +1636,17 @@ export default function Lab() {
                                                                                                 placeholder={definePlaceholder(values.EBV_Value_current)}
                                                                                                 disabled={defineDisabled(values.EBV_Value_current)}
                                                                                                 value={defineValue(values.EBV_Value_current)}
-                                                                                                onChange={(e) => formik.setFieldValue("EBV_Value_current", e.target.value)}
+                                                                                                onChange={
+                                                                                                      (e) => {
+                                                                                                            formik.setFieldValue("EBV_Value_current", e.target.value);
+                                                                                                            if (e.target.value < 4) {
+                                                                                                                  formik.setFieldValue("EBV_Status_current", "2");
+                                                                                                            }
+                                                                                                            else {
+                                                                                                                  formik.setFieldValue("EBV_Status_current", "1");
+                                                                                                            }
+                                                                                                      }
+                                                                                                }
                                                                                                 className={values.EBV_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 error={Boolean(touched.EBV_Value_current && errors.EBV_Value_current)}
                                                                                           />
@@ -1626,7 +1667,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.EBV_Status_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.EBV_Status_current === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.EBV_Status_current && errors.EBV_Status_current)}
                                                                                                       {...getFieldProps('EBV_Status_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1670,7 +1711,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.EBV_Status_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.EBV_Status_previous === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.EBV_Status_previous && errors.EBV_Status_previous)}
                                                                                                       {...getFieldProps('EBV_Status_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1713,7 +1754,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.EBV_Status_past_redstar === null ? null : 'red'}
+                                                                                                      className={values.EBV_Status_past === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.EBV_Status_past && errors.EBV_Status_past)}
                                                                                                       {...getFieldProps('EBV_Status_past')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1735,36 +1776,34 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
-                                                                                          placeholder={values.YFPLevel_current === "-9995" ? "[NI]" : null}
-                                                                                          disabled={values.YFPLevel_current === "-9995" && true}
+                                                                                          placeholder={definePlaceholder(values.YFPLevel_current)}
+                                                                                          disabled={defineDisabled(values.YFPLevel_current)}
+                                                                                          value={defineValue(values.YFPLevel_current)}
+                                                                                          onChange={(e) => formik.setFieldValue("YFPLevel_current", e.target.value)}
                                                                                           className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('YFPLevel_current')}
                                                                                           endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment>}
                                                                                     />
                                                                                     <FormHelperText error id="YFPLevel_current-error" sx={{ fontWeight: 600 }}>
                                                                                           {touched.YFPLevel_current && errors.YFPLevel_current}
                                                                                     </FormHelperText>
-
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          placeholder={values.test_date_previous !== null ? `[NI]` : null}
-                                                                                          className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          placeholder={definePlaceholder(values.YFPLevel_previous)}
                                                                                           disabled
-                                                                                          {...getFieldProps('YFPLevel_previous')}
-                                                                                          endAdornment={values.test_date_previous != null ? <InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment> : null}
+                                                                                          value={defineValue(values.YFPLevel_previous)}
+                                                                                          className={values.YFPLevel_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          endAdornment={values.test_date_previous !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment> : null}
                                                                                     />
-
                                                                               </TableCell>
                                                                               <TableCell>
                                                                                     <InputBase
-                                                                                          placeholder={values.test_date_past !== null ? `[NI]` : null}
+                                                                                          placeholder={definePlaceholder(values.YFPLevel_past)}
                                                                                           disabled
-                                                                                          className={values.YFPLevel_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('YFPLevel_past')}
+                                                                                          value={defineValue(values.YFPLevel_past)}
+                                                                                          className={values.YFPLevel_past_redstar === null ? 'textField' : 'textField_red'}
                                                                                           endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.YFPLevel_unit}</Typography></InputAdornment> : null}
                                                                                     />
-
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
@@ -1843,7 +1882,17 @@ export default function Lab() {
                                                                                                 placeholder={definePlaceholder(values.RANormal_Value_current)}
                                                                                                 disabled={defineDisabled(values.RANormal_Value_current)}
                                                                                                 value={defineValue(values.RANormal_Value_current)}
-                                                                                                onChange={(e) => formik.setFieldValue("RANormal_Value_current", e.target.value)}
+                                                                                                onChange={
+                                                                                                      (e) => {
+                                                                                                            formik.setFieldValue("RANormal_Value_current", e.target.value);
+                                                                                                            if (e.target.value < 20) {
+                                                                                                                  formik.setFieldValue("RANormal_Status_current", "2");
+                                                                                                            }
+                                                                                                            else {
+                                                                                                                  formik.setFieldValue("RANormal_Status_current", "1");
+                                                                                                            }
+                                                                                                      }
+                                                                                                }
                                                                                                 className={values.RANormal_Value_current_redstar === null ? 'textField' : 'textField_red'}
                                                                                                 error={Boolean(touched.RANormal_Value_current && errors.RANormal_Value_current)}
                                                                                           />
@@ -1864,7 +1913,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.RANormal_Status_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.RANormal_Status_current === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.RANormal_Status_current && errors.RANormal_Status_current)}
                                                                                                       {...getFieldProps('RANormal_Status_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1908,7 +1957,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.RANormal_Status_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.RANormal_Status_previous === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.RANormal_Status_previous && errors.RANormal_Status_previous)}
                                                                                                       {...getFieldProps('RANormal_Status_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1951,7 +2000,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.RANormal_Status_past_redstar === null ? null : 'red'}
+                                                                                                      className={values.RANormal_Status_past === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.RANormal_Status_past && errors.RANormal_Status_past)}
                                                                                                       {...getFieldProps('RANormal_Status_past')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1989,7 +2038,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.VDRLNormal_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.VDRLNormal_current === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.VDRLNormal_current && errors.VDRLNormal_current)}
                                                                                                       {...getFieldProps('VDRLNormal_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2020,7 +2069,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.VDRLNormal_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.VDRLNormal_previous === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.VDRLNormal_previous && errors.VDRLNormal_previous)}
                                                                                                       {...getFieldProps('VDRLNormal_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2041,7 +2090,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.VDRLNormal_past_redstar === null ? null : 'red'}
+                                                                                                className={values.VDRLNormal_past === "2" ? null : 'red'}
                                                                                                 error={Boolean(touched.VDRLNormal_past && errors.VDRLNormal_past)}
                                                                                                 {...getFieldProps('VDRLNormal_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -2078,7 +2127,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.CVirus_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.CVirus_current === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.CVirus_current && errors.CVirus_current)}
                                                                                                       {...getFieldProps('CVirus_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2109,7 +2158,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.CVirus_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.CVirus_previous === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.CVirus_previous && errors.CVirus_previous)}
                                                                                                       {...getFieldProps('CVirus_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2130,7 +2179,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.CVirus_past_redstar === null ? null : 'red'}
+                                                                                                className={values.CVirus_past === "2" ? null : 'red'}
                                                                                                 error={Boolean(touched.CVirus_past && errors.CVirus_past)}
                                                                                                 {...getFieldProps('CVirus_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -2467,7 +2516,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.Hpyloriab_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.Hpyloriab_current === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.Hpyloriab_current && errors.Hpyloriab_current)}
                                                                                                       {...getFieldProps('Hpyloriab_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2498,7 +2547,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.Hpyloriab_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.Hpyloriab_previous === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.Hpyloriab_previous && errors.Hpyloriab_previous)}
                                                                                                       {...getFieldProps('Hpyloriab_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2519,7 +2568,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.Hpyloriab_past_redstar === null ? null : 'red'}
+                                                                                                className={values.Hpyloriab_past === "2" ? null : 'red'}
                                                                                                 error={Boolean(touched.Hpyloriab_past && errors.Hpyloriab_past)}
                                                                                                 {...getFieldProps('Hpyloriab_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3293,37 +3342,37 @@ export default function Lab() {
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell align="right" >
-                                                                                    <Typography variant="label">HS_CRP</Typography>
+                                                                                    <Typography variant="label">CRP</Typography>
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
-                                                                                          placeholder={definePlaceholder(values.hs_CRP_current)}
-                                                                                          disabled={defineDisabled(values.hs_CRP_current)}
-                                                                                          value={defineValue(values.hs_CRP_current)}
-                                                                                          onChange={(e) => formik.setFieldValue("hs_CRP_current", e.target.value)}
-                                                                                          className={values.hs_CRP_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment>}
+                                                                                          placeholder={definePlaceholder(values.CRP_current)}
+                                                                                          disabled={defineDisabled(values.CRP_current)}
+                                                                                          value={defineValue(values.CRP_current)}
+                                                                                          onChange={(e) => formik.setFieldValue("CRP_current", e.target.value)}
+                                                                                          className={values.CRP_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.CRP_unit}</Typography></InputAdornment>}
                                                                                     />
-                                                                                    <FormHelperText error id="hs_CRP_current-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.hs_CRP_current && errors.hs_CRP_current}
+                                                                                    <FormHelperText error id="CRP_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.CRP_current && errors.CRP_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
-                                                                                          placeholder={definePlaceholder(values.hs_CRP_previous)}
+                                                                                          placeholder={definePlaceholder(values.CRP_previous)}
                                                                                           disabled
-                                                                                          value={defineValue(values.hs_CRP_previous)}
-                                                                                          className={values.hs_CRP_previous_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          endAdornment={values.test_date_previous !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment> : null}
+                                                                                          value={defineValue(values.CRP_previous)}
+                                                                                          className={values.CRP_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          endAdornment={values.test_date_previous !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.CRP_unit}</Typography></InputAdornment> : null}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <InputBase
-                                                                                          placeholder={definePlaceholder(values.hs_CRP_past)}
+                                                                                          placeholder={definePlaceholder(values.CRP_past)}
                                                                                           disabled
-                                                                                          value={defineValue(values.hs_CRP_past)}
-                                                                                          className={values.hs_CRP_past_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.hs_CRP_unit}</Typography></InputAdornment> : null}
+                                                                                          value={defineValue(values.CRP_past)}
+                                                                                          className={values.CRP_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.CRP_unit}</Typography></InputAdornment> : null}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3750,7 +3799,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.UREW_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.UREW_current === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.UREW_current && errors.UREW_current)}
                                                                                                       {...getFieldProps('UREW_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3781,7 +3830,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.UREW_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.UREW_previous === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.UREW_previous && errors.UREW_previous)}
                                                                                                       {...getFieldProps('UREW_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3802,7 +3851,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.UREW_past_redstar === null ? null : 'red'}
+                                                                                                className={values.UREW_past === "neg" ? null : 'red'}
                                                                                                 error={Boolean(touched.UREW_past && errors.UREW_past)}
                                                                                                 {...getFieldProps('UREW_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3886,7 +3935,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URS_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.URS_current === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.URS_current && errors.URS_current)}
                                                                                                       {...getFieldProps('URS_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3917,7 +3966,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URS_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.URS_previous === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.URS_previous && errors.URS_previous)}
                                                                                                       {...getFieldProps('URS_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3938,7 +3987,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URS_past_redstar === null ? null : 'red'}
+                                                                                                className={values.URS_past === "neg" ? null : 'red'}
                                                                                                 error={Boolean(touched.URS_past && errors.URS_past)}
                                                                                                 {...getFieldProps('URS_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4022,7 +4071,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URBR_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.URBR_current === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.URBR_current && errors.URBR_current)}
                                                                                                       {...getFieldProps('URBR_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4053,7 +4102,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URBR_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.URBR_previous === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.URBR_previous && errors.URBR_previous)}
                                                                                                       {...getFieldProps('URBR_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4074,7 +4123,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URBR_past_redstar === null ? null : 'red'}
+                                                                                                className={values.URBR_past === "neg" ? null : 'red'}
                                                                                                 error={Boolean(touched.URBR_past && errors.URBR_past)}
                                                                                                 {...getFieldProps('URBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4158,7 +4207,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URUBR_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.URUBR_current === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.URUBR_current && errors.URUBR_current)}
                                                                                                       {...getFieldProps('URUBR_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4189,7 +4238,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URUBR_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.URUBR_previous === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.URUBR_previous && errors.URUBR_previous)}
                                                                                                       {...getFieldProps('URUBR_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4210,7 +4259,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URUBR_past_redstar === null ? null : 'red'}
+                                                                                                className={values.URUBR_past === "neg" ? null : 'red'}
                                                                                                 error={Boolean(touched.URUBR_past && errors.URUBR_past)}
                                                                                                 {...getFieldProps('URUBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4241,7 +4290,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.Bacter_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.Bacter_current === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.Bacter_current && errors.Bacter_current)}
                                                                                                       {...getFieldProps('Bacter_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4272,7 +4321,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.Bacter_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.Bacter_previous === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.Bacter_previous && errors.Bacter_previous)}
                                                                                                       {...getFieldProps('Bacter_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4293,7 +4342,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.Bacter_past_redstar === null ? null : 'red'}
+                                                                                                className={values.Bacter_past === "neg" ? null : 'red'}
                                                                                                 error={Boolean(touched.Bacter_past && errors.Bacter_past)}
                                                                                                 {...getFieldProps('Bacter_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4326,7 +4375,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.UBBH_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.UBBH_current === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.UBBH_current && errors.UBBH_current)}
                                                                                                       {...getFieldProps('UBBH_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4357,7 +4406,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.UBBH_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.UBBH_previous === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.UBBH_previous && errors.UBBH_previous)}
                                                                                                       {...getFieldProps('UBBH_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4378,7 +4427,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.UBBH_past_redstar === null ? null : 'red'}
+                                                                                                className={values.UBBH_past === "neg" ? null : 'red'}
                                                                                                 error={Boolean(touched.UBBH_past && errors.UBBH_past)}
                                                                                                 {...getFieldProps('UBBH_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4493,7 +4542,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.UBKU_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.UBKU_current === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.UBKU_current && errors.UBKU_current)}
                                                                                                       {...getFieldProps('UBKU_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4524,7 +4573,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.UBKU_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.UBKU_previous === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.UBKU_previous && errors.UBKU_previous)}
                                                                                                       {...getFieldProps('UBKU_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4545,7 +4594,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.UBKU_past_redstar === null ? null : 'red'}
+                                                                                                className={values.UBKU_past === "neg" ? null : 'red'}
                                                                                                 error={Boolean(touched.UBKU_past && errors.UBKU_past)}
                                                                                                 {...getFieldProps('UBKU_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4578,7 +4627,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.UBSNO_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.UBSNO_current === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.UBSNO_current && errors.UBSNO_current)}
                                                                                                       {...getFieldProps('UBSNO_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4609,7 +4658,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.UBSNO_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.UBSNO_previous === "2" ? null : 'red'}
                                                                                                       error={Boolean(touched.UBSNO_previous && errors.UBSNO_previous)}
                                                                                                       {...getFieldProps('UBSNO_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4630,7 +4679,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.UBSNO_past_redstar === null ? null : 'red'}
+                                                                                                className={values.UBSNO_past === "2" ? null : 'red'}
                                                                                                 error={Boolean(touched.UBSNO_past && errors.UBSNO_past)}
                                                                                                 {...getFieldProps('UBSNO_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4689,7 +4738,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URLEU_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.URLEU_current === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.URLEU_current && errors.URLEU_current)}
                                                                                                       {...getFieldProps('URLEU_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4720,7 +4769,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URLEU_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.URLEU_previous === "neg" ? null : 'red'}
                                                                                                       error={Boolean(touched.URLEU_previous && errors.URLEU_previous)}
                                                                                                       {...getFieldProps('URLEU_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4741,7 +4790,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URLEU_past_redstar === null ? null : 'red'}
+                                                                                                className={values.URLEU_previous === "neg" ? null : 'red'}
                                                                                                 error={Boolean(touched.URLEU_past && errors.URLEU_past)}
                                                                                                 {...getFieldProps('URLEU_past')}
                                                                                                 style={{ textAlign: 'left' }}

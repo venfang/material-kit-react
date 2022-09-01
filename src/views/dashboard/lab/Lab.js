@@ -9,25 +9,18 @@
 // eslint-disable-next-line prefer-template
 /* eslint-disable react/jsx-boolean-value */
 
-import { useEffect, useContext, useState } from 'react';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import { faker } from '@faker-js/faker';
+import { useEffect, useState } from 'react';
 import * as React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
-import Cookies from 'js-cookie';
 // @mui
-import { useTheme, alpha, styled } from '@mui/material/styles';
-import { Grid, Container, Typography, FormHelperText, Radio, FormControl, FormControlLabel, RadioGroup, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { styled } from '@mui/material/styles';
+import { Container, Typography, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, } from '@mui/material';
 import { getAllReport } from '../../../data/lab/lab';
 // components
 import Loader from '../../../components/loader/Loader';
 import Page from '../../../components/Page';
 import Iconify from '../../../components/Iconify';
-import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
-import SequenceBar from '../../../layouts/dashboard/SequenceBar';
+import { TimerAlertBox } from '../../../components/alert/SweetAlert';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
 
 
@@ -35,18 +28,24 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       [`&.${tableCellClasses.head}`]: {
             backgroundColor: "#1565c0",
             color: theme.palette.common.white,
-            fontSize: 12.5
+            fontSize: 12,
       },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
       // hide last border
       '& td, & th': {
-            fontSize: 12.5
+            fontSize: 11,
+            fontWeight: 500,
+            '&:hover': {
+                  color: '#1565c0',
+                  cursor: "pointer",
+            },
       },
       '&:last-child td, &:last-child th': {
             border: 0,
       },
+
 }));
 
 export default function Lab() {
@@ -69,7 +68,7 @@ export default function Lab() {
             <Page Page title="Lab"  >
                   <Loader spinner={isSubmitting} />
                   <PageNavBar topValue={topValue} title_name={title_name} to={to} />
-                  <Container sx={{ marginTop: 8, paddingRight: 8, paddingLeft: 8, width: "100%", height: "100%" }} disableGutters={true} >
+                  <Container sx={{ marginTop: 8, paddingRight: 1, paddingLeft: 1, width: "100%", height: "100%" }} disableGutters={true} >
                         <TableContainer component={Paper}>
                               <Table sx={{ minWidth: 800 }} aria-label="customized table" size="small">
                                     <TableHead>
@@ -153,8 +152,9 @@ export default function Lab() {
 
                                                 return (
                                                       <StyledTableRow
+                                                            hover
                                                             key={row.report_id}
-                                                            onDoubleClick={e => { // <--- this is how you can catch DoubleClick on row
+                                                            onDoubleClick={() => { // <--- this is how you can catch DoubleClick on row
                                                                   navigate(`./edit/${row.report_id}`, { replace: false });
                                                             }}
                                                       >
@@ -193,7 +193,7 @@ export default function Lab() {
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   <Button component={RouterLink} to={`./edit/${row.report_id}`}>
-                                                                        <Iconify icon="ant-design:file-pdf-outlined" />
+                                                                        <Iconify icon="ant-design:file-pdf-outlined" sx={{ fontSize: 20 }} />
                                                                   </Button>
                                                             </StyledTableCell>
 
