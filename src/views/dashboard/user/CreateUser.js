@@ -15,7 +15,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { Link as RouterLink } from 'react-router-dom';
 import { stubTrue, valuesIn } from 'lodash';
 // material
-import { Card, Stack, Button, Container, Typography, TableContainer, tablePaginationClasses, Autocomplete } from '@mui/material';
+import { Card, Stack, Button, Container, Typography, tablePaginationClasses, Autocomplete } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -90,6 +90,7 @@ export default function CreateUser() {
             user_name: Yup.string().required('User ID is required.').matches(/^[a-zA-Z0-9_]+$/, 'Only letters, digits and underscore are allowed.').matches(/^(?![0-9._])/, 'User ID must start with letters.').matches(/^(?!.*[_]$)/, 'User ID must not end with underscore.'),
             name: Yup.string().required('Name is required.').matches(/^[a-zA-Z\s]+$/, "Only letters and space are allowed. "),
             mobile_phone: Yup.string().required('Mobile Phone is required.'),
+            user_type: Yup.string().required('Role is required.'),
       });
 
       const formik = useFormik({
@@ -165,16 +166,7 @@ export default function CreateUser() {
                         <PageNavBar topValue={topValue} title_name={title_name} to={to} />
                         <FormikProvider value={formik}>
                               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                                          <Typography variant="h4" gutterBottom>
-                                                Create User
-                                          </Typography>
-                                          <Button variant="contained" type="submit" startIcon={<Iconify icon="eva:save-fill" />}>
-                                                Save
-                                          </Button>
-                                    </Stack>
-
-                                    <Card>
+                                    <Card sx={{ marginTop: 8, }} >
                                           <Scrollbar>
                                                 <Container sx={{ minHeight: 500, p: 5 }}>
                                                       <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
@@ -294,17 +286,9 @@ export default function CreateUser() {
                                                                               <OutlinedInput
                                                                                     type="text"
                                                                                     {...getFieldProps('mobile_phone')}
-                                                                                    error={Boolean(touched.designation && errors.designation)}
+                                                                                    error={Boolean(touched.mobile_phone && errors.mobile_phone)}
                                                                                     label="Mobile Phone"
-                                                                                    endAdornment={
-                                                                                          <InputAdornment position="end">
-                                                                                                <CustomWidthTooltip arrow placement="top-end" title="Name of the user.">
-                                                                                                      <IconButton aria-label="mobile_phone ToolTip Icon" edge="end">
-                                                                                                            <Iconify icon="eva:question-mark-circle-outline" />
-                                                                                                      </IconButton>
-                                                                                                </CustomWidthTooltip>
-                                                                                          </InputAdornment>
-                                                                                    }
+
                                                                               />
                                                                               <FormHelperText error id="mobile_phone-error" sx={{ fontWeight: 600 }}>
                                                                                     {touched.mobile_phone && errors.mobile_phone}
@@ -317,7 +301,6 @@ export default function CreateUser() {
                                                                         <FormControl fullWidth>
                                                                               <InputLabel id="">Password</InputLabel>
                                                                               <OutlinedInput
-                                                                                    readOnly
                                                                                     error={Boolean(touched.password && errors.password)}
                                                                                     type={values.showPassword ? 'text' : 'password'}
                                                                                     {...getFieldProps('password')}
@@ -355,7 +338,39 @@ export default function CreateUser() {
                                                                   </Item>
                                                             </Grid>
                                                       </Grid>
+                                                      <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
+                                                            <Grid item xs={12} md={6} lg={6}>
+                                                                  <Item>
+                                                                        <FormControl fullWidth>
+                                                                              <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                                                              <Select
+                                                                                    error={Boolean(touched.user_type && errors.user_type)}
+                                                                                    {...getFieldProps('user_type')}
+                                                                                    required
+                                                                                    label="Role"
+                                                                              >
+                                                                                    <MenuItem
+                                                                                          values="1"
+                                                                                    >Manager</MenuItem>
+                                                                                    <MenuItem
+                                                                                          values="2"
+                                                                                    >Staff</MenuItem>
 
+                                                                              </Select>
+                                                                              <FormHelperText error id="user_type-error" sx={{ fontWeight: 600 }}>
+                                                                                    {touched.user_type && errors.user_type}
+                                                                              </FormHelperText>
+                                                                        </FormControl>
+                                                                  </Item>
+                                                            </Grid>
+                                                            <Grid item xs={12} md={6} lg={6}>
+                                                                  <Item>
+                                                                        <Button variant="contained" type="submit" startIcon={<Iconify icon="eva:save-fill" />}>
+                                                                              Save
+                                                                        </Button>
+                                                                  </Item>
+                                                            </Grid>
+                                                      </Grid>
 
                                                 </Container>
                                           </Scrollbar>
@@ -363,6 +378,6 @@ export default function CreateUser() {
                               </Form>
                         </FormikProvider>
                   </Container>
-            </Page>
+            </Page >
       );
 }

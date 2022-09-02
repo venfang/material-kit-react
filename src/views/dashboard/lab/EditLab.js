@@ -496,7 +496,7 @@ export default function Lab() {
                   BloodMCHC: values.BloodMCHC_current,
                   BloodType: values.BloodType_current,
                   BloodRH: values.BloodRH_current,
-                  blood_confirm_staff: Cookies.get('name'),
+                  blood_confirm_staff: Cookies.get('user_name'),
             };
             confirmBloodTest(formValues)
                   .then((response) => {
@@ -561,7 +561,7 @@ export default function Lab() {
                   RFTSH: values.RFTSH_current,
                   Homocy: values.Homocy_current,
                   CVirus: values.CVirus_current,
-                  immunology_confirm_staff: Cookies.get('name'),
+                  immunology_confirm_staff: Cookies.get('user_name'),
             };
             console.log(formValues);
             confirmImmunology(formValues)
@@ -620,7 +620,7 @@ export default function Lab() {
                   Cast2: values.Cast2_current,
                   Bacter: values.Bacter_current,
                   UBOther: values.UBOther_current,
-                  urine_confirm_staff: Cookies.get('name'),
+                  urine_confirm_staff: Cookies.get('user_name'),
             };
             console.log(formValues);
             confirmUrine(formValues)
@@ -684,7 +684,7 @@ export default function Lab() {
                   Sodium: values.Sodium_current,
                   Potassium: values.Potassium_current,
                   Chloride: values.Chloride_current,
-                  biochemistry_confirm_staff: Cookies.get('name'),
+                  biochemistry_confirm_staff: Cookies.get('user_name'),
             };
             confirmBiochemistry(formValues)
                   .then((response) => {
@@ -736,7 +736,7 @@ export default function Lab() {
                   BloodMCHC: values.BloodMCHC_current,
                   BloodType: values.BloodType_current,
                   BloodRH: values.BloodRH_current,
-                  blood_release_staff: Cookies.get('name'),
+                  blood_release_staff: Cookies.get('user_name'),
             };
             releaseBloodTest(formValues)
                   .then((response) => {
@@ -801,7 +801,7 @@ export default function Lab() {
                   RFTSH: values.RFTSH_current,
                   Homocy: values.Homocy_current,
                   CVirus: values.CVirus_current,
-                  immunology_release_staff: Cookies.get('name'),
+                  immunology_release_staff: Cookies.get('user_name'),
             };
             console.log(formValues);
             releaseImmunology(formValues)
@@ -861,7 +861,7 @@ export default function Lab() {
                   Cast2: values.Cast2_current,
                   Bacter: values.Bacter_current,
                   UBOther: values.UBOther_current,
-                  urine_release_staff: Cookies.get('name'),
+                  urine_release_staff: Cookies.get('user_name'),
             };
             releaseUrine(formValues)
                   .then((response) => {
@@ -925,7 +925,7 @@ export default function Lab() {
                   Sodium: values.Sodium_current,
                   Potassium: values.Potassium_current,
                   Chloride: values.Chloride_current,
-                  biochemistry_release_staff: Cookies.get('name'),
+                  biochemistry_release_staff: Cookies.get('user_name'),
             };
             releaseBiochemistry(formValues)
                   .then((response) => {
@@ -1124,7 +1124,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HBsag_Status_current === "2" ? null : 'red'}
+                                                                                                      className={values.HBsag_Status_current === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.HBsag_Status_current && errors.HBsag_Status_current)}
                                                                                                       {...getFieldProps('HBsag_Status_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1168,7 +1168,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HBsag_Status_previous === "2" ? null : 'red'}
+                                                                                                      className={values.HBsag_Status_previous === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.HBsag_Status_previous && errors.HBsag_Status_previous)}
                                                                                                       {...getFieldProps('HBsag_Status_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1211,7 +1211,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HBsag_Status_past === "2" ? null : 'red'}
+                                                                                                      className={values.HBsag_Status_past === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.HBsag_Status_past && errors.HBsag_Status_past)}
                                                                                                       {...getFieldProps('HBsag_Status_past')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1307,7 +1307,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.AntiHBs_Status_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.AntiHBs_Status_current_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.AntiHBs_Status_current && errors.AntiHBs_Status_current)}
                                                                                                       {...getFieldProps('AntiHBs_Status_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1351,7 +1351,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.AntiHBs_Status_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.AntiHBs_Status_previous_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.AntiHBs_Status_previous && errors.AntiHBs_Status_previous)}
                                                                                                       {...getFieldProps('AntiHBs_Status_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1394,7 +1394,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.AntiHBs_Status_past_redstar === null ? null : 'red'}
+                                                                                                      className={values.AntiHBs_Status_past_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.AntiHBs_Status_past && errors.AntiHBs_Status_past)}
                                                                                                       {...getFieldProps('AntiHBs_Status_past')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1487,7 +1487,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HavIgG_Status_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.HavIgG_Status_current_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.HavIgG_Status_current && errors.HavIgG_Status_current)}
                                                                                                       {...getFieldProps('HavIgG_Status_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1531,7 +1531,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HavIgG_Status_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.HavIgG_Status_previous_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.HavIgG_Status_previous && errors.HavIgG_Status_previous)}
                                                                                                       {...getFieldProps('HavIgG_Status_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1574,7 +1574,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.HavIgG_Status_past_redstar === null ? null : 'red'}
+                                                                                                      className={values.HavIgG_Status_past_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.HavIgG_Status_past && errors.HavIgG_Status_past)}
                                                                                                       {...getFieldProps('HavIgG_Status_past')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1667,7 +1667,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.EBV_Status_current === "2" ? null : 'red'}
+                                                                                                      className={values.EBV_Status_current === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.EBV_Status_current && errors.EBV_Status_current)}
                                                                                                       {...getFieldProps('EBV_Status_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1711,7 +1711,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.EBV_Status_previous === "2" ? null : 'red'}
+                                                                                                      className={values.EBV_Status_previous === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.EBV_Status_previous && errors.EBV_Status_previous)}
                                                                                                       {...getFieldProps('EBV_Status_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1754,7 +1754,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.EBV_Status_past === "2" ? null : 'red'}
+                                                                                                      className={values.EBV_Status_past === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.EBV_Status_past && errors.EBV_Status_past)}
                                                                                                       {...getFieldProps('EBV_Status_past')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1913,7 +1913,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.RANormal_Status_current === "2" ? null : 'red'}
+                                                                                                      className={values.RANormal_Status_current === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.RANormal_Status_current && errors.RANormal_Status_current)}
                                                                                                       {...getFieldProps('RANormal_Status_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -1957,7 +1957,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.RANormal_Status_previous === "2" ? null : 'red'}
+                                                                                                      className={values.RANormal_Status_previous === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.RANormal_Status_previous && errors.RANormal_Status_previous)}
                                                                                                       {...getFieldProps('RANormal_Status_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2000,7 +2000,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.RANormal_Status_past === "2" ? null : 'red'}
+                                                                                                      className={values.RANormal_Status_past === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.RANormal_Status_past && errors.RANormal_Status_past)}
                                                                                                       {...getFieldProps('RANormal_Status_past')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2038,7 +2038,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.VDRLNormal_current === "2" ? null : 'red'}
+                                                                                                      className={values.VDRLNormal_current === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.VDRLNormal_current && errors.VDRLNormal_current)}
                                                                                                       {...getFieldProps('VDRLNormal_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2069,7 +2069,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.VDRLNormal_previous === "2" ? null : 'red'}
+                                                                                                      className={values.VDRLNormal_previous === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.VDRLNormal_previous && errors.VDRLNormal_previous)}
                                                                                                       {...getFieldProps('VDRLNormal_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2090,7 +2090,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.VDRLNormal_past === "2" ? null : 'red'}
+                                                                                                className={values.VDRLNormal_past === "2" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.VDRLNormal_past && errors.VDRLNormal_past)}
                                                                                                 {...getFieldProps('VDRLNormal_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -2127,7 +2127,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.CVirus_current === "2" ? null : 'red'}
+                                                                                                      className={values.CVirus_current === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.CVirus_current && errors.CVirus_current)}
                                                                                                       {...getFieldProps('CVirus_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2158,7 +2158,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.CVirus_previous === "2" ? null : 'red'}
+                                                                                                      className={values.CVirus_previous === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.CVirus_previous && errors.CVirus_previous)}
                                                                                                       {...getFieldProps('CVirus_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2179,7 +2179,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.CVirus_past === "2" ? null : 'red'}
+                                                                                                className={values.CVirus_past === "2" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.CVirus_past && errors.CVirus_past)}
                                                                                                 {...getFieldProps('CVirus_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -2516,7 +2516,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.Hpyloriab_current === "2" ? null : 'red'}
+                                                                                                      className={values.Hpyloriab_current === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.Hpyloriab_current && errors.Hpyloriab_current)}
                                                                                                       {...getFieldProps('Hpyloriab_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2547,7 +2547,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.Hpyloriab_previous === "2" ? null : 'red'}
+                                                                                                      className={values.Hpyloriab_previous === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.Hpyloriab_previous && errors.Hpyloriab_previous)}
                                                                                                       {...getFieldProps('Hpyloriab_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -2568,7 +2568,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.Hpyloriab_past === "2" ? null : 'red'}
+                                                                                                className={values.Hpyloriab_past === "2" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.Hpyloriab_past && errors.Hpyloriab_past)}
                                                                                                 {...getFieldProps('Hpyloriab_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3663,7 +3663,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URLook_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.URLook_current_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URLook_current && errors.URLook_current)}
                                                                                                       {...getFieldProps('URLook_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3694,7 +3694,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URLook_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.URLook_previous_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URLook_previous && errors.URLook_previous)}
                                                                                                       {...getFieldProps('URLook_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3715,7 +3715,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URLook_past_redstar === null ? null : 'red'}
+                                                                                                className={values.URLook_past_redstar === null ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.URLook_past && errors.URLook_past)}
                                                                                                 {...getFieldProps('URLook_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3799,7 +3799,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.UREW_current === "neg" ? null : 'red'}
+                                                                                                      className={values.UREW_current === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.UREW_current && errors.UREW_current)}
                                                                                                       {...getFieldProps('UREW_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3830,7 +3830,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.UREW_previous === "neg" ? null : 'red'}
+                                                                                                      className={values.UREW_previous === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.UREW_previous && errors.UREW_previous)}
                                                                                                       {...getFieldProps('UREW_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3851,7 +3851,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.UREW_past === "neg" ? null : 'red'}
+                                                                                                className={values.UREW_past === "neg" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.UREW_past && errors.UREW_past)}
                                                                                                 {...getFieldProps('UREW_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -3935,7 +3935,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URS_current === "neg" ? null : 'red'}
+                                                                                                      className={values.URS_current === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URS_current && errors.URS_current)}
                                                                                                       {...getFieldProps('URS_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3966,7 +3966,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URS_previous === "neg" ? null : 'red'}
+                                                                                                      className={values.URS_previous === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URS_previous && errors.URS_previous)}
                                                                                                       {...getFieldProps('URS_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -3987,7 +3987,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URS_past === "neg" ? null : 'red'}
+                                                                                                className={values.URS_past === "neg" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.URS_past && errors.URS_past)}
                                                                                                 {...getFieldProps('URS_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4071,7 +4071,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URBR_current === "neg" ? null : 'red'}
+                                                                                                      className={values.URBR_current === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URBR_current && errors.URBR_current)}
                                                                                                       {...getFieldProps('URBR_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4102,7 +4102,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URBR_previous === "neg" ? null : 'red'}
+                                                                                                      className={values.URBR_previous === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URBR_previous && errors.URBR_previous)}
                                                                                                       {...getFieldProps('URBR_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4123,7 +4123,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URBR_past === "neg" ? null : 'red'}
+                                                                                                className={values.URBR_past === "neg" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.URBR_past && errors.URBR_past)}
                                                                                                 {...getFieldProps('URBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4207,7 +4207,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URUBR_current === "neg" ? null : 'red'}
+                                                                                                      className={values.URUBR_current === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URUBR_current && errors.URUBR_current)}
                                                                                                       {...getFieldProps('URUBR_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4238,7 +4238,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URUBR_previous === "neg" ? null : 'red'}
+                                                                                                      className={values.URUBR_previous === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URUBR_previous && errors.URUBR_previous)}
                                                                                                       {...getFieldProps('URUBR_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4259,7 +4259,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URUBR_past === "neg" ? null : 'red'}
+                                                                                                className={values.URUBR_past === "neg" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.URUBR_past && errors.URUBR_past)}
                                                                                                 {...getFieldProps('URUBR_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4290,7 +4290,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.Bacter_current === "neg" ? null : 'red'}
+                                                                                                      className={values.Bacter_current === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.Bacter_current && errors.Bacter_current)}
                                                                                                       {...getFieldProps('Bacter_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4321,7 +4321,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.Bacter_previous === "neg" ? null : 'red'}
+                                                                                                      className={values.Bacter_previous === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.Bacter_previous && errors.Bacter_previous)}
                                                                                                       {...getFieldProps('Bacter_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4342,7 +4342,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.Bacter_past === "neg" ? null : 'red'}
+                                                                                                className={values.Bacter_past === "neg" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.Bacter_past && errors.Bacter_past)}
                                                                                                 {...getFieldProps('Bacter_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4375,7 +4375,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.UBBH_current === "neg" ? null : 'red'}
+                                                                                                      className={values.UBBH_current === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.UBBH_current && errors.UBBH_current)}
                                                                                                       {...getFieldProps('UBBH_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4406,7 +4406,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.UBBH_previous === "neg" ? null : 'red'}
+                                                                                                      className={values.UBBH_previous === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.UBBH_previous && errors.UBBH_previous)}
                                                                                                       {...getFieldProps('UBBH_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4427,7 +4427,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.UBBH_past === "neg" ? null : 'red'}
+                                                                                                className={values.UBBH_past === "neg" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.UBBH_past && errors.UBBH_past)}
                                                                                                 {...getFieldProps('UBBH_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4480,7 +4480,7 @@ export default function Lab() {
                                                                                           <Select
                                                                                                 multiple
                                                                                                 disabled
-                                                                                                className={values.UBOther_previous_redstar === null ? null : 'red'}
+                                                                                                className={values.UBOther_previous_redstar === null ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.tempUBOther_previous && errors.tempUBOther_previous)}
                                                                                                 value={tempUBOther_previous}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4504,7 +4504,7 @@ export default function Lab() {
                                                                                           <Select
                                                                                                 multiple
                                                                                                 disabled
-                                                                                                className={values.UBOther_past_redstar === null ? null : 'red'}
+                                                                                                className={values.UBOther_past_redstar === null ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.UBOther_past && errors.UBOther_past)}
                                                                                                 value={tempUBOther_past}
 
@@ -4542,7 +4542,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.UBKU_current === "neg" ? null : 'red'}
+                                                                                                      className={values.UBKU_current === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.UBKU_current && errors.UBKU_current)}
                                                                                                       {...getFieldProps('UBKU_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4573,7 +4573,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.UBKU_previous === "neg" ? null : 'red'}
+                                                                                                      className={values.UBKU_previous === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.UBKU_previous && errors.UBKU_previous)}
                                                                                                       {...getFieldProps('UBKU_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4594,7 +4594,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.UBKU_past === "neg" ? null : 'red'}
+                                                                                                className={values.UBKU_past === "neg" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.UBKU_past && errors.UBKU_past)}
                                                                                                 {...getFieldProps('UBKU_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4627,7 +4627,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.UBSNO_current === "2" ? null : 'red'}
+                                                                                                      className={values.UBSNO_current === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.UBSNO_current && errors.UBSNO_current)}
                                                                                                       {...getFieldProps('UBSNO_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4658,7 +4658,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.UBSNO_previous === "2" ? null : 'red'}
+                                                                                                      className={values.UBSNO_previous === "2" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.UBSNO_previous && errors.UBSNO_previous)}
                                                                                                       {...getFieldProps('UBSNO_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4679,7 +4679,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.UBSNO_past === "2" ? null : 'red'}
+                                                                                                className={values.UBSNO_past === "2" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.UBSNO_past && errors.UBSNO_past)}
                                                                                                 {...getFieldProps('UBSNO_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -4738,7 +4738,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.URLEU_current === "neg" ? null : 'red'}
+                                                                                                      className={values.URLEU_current === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URLEU_current && errors.URLEU_current)}
                                                                                                       {...getFieldProps('URLEU_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4769,7 +4769,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.URLEU_previous === "neg" ? null : 'red'}
+                                                                                                      className={values.URLEU_previous === "neg" ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.URLEU_previous && errors.URLEU_previous)}
                                                                                                       {...getFieldProps('URLEU_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -4790,7 +4790,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.URLEU_previous === "neg" ? null : 'red'}
+                                                                                                className={values.URLEU_previous === "neg" ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.URLEU_past && errors.URLEU_past)}
                                                                                                 {...getFieldProps('URLEU_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -5432,7 +5432,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.BloodType_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.BloodType_current_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.BloodType_current && errors.BloodType_current)}
                                                                                                       {...getFieldProps('BloodType_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -5463,7 +5463,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.BloodType_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.BloodType_previous_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.BloodType_previous && errors.BloodType_previous)}
                                                                                                       {...getFieldProps('BloodType_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -5484,7 +5484,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.BloodType_past_redstar === null ? null : 'red'}
+                                                                                                className={values.BloodType_past_redstar === null ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.BloodType_past && errors.BloodType_past)}
                                                                                                 {...getFieldProps('BloodType_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -5517,7 +5517,7 @@ export default function Lab() {
                                                                                           :
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
-                                                                                                      className={values.BloodRH_current_redstar === null ? null : 'red'}
+                                                                                                      className={values.BloodRH_current_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.BloodRH_current && errors.BloodRH_current)}
                                                                                                       {...getFieldProps('BloodRH_current')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -5548,7 +5548,7 @@ export default function Lab() {
                                                                                           <FormControl fullWidth>
                                                                                                 <Select
                                                                                                       disabled
-                                                                                                      className={values.BloodRH_previous_redstar === null ? null : 'red'}
+                                                                                                      className={values.BloodRH_previous_redstar === null ? 'default' : 'red'}
                                                                                                       error={Boolean(touched.BloodRH_previous && errors.BloodRH_previous)}
                                                                                                       {...getFieldProps('BloodRH_previous')}
                                                                                                       style={{ textAlign: 'left' }}
@@ -5569,7 +5569,7 @@ export default function Lab() {
                                                                                     <FormControl fullWidth>
                                                                                           <Select
                                                                                                 disabled
-                                                                                                className={values.BloodRH_past_redstar === null ? null : 'red'}
+                                                                                                className={values.BloodRH_past_redstar === null ? 'default' : 'red'}
                                                                                                 error={Boolean(touched.BloodRH_past && errors.BloodRH_past)}
                                                                                                 {...getFieldProps('BloodRH_past')}
                                                                                                 style={{ textAlign: 'left' }}
@@ -5608,7 +5608,7 @@ export default function Lab() {
                                           <FormControl fullWidth>
                                                 <Select
                                                       multiple
-                                                      className={values.UBOther_current_redstar === null ? null : 'red'}
+                                                      className={values.UBOther_current_redstar === null ? 'default' : 'red'}
                                                       error={Boolean(touched.UBOther_current && errors.UBOther_current)}
                                                       value={tempUBOther_current}
                                                       onChange={handleUBOtherChange}

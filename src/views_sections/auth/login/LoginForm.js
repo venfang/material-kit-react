@@ -25,7 +25,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    name: Yup.string().required('User ID is required'),
+    user_name: Yup.string().required('User Name is required'),
     // email: Yup.string()
     //           .email('Email must be a valid email address')
     //           .required('Email is required'),
@@ -37,13 +37,13 @@ export default function LoginForm() {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      user_name: '',
       password: '',
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
       const formValues = {
-        name: values.name,
+        user_name: values.user_name,
         password: values.password,
       };
 
@@ -57,10 +57,10 @@ export default function LoginForm() {
 
 
               // VERIFY SUCCESSFUL
-              Cookies.set('name', verifyResponse.data.name, { expires: 1 });
+              Cookies.set('user_name', verifyResponse.data.user_name, { expires: 1 });
               TimerAlertBox('success', 'Login Successfully', '', 1500, 'center').then(() => {
 
-                if (Cookies.get('name') !== undefined) {
+                if (Cookies.get('user_name') !== undefined) {
 
                   window.location.href = `${window.location.origin}/dashboard/app`;
                 }
@@ -118,7 +118,7 @@ export default function LoginForm() {
           >
             <PersonOutlineIcon />
             <Typography sx={{ mx: 0.5 }} variant="label">
-              User ID
+              User Name
             </Typography>
           </Box>
 
@@ -134,13 +134,13 @@ export default function LoginForm() {
           >
             <InputBase
               sx={{ ml: 1, flex: 1 }}
-              name="name"
-              placeholder="User ID"
-              {...getFieldProps('name')}
-              error={Boolean(touched.name && errors.name)}
+              name="user_name"
+              placeholder="User Name"
+              {...getFieldProps('user_name')}
+              error={Boolean(touched.user_name && errors.user_name)}
             />
-            <FormHelperText error id="name-error" sx={{ fontWeight: 600 }}>
-              {touched.name && errors.name}
+            <FormHelperText error id="user_name-error" sx={{ fontWeight: 600 }}>
+              {touched.user_name && errors.user_name}
             </FormHelperText>
           </Paper>
 
