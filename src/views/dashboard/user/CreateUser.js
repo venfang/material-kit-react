@@ -36,7 +36,7 @@ import Label from '../../../components/Label';
 import Loader from '../../../components/loader/Loader';
 import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
-
+import { createUser } from '../../../data/user/user';
 // components
 
 import Page from '../../../components/Page';
@@ -105,54 +105,51 @@ export default function CreateUser() {
                   password: '',
             },
             validationSchema: CreateUserSchema,
-            //     onSubmit: () => {
-            //       const formValues = {
-            //         user_id: values.user_id,
-            //         name: values.name,
-            //         gender: values.gender,
-            //         email: values.email,
-            //         company_code: values.company_code,
-            //         department: values.department,
-            //         password: values.password,
-            //         permission_company_code: values.permission_company_code.toString(),
-            //         status: true,
-            //         created_by: showCookieUserID || null,
-            //       };
+            onSubmit: () => {
+                  const formValues = {
+                        user_name: values.user_name,
+                        user_type: values.user_type,
+                        name: values.name,
+                        center: values.center,
+                        designation: values.designation,
+                        mobile_phone: values.mobile_phone,
+                        password: values.password,
+                        status: true,
+                        created_by: showCookieUserID || null,
+                  };
 
-            //       createUsers(formValues)
-            //         .then((response) => {
-            //           formik.setSubmitting(false);
-
-            //           AlertBox(
-            //             'success',
-            //             'Created Successfully',
-            //             "User '" + values.name + "' has been created.",
-            //             false,
-            //             '',
-            //             true,
-            //             'OK'
-            //           ).then(() => {
-            //             window.location = '../user';
-            //           });
-            //         })
-            //         .catch((error) => {
-            //           formik.setSubmitting(false);
-
-            //           if (error.response.data.message === 'duplicate') {
-            //             AlertBox(
-            //               'error',
-            //               'Create Failed',
-            //               'The following user code/name has already existed.',
-            //               false,
-            //               '',
-            //               true,
-            //               'OK'
-            //             ).then(() => {});
-            //           } else {
-            //             AlertBox('error', 'Create Failed', error.response.data.message, false, '', true, 'OK').then(() => {});
-            //           }
-            //         });
-            //     },
+                  createUser(formValues)
+                        .then((response) => {
+                              formik.setSubmitting(false);
+                              AlertBox(
+                                    'success',
+                                    'Created Successfully',
+                                    "User '" + values.name + "' has been created.",
+                                    false,
+                                    '',
+                                    true,
+                                    'OK'
+                              ).then(() => {
+                                    window.location = '../user';
+                              });
+                        })
+                        .catch((error) => {
+                              formik.setSubmitting(false);
+                              if (error.response.data.message === 'duplicate') {
+                                    AlertBox(
+                                          'error',
+                                          'Create Failed',
+                                          'The following user name has already existed.',
+                                          false,
+                                          '',
+                                          true,
+                                          'OK'
+                                    ).then(() => { });
+                              } else {
+                                    AlertBox('error', 'Create Failed', error.response.data.message, false, '', true, 'OK').then(() => { });
+                              }
+                        });
+            },
       });
 
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -350,10 +347,10 @@ export default function CreateUser() {
                                                                                     label="Role"
                                                                               >
                                                                                     <MenuItem
-                                                                                          values="1"
+                                                                                          value="1"
                                                                                     >Manager</MenuItem>
                                                                                     <MenuItem
-                                                                                          values="2"
+                                                                                          value="2"
                                                                                     >Staff</MenuItem>
 
                                                                               </Select>

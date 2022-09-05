@@ -26,9 +26,11 @@ import { getAllFacility } from '../../../data/facility/facility';
 // components
 import Loader from '../../../components/loader/Loader';
 import Page from '../../../components/Page';
+import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import { TimerAlertBox } from '../../../components/alert/SweetAlert';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
+import SearchNotFound from '../../../components/SearchNotFound';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -65,7 +67,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 export default function Lab() {
   const navigate = useNavigate()
   const topValue = 64;
-  const title_name = "HEALTH REPORT";
+  const title_name = "LAB TEST";
   const to = "/dashboard/app";
   const [reportList, setReportList] = useState([]);
   const [facilityList, setFacilityList] = useState([]);
@@ -120,7 +122,7 @@ export default function Lab() {
   };
 
   return (
-    < Page title="Health Report"  >
+    < Page title="Lab"  >
       <Loader spinner={isSubmitting} />
       <PageNavBar topValue={topValue} title_name={title_name} to={to} />
       <Container sx={{ marginTop: 8, paddingRight: 1, paddingLeft: 1, width: "100%", height: "100%" }} disableGutters={true} >
@@ -154,54 +156,54 @@ export default function Lab() {
                 let colorBiochemistry = "";
                 let textBiochemistry = "";
                 if (row.immunology_confirm_date !== null && row.immunology_confirm_staff !== null) {
-                  colorImmunology = "#00c853";
+                  colorImmunology = "success";
                   textImmunology = "Completed";
                 }
                 else if (row.immunology_release_date !== null && row.immunology_release_staff !== null) {
-                  colorImmunology = "#1565c0"
+                  colorImmunology = "primary";
                   textImmunology = "Release";
                 }
                 else {
-                  colorImmunology = "#e65100"
+                  colorImmunology = "error";
                   textImmunology = "Pending";
                 }
 
                 if (row.blood_confirm_date !== null && row.blood_confirm_staff !== null) {
-                  colorBlood = "#00c853";
+                  colorBlood = "success";
                   textBlood = "Completed";
                 }
                 else if (row.blood_release_date !== null && row.blood_release_staff !== null) {
-                  colorBlood = "#1565c0"
+                  colorBlood = "primary";
                   textBlood = "Release";
                 }
                 else {
-                  colorBlood = "#e65100"
+                  colorBlood = "error";
                   textBlood = "Pending";
                 }
 
                 if (row.urine_confirm_date !== null && row.urine_confirm_staff !== null) {
-                  colorUrine = "#00c853";
+                  colorUrine = "success";
                   textUrine = "Completed";
                 }
                 else if (row.urine_release_date !== null && row.urine_release_staff !== null) {
-                  colorUrine = "#1565c0"
+                  colorUrine = "primary";
                   textUrine = "Release";
                 }
                 else {
-                  colorUrine = "#e65100"
+                  colorUrine = "error";
                   textUrine = "Pending";
                 }
 
                 if (row.biochemistry_confirm_date !== null && row.biochemistry_confirm_staff !== null) {
-                  colorBiochemistry = "#00c853";
+                  colorBiochemistry = "success";
                   textBiochemistry = "Completed";
                 }
                 else if (row.biochemistry_release_date !== null && row.biochemistry_release_staff !== null) {
-                  colorBiochemistry = "#1565c0"
+                  colorBiochemistry = "primary";
                   textBiochemistry = "Release";
                 }
                 else {
-                  colorBiochemistry = "#e65100"
+                  colorBiochemistry = "error";
                   textBiochemistry = "Pending";
                 }
 
@@ -211,11 +213,8 @@ export default function Lab() {
                     hover
                     key={row.report_id}
                     onDoubleClick={() => { // <--- this is how you can catch DoubleClick on row
-                      navigate(`/dashboard/view-health-report/${row.report_id}`, { replace: false });
+                      navigate(`./edit/${row.report_id}`, { replace: false });
                     }}
-                  // onDoubleClick={() => { // <--- this is how you can catch DoubleClick on row
-                  //   navigate(`./view-health-report/${row.report_id}`, { replace: false });
-                  // }}
                   >
                     <StyledTableCell component="th" scope="row" align='center'>
                       {row.barcode}
@@ -239,16 +238,24 @@ export default function Lab() {
                       {row.name}
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row" align='center'>
-                      <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorImmunology} /> {textImmunology}</Typography>
+                      <Label variant="ghost" color={colorImmunology}>
+                        {textImmunology}
+                      </Label>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row" align='center'>
-                      <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBiochemistry} /> {textBiochemistry}</Typography>
+                      <Label variant="ghost" color={colorBiochemistry}>
+                        {textBiochemistry}
+                      </Label>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row" align='center'>
-                      <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorUrine} /> {textUrine}</Typography>
+                      <Label variant="ghost" color={colorUrine}>
+                        {textUrine}
+                      </Label>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row" align='center'>
-                      <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBlood} /> {textBlood}</Typography>
+                      <Label variant="ghost" color={colorBlood}>
+                        {textBlood}
+                      </Label>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row" align='center'>
                       <Button component={RouterLink} to={`./edit/${row.report_id}`}>
@@ -261,6 +268,15 @@ export default function Lab() {
               }
               )}
             </TableBody>
+            {reportList.length < 1 && (
+              <TableBody>
+                <TableRow>
+                  <TableCell align="center" colSpan={12} sx={{ py: 3 }}>
+                    <SearchNotFound />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </Container>

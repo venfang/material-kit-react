@@ -24,6 +24,7 @@ import { LoadingButton } from '@mui/lab';
 import { getAllUser } from '../../../data/user/user';
 // components
 import Loader from '../../../components/loader/Loader';
+import Label from '../../../components/Label';
 import Page from '../../../components/Page';
 import Iconify from '../../../components/Iconify';
 import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
@@ -118,7 +119,9 @@ export default function Lab() {
                                                                   {row.mobile_phone}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  {row.status}
+                                                                  <Label variant="ghost" color={(row.status === false && 'error') || 'success'}>
+                                                                        {(row.status === false && 'inactive') || 'active'}
+                                                                  </Label>
                                                             </StyledTableCell>
                                                       </StyledTableRow>
                                                 )

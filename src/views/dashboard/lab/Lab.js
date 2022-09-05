@@ -16,19 +16,25 @@ import { useFormik, Form, FormikProvider } from 'formik';
 // @mui
 import { styled } from '@mui/material/styles';
 import {
-      Container, Typography, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses,
+      Container, Typography, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses,
       Dialog, DialogTitle, Grid, DialogContent, DialogActions,
       FormControl, InputLabel, OutlinedInput, Select, MenuItem
 
 } from '@mui/material';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { getAllReport } from '../../../data/lab/lab';
 import { getAllFacility } from '../../../data/facility/facility';
 // components
 import Loader from '../../../components/loader/Loader';
 import Page from '../../../components/Page';
+import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import { TimerAlertBox } from '../../../components/alert/SweetAlert';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
+import SearchNotFound from '../../../components/SearchNotFound';
 
 const Item = styled(Paper)(({ theme }) => ({
       backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -70,11 +76,12 @@ export default function Lab() {
       const [reportList, setReportList] = useState([]);
       const [facilityList, setFacilityList] = useState([]);
       const [filterDialog, setFilterDialog] = useState(false);
+      const [isDateOpen, setDatePickerOpen] = useState(false);
       const formik = useFormik({
             initialValues: {
                   barcode: '',
                   order_id: '',
-                  test_date: '',
+                  test_date: new Date(),
                   ic_no: '',
                   facility_id: ''
             },
@@ -154,54 +161,54 @@ export default function Lab() {
                                                 let colorBiochemistry = "";
                                                 let textBiochemistry = "";
                                                 if (row.immunology_confirm_date !== null && row.immunology_confirm_staff !== null) {
-                                                      colorImmunology = "#00c853";
+                                                      colorImmunology = "success";
                                                       textImmunology = "Completed";
                                                 }
                                                 else if (row.immunology_release_date !== null && row.immunology_release_staff !== null) {
-                                                      colorImmunology = "#1565c0"
+                                                      colorImmunology = "primary";
                                                       textImmunology = "Release";
                                                 }
                                                 else {
-                                                      colorImmunology = "#e65100"
+                                                      colorImmunology = "error";
                                                       textImmunology = "Pending";
                                                 }
 
                                                 if (row.blood_confirm_date !== null && row.blood_confirm_staff !== null) {
-                                                      colorBlood = "#00c853";
+                                                      colorBlood = "success";
                                                       textBlood = "Completed";
                                                 }
                                                 else if (row.blood_release_date !== null && row.blood_release_staff !== null) {
-                                                      colorBlood = "#1565c0"
+                                                      colorBlood = "primary";
                                                       textBlood = "Release";
                                                 }
                                                 else {
-                                                      colorBlood = "#e65100"
+                                                      colorBlood = "error";
                                                       textBlood = "Pending";
                                                 }
 
                                                 if (row.urine_confirm_date !== null && row.urine_confirm_staff !== null) {
-                                                      colorUrine = "#00c853";
+                                                      colorUrine = "success";
                                                       textUrine = "Completed";
                                                 }
                                                 else if (row.urine_release_date !== null && row.urine_release_staff !== null) {
-                                                      colorUrine = "#1565c0"
+                                                      colorUrine = "primary";
                                                       textUrine = "Release";
                                                 }
                                                 else {
-                                                      colorUrine = "#e65100"
+                                                      colorUrine = "error";
                                                       textUrine = "Pending";
                                                 }
 
                                                 if (row.biochemistry_confirm_date !== null && row.biochemistry_confirm_staff !== null) {
-                                                      colorBiochemistry = "#00c853";
+                                                      colorBiochemistry = "success";
                                                       textBiochemistry = "Completed";
                                                 }
                                                 else if (row.biochemistry_release_date !== null && row.biochemistry_release_staff !== null) {
-                                                      colorBiochemistry = "#1565c0"
+                                                      colorBiochemistry = "primary";
                                                       textBiochemistry = "Release";
                                                 }
                                                 else {
-                                                      colorBiochemistry = "#e65100"
+                                                      colorBiochemistry = "error";
                                                       textBiochemistry = "Pending";
                                                 }
 
@@ -236,16 +243,24 @@ export default function Lab() {
                                                                   {row.name}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorImmunology} /> {textImmunology}</Typography>
+                                                                  <Label variant="ghost" color={colorImmunology}>
+                                                                        {textImmunology}
+                                                                  </Label>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBiochemistry} /> {textBiochemistry}</Typography>
+                                                                  <Label variant="ghost" color={colorBiochemistry}>
+                                                                        {textBiochemistry}
+                                                                  </Label>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorUrine} /> {textUrine}</Typography>
+                                                                  <Label variant="ghost" color={colorUrine}>
+                                                                        {textUrine}
+                                                                  </Label>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Typography sx={{ fontSize: 11 }}><Iconify icon="akar-icons:circle-fill" height="10px" width="10px" color={colorBlood} /> {textBlood}</Typography>
+                                                                  <Label variant="ghost" color={colorBlood}>
+                                                                        {textBlood}
+                                                                  </Label>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   <Button component={RouterLink} to={`./edit/${row.report_id}`}>
@@ -258,6 +273,15 @@ export default function Lab() {
                                           }
                                           )}
                                     </TableBody>
+                                    {reportList.length < 1 && (
+                                          <TableBody>
+                                                <TableRow>
+                                                      <TableCell align="center" colSpan={12} sx={{ py: 3 }}>
+                                                            <SearchNotFound />
+                                                      </TableCell>
+                                                </TableRow>
+                                          </TableBody>
+                                    )}
                               </Table>
                         </TableContainer>
                   </Container>
@@ -268,7 +292,7 @@ export default function Lab() {
                                     <DialogContent>
                                           <Container>
                                                 <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
-                                                      <Grid item xs={12} md={6} lg={6}>
+                                                      <Grid item xs={12} md={4} lg={4}>
                                                             <Item>
                                                                   <FormControl fullWidth>
                                                                         <InputLabel>Barcode</InputLabel>
@@ -280,7 +304,53 @@ export default function Lab() {
                                                                   </FormControl>
                                                             </Item>
                                                       </Grid>
-                                                      <Grid item xs={12} md={6} lg={6}>
+                                                      <Grid item xs={12} md={4} lg={4}>
+                                                            <Item>
+                                                                  <FormControl fullWidth>
+                                                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                                              <DesktopDatePicker
+                                                                                    inputFormat="dd/MM/yyyy"
+                                                                                    value={values.test_date}
+                                                                                    views={['year', 'month', 'day']}
+                                                                                    showDaysOutsideCurrentMonth
+                                                                                    onChange={(value) => {
+                                                                                          console.log(value);
+                                                                                          formik.setFieldValue('test_date', value.toISOString());
+                                                                                    }}
+                                                                                    renderInput={(params) => {
+                                                                                          return <TextField {...params}
+                                                                                          />;
+
+                                                                                    }}
+                                                                              />
+                                                                        </LocalizationProvider>
+                                                                  </FormControl>
+                                                            </Item>
+                                                      </Grid>
+                                                      {/* <Grid item xs={12} md={4} lg={4}>
+                                                            <Item>
+                                                                  <FormControl fullWidth>
+                                                                        <InputLabel>Status</InputLabel>
+                                                                        <Select
+                                                                              style={{ textAlign: 'left' }}
+                                                                              label="Facility"
+                                                                              {...getFieldProps('facility_id')}
+
+                                                                        >
+                                                                              <MenuItem
+                                                                                    value="All"
+                                                                              >All</MenuItem>
+                                                                               <MenuItem
+                                                                                    value=""
+                                                                              >All</MenuItem>
+                                                                              
+                                                                        </Select>
+                                                                  </FormControl>
+                                                            </Item>
+                                                      </Grid> */}
+                                                </Grid>
+                                                <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
+                                                      <Grid item xs={12} md={6} lg={4}>
                                                             <Item>
                                                                   <FormControl fullWidth>
                                                                         <InputLabel>IC</InputLabel>
@@ -292,9 +362,7 @@ export default function Lab() {
                                                                   </FormControl>
                                                             </Item>
                                                       </Grid>
-                                                </Grid>
-                                                <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
-                                                      <Grid item xs={12} md={6} lg={6}>
+                                                      <Grid item xs={12} md={6} lg={4}>
                                                             <Item>
                                                                   <FormControl fullWidth>
                                                                         <InputLabel>Facility</InputLabel>
@@ -317,18 +385,7 @@ export default function Lab() {
                                                                   </FormControl>
                                                             </Item>
                                                       </Grid>
-                                                      {/* <Grid item xs={12} md={6} lg={6}>
-                                                            <Item>
-                                                                  <FormControl fullWidth>
-                                                                        <InputLabel>test Date</InputLabel>
-                                                                        <OutlinedInput
-                                                                              type="text"
-                                                                              {...getFieldProps('test_date')}
-                                                                              label="Name"
-                                                                        />
-                                                                  </FormControl>
-                                                            </Item>
-                                                      </Grid> */}
+
                                                 </Grid>
 
                                           </Container>
