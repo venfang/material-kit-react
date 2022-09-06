@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import { stubTrue, valuesIn } from 'lodash';
 // material
 import { Card, Stack, Button, Container, Typography, tablePaginationClasses, Autocomplete } from '@mui/material';
@@ -36,7 +36,7 @@ import Label from '../../../components/Label';
 import Loader from '../../../components/loader/Loader';
 import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
-
+import { createUser, getUserDetail } from '../../../data/user/user';
 // components
 
 import Page from '../../../components/Page';
@@ -71,8 +71,8 @@ const MenuProps = {
 };
 
 export default function CreateUser() {
-      const [showCookieUserID, setCookieUserID] = useState(Cookies.get('user_id'));
-
+      const [showCookieUserID, setCookieUserID] = useState(Cookies.get('user_name'));
+      const { user_name } = useParams();
       const handleClickShowPassword = () => {
             formik.setValues({
                   ...values,
@@ -105,13 +105,68 @@ export default function CreateUser() {
                   password: '',
             },
             validationSchema: CreateUserSchema,
+            onSubmit: () => {
+                  const formValues = {
+                        user_name: values.user_name,
+                        user_type: values.user_type,
+                        name: values.name,
+                        center: values.center,
+                        designation: values.designation,
+                        mobile_phone: values.mobile_phone,
+                        password: values.password,
+                        status: true,
+                        created_by: showCookieUserID || null,
+                  };
+
+                  createUser(formValues)
+                        .then((response) => {
+                              formik.setSubmitting(false);
+                              AlertBox(
+                                    'success',
+                                    'Created Successfully',
+                                    "User '" + values.name + "' has been created.",
+                                    false,
+                                    '',
+                                    true,
+                                    'OK'
+                              ).then(() => {
+                                    window.location = '../user';
+                              });
+                        })
+                        .catch((error) => {
+                              formik.setSubmitting(false);
+                              if (error.response.data.message === 'duplicate') {
+                                    AlertBox(
+                                          'error',
+                                          'Create Failed',
+                                          'The following user name has already existed.',
+                                          false,
+                                          '',
+                                          true,
+                                          'OK'
+                                    ).then(() => { });
+                              } else {
+                                    AlertBox('error', 'Create Failed', error.response.data.message, false, '', true, 'OK').then(() => { });
+                              }
+                        });
+            },
       });
 
-
+      useEffect(() => {
+            formik.setSubmitting(true);
+            getUserDetail(user_name).then((data) => {
+                  formik.setValues(data);
+                  formik.setSubmitting(false);
+            }).catch((err) => {
+                  console.log(err);
+                  TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
+                  formik.setSubmitting(false);
+            });
+      }, []);
 
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
       const topValue = 64;
-      const title_name = "Create User";
+      const title_name = "View User";
       const to = "/dashboard/app";
       return (
             <Page title="User">
@@ -253,6 +308,33 @@ export default function CreateUser() {
                                                             <Grid item xs={12} md={6} lg={6}>
                                                                   <Item>
                                                                         <FormControl fullWidth>
+                                                                              <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                                                              <Select
+                                                                                    error={Boolean(touched.user_type && errors.user_type)}
+                                                                                    {...getFieldProps('user_type')}
+                                                                                    required
+                                                                                    label="Role"
+                                                                                    style={{ textAlign: 'left' }}
+                                                                              >
+                                                                                    <MenuItem
+                                                                                          value="1"
+                                                                                    >Manager</MenuItem>
+                                                                                    <MenuItem
+                                                                                          value="2"
+                                                                                    >Staff</MenuItem>
+
+                                                                              </Select>
+                                                                              <FormHelperText error id="user_type-error" sx={{ fontWeight: 600 }}>
+                                                                                    {touched.user_type && errors.user_type}
+                                                                              </FormHelperText>
+                                                                        </FormControl>
+                                                                  </Item>
+                                                            </Grid>
+                                                      </Grid>
+                                                      <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
+                                                            <Grid item xs={12} md={6} lg={6}>
+                                                                  <Item>
+                                                                        {/* <FormControl fullWidth>
                                                                               <InputLabel id="">Password</InputLabel>
                                                                               <OutlinedInput
                                                                                     error={Boolean(touched.password && errors.password)}
@@ -288,28 +370,22 @@ export default function CreateUser() {
                                                                               <FormHelperText error id="password-error" sx={{ fontWeight: 600 }}>
                                                                                     {touched.password && errors.password}
                                                                               </FormHelperText>
-                                                                        </FormControl>
-                                                                  </Item>
-                                                            </Grid>
-                                                      </Grid>
-                                                      <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
-                                                            <Grid item xs={12} md={6} lg={6}>
-                                                                  <Item>
+                                                                        </FormControl> */}
                                                                         <FormControl fullWidth>
-                                                                              <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                                                              <InputLabel id="demo-simple-select-label">Status</InputLabel>
                                                                               <Select
-                                                                                    error={Boolean(touched.user_type && errors.user_type)}
-                                                                                    {...getFieldProps('user_type')}
+                                                                                    error={Boolean(touched.status && errors.status)}
+                                                                                    {...getFieldProps('status')}
                                                                                     required
-                                                                                    label="Role"
+                                                                                    label="Status"
+                                                                                    style={{ textAlign: 'left' }}
                                                                               >
                                                                                     <MenuItem
-                                                                                          values="1"
-                                                                                    >Manager</MenuItem>
+                                                                                          value={true}
+                                                                                    >Active</MenuItem>
                                                                                     <MenuItem
-                                                                                          values="2"
-                                                                                    >Staff</MenuItem>
-
+                                                                                          value={false}
+                                                                                    >Inactive</MenuItem>
                                                                               </Select>
                                                                               <FormHelperText error id="user_type-error" sx={{ fontWeight: 600 }}>
                                                                                     {touched.user_type && errors.user_type}

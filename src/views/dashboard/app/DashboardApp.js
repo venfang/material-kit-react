@@ -159,7 +159,7 @@ export default function DashboardApp() {
               </Typography>
             </Box>
             <Grid container spacing={1}  >
-              <Grid item xs={12} sm={2} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/lab" sx={{ textDecoration: "none" }}>
+              <Grid item xs={6} sm={6} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/lab" sx={{ textDecoration: "none" }}>
                 <Card
                   sx={{
                     position: 'relative',
@@ -187,7 +187,7 @@ export default function DashboardApp() {
                   </Grid>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={2} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/health-report" sx={{ textDecoration: "none" }}>
+              <Grid item xs={6} sm={6} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/health-report" sx={{ textDecoration: "none" }}>
                 <Card
                   sx={{
                     position: 'relative',
@@ -225,7 +225,7 @@ export default function DashboardApp() {
               </Typography>
             </Box>
             <Grid container spacing={1}  >
-              <Grid item xs={12} sm={2} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/user" sx={{ textDecoration: "none" }}>
+              <Grid item xs={6} sm={6} md={2} lg={2} xl={2} component={RouterLink} to="/dashboard/user" sx={{ textDecoration: "none" }}>
                 <Card
                   sx={{
                     position: 'relative',

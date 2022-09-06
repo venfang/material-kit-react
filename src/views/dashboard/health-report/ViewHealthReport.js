@@ -8,6 +8,7 @@
 /* eslint-disable prefer-const */
 import { useEffect, useContext, useState, Suspense } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
 // @mui
 import { base64StringToBlob } from 'blob-util';
 
@@ -16,6 +17,7 @@ import {
   Typography,
   Box,
   IconButton,
+  Button,
   Tooltip,
 } from '@mui/material';
 // components
@@ -54,7 +56,6 @@ export default function ViewHealthReport() {
   useEffect(() => {
     try {
       setLoading(true);
-
       getReportPDF(report_id)
         .then((data) => {
           var blob = base64StringToBlob(data.base64);
@@ -80,7 +81,7 @@ export default function ViewHealthReport() {
 
   function verifyReport() {
     const formValues = {
-      report_id: report_id,
+
       verify_by_staff: Cookies.get('user_name'),
     };
     // verifyReport(formValues)

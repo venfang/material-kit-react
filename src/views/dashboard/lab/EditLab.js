@@ -19,7 +19,7 @@ import Cookies from 'js-cookie';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
-import { Container, Autocomplete, Dialog, DialogTitle, DialogContent, DialogActions, Typography, Checkbox, AppBar, FormHelperText, MenuItem, Select, FormControl, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
+import { Container, Autocomplete, Dialog, InputLabel, OutlinedInput, DialogTitle, DialogContent, DialogActions, Typography, Checkbox, AppBar, FormHelperText, MenuItem, Select, FormControl, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
 import Loader from '../../../components/loader/Loader';
 // components
 import Page from '../../../components/Page';
@@ -27,7 +27,7 @@ import Iconify from '../../../components/Iconify';
 import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import SequenceBar from '../../../layouts/dashboard/SequenceBar';
 
-import { getReport, confirmBloodTest, confirmImmunology, confirmBiochemistry, confirmUrine, releaseBloodTest, releaseImmunology, releaseBiochemistry, releaseUrine } from '../../../data/lab/lab';
+import { getReport, updateBloodTest, updateImmunology, updateBiochemistry, updateUrine } from '../../../data/lab/lab';
 import { getComment } from '../../../data/comment/comment';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -50,12 +50,12 @@ const BloodType_Option = [{ value: "1", label: "Type A" }, { value: "2", label: 
 export default function Lab() {
       const [value, setTabValue] = useState("1");
       const { report_id } = useParams();
-      const navigate = useNavigate();
       const topValue = 64;
       const handleTabChange = (event, newValue) => {
             setTabValue(newValue);
       }
       const [submitAction, setSubmitAction] = useState("");
+      const [submitCategory, setSubmitCategory] = useState("");
       const [UBOther_Comment, setUBOther_Comment] = useState([]);
 
       const [tempUBOther_current, setUBOther_current] = useState([]);
@@ -91,10 +91,6 @@ export default function Lab() {
                   formik.setSubmitting(false);
             })
       }, []);
-
-      const LabSchema = Yup.object().shape({
-
-      });
       const formik = useFormik({
             initialValues: {
                   BloodHB_current: '',
@@ -223,6 +219,16 @@ export default function Lab() {
                   CVirus_previous: '',
                   CVirus_past: '',
                   CVirus_unit: '',
+
+                  ESR_current: '',
+                  ESR_previous: '',
+                  ESR_past: '',
+                  ESR_unit: '',
+
+                  BFC_current: '',
+                  BFC_previous: '',
+                  BFC_past: '',
+                  BFC_unit: '',
 
                   CEALevel_current: '',
                   CEALevel_previous: '',
@@ -448,518 +454,256 @@ export default function Lab() {
                   test_date_past: "Past",
             },
             enableReinitialize: true,
-            validationSchema: LabSchema,
             onSubmit: () => {
                   formik.setSubmitting(true);
-                  if (submitAction === "immunologyConfirm") {
-                        immunologyConfirm();
-                  } else if (submitAction === "bloodTestConfirm") {
-                        bloodTestConfirm();
+                  if (submitCategory === "Immunology") {
+                        const formValues = {
+                              report_id: report_id,
+                              gender: values.gender,
+                              age: values.age,
+                              order_id: values.order_id,
+                              HBsag_Value: values.HBsag_Value_current,
+                              HBsag_Status: values.HBsag_Status_current,
+                              AntiHBs_Value: values.AntiHBs_Value_current,
+                              AntiHBs_Status: values.AntiHBs_Status_current,
+                              RANormal_Value: values.RANormal_Value_current,
+                              RANormal_Status: values.RANormal_Status_current,
+                              HavIgG_Value: values.HavIgG_Value_current,
+                              HavIgG_Status: values.HavIgG_Status_current,
+                              HIVNormal_Value: values.HIVNormal_Value_current,
+                              HIVNormal_Status: values.HIVNormal_Status_current,
+                              VDRLNormal: values.VDRLNormal_current,
+                              FT3: values.FT3_current,
+                              RFFT4: values.RFFT4_current,
+                              Hpyloriab: values.Hpyloriab_current,
+                              YFPLevel: values.YFPLevel_current,
+                              CEALevel: values.CEALevel_current,
+                              CA15_3: values.CA15_3_current,
+                              CA125: values.CA125_current,
+                              CA19_9: values.CA19_9_current,
+                              EBV_Value: values.EBV_Value_current,
+                              EBV_Status: values.EBV_Status_current,
+                              PSA: values.PSA_current,
+                              RFTSH: values.RFTSH_current,
+                              Homocy: values.Homocy_current,
+                              CVirus: values.CVirus_current,
+                              immunology_confirm_staff: submitAction === "confirm" ? Cookies.get('user_name') : null,
+                              immunology_release_staff: submitAction === "release" ? Cookies.get('user_name') : null,
+                        };
+                        updateImmunology(formValues)
+                              .then((response) => {
+                                    formik.setSubmitting(false);
+                                    AlertBox(
+                                          'success',
+                                          'Update Successfully',
+                                          `Immunology has been ${submitAction}.`,
+                                          false,
+                                          '',
+                                          true,
+                                          'OK'
+                                    )
+                                          .then(() => {
+                                                window.location.reload();
+                                          });
+                              })
+                              .catch((error) => {
+                                    formik.setSubmitting(false);
+                                    AlertBox(
+                                          'error',
+                                          'Update Failed',
+                                          error.response.data.message,
+                                          false,
+                                          '',
+                                          true,
+                                          'OK')
+                              }
+                              );
                   }
-                  else if (submitAction === "urineConfirm") {
-                        urineConfirm();
-                  } else if (submitAction === "biochemistryConfirm") {
-                        biochemistryConfirm();
-                  }
-                  else if (submitAction === "immunologyRelease") {
-                        immunologyRelease();
-                  } else if (submitAction === "bloodTestRelease") {
-                        bloodTestRelease();
-                  }
-                  else if (submitAction === "urineRelease") {
-                        urineRelease();
-                  } else if (submitAction === "biochemistryRelease") {
-                        biochemistryRelease();
-                  }
+                  else if (submitCategory === "Blood Test") {
+                        const formValues = {
+                              report_id: report_id,
+                              gender: values.gender,
+                              age: values.age,
+                              BloodHB: values.BloodHB_current,
+                              BloodRBC: values.BloodRBC_current,
+                              BloodWBC: values.BloodWBC_current,
+                              BloodW1: values.BloodW1_current,
+                              BloodW2: values.BloodW2_current,
+                              BloodW3: values.BloodW3_current,
+                              BloodW4: values.BloodW4_current,
+                              BloodW5: values.BloodW5_current,
+                              BloodPLT: values.BloodPLT_current,
+                              BloodHCT: values.BloodHCT_current,
+                              BloodMCH: values.BloodMCH_current,
+                              BloodMCV: values.BloodMCV_current,
+                              BloodMCHC: values.BloodMCHC_current,
+                              BloodType: values.BloodType_current,
+                              BloodRH: values.BloodRH_current,
+                              ESR: values.ESR_current,
+                              BFC: values.BFC_current,
+                              blood_confirm_staff: submitAction === "confirm" ? Cookies.get('user_name') : null,
+                              blood_release_staff: submitAction === "release" ? Cookies.get('user_name') : null,
+                        };
+                        updateBloodTest(formValues)
+                              .then((response) => {
+                                    formik.setSubmitting(false);
+                                    AlertBox(
+                                          'success',
+                                          'Update Successfully',
+                                          `Blood Test has been ${submitAction}.`,
+                                          false,
+                                          '',
+                                          true,
+                                          'OK'
+                                    )
+                                          .then(() => {
+                                                window.location.reload();
+                                          });
+                              })
+                              .catch((error) => {
+                                    console.log(error);
+                                    formik.setSubmitting(false);
+                                    AlertBox(
+                                          'error',
+                                          'Update Failed',
+                                          error.response.data.message,
+                                          false,
+                                          '',
+                                          true,
+                                          'OK').then(() => {
 
+                                          });
+                              }
+                              );
+                  }
+                  else if (submitCategory === "Urine") {
+                        const formValues = {
+                              report_id: report_id,
+                              gender: values.gender,
+                              age: values.age,
+                              order_id: values.order_id,
+                              URLook: values.URLook_current,
+                              UREW: values.UREW_current,
+                              URS: values.URS_current,
+                              URBR: values.URBR_current,
+                              URUBR: values.URUBR_current,
+                              UBBH: values.UBBH_current,
+                              UBKU: values.UBKU_current,
+                              UBSNO: values.UBSNO_current,
+                              URLEU: values.URLEU_current,
+                              URDENS: values.URDENS_current,
+                              URTest: values.URTest_current,
+                              UBRBC1: values.UBRBC1_current,
+                              UBRBC2: values.UBRBC2_current,
+                              UBWBC1: values.UBWBC1_current,
+                              UBWBC2: values.UBWBC2_current,
+                              UBEPlit1: values.UBEPlit1_current,
+                              UBEPlit2: values.UBEPlit2_current,
+                              Cast1: values.Cast1_current,
+                              Cast2: values.Cast2_current,
+                              Bacter: values.Bacter_current,
+                              UBOther: values.UBOther_current,
+                              urine_confirm_staff: submitAction === "confirm" ? Cookies.get('user_name') : null,
+                              urine_release_staff: submitAction === "release" ? Cookies.get('user_name') : null,
+                        };
+                        updateUrine(formValues)
+                              .then((response) => {
+                                    formik.setSubmitting(false);
+                                    AlertBox(
+                                          'success',
+                                          'Update Successfully',
+                                          `Urine has been ${submitAction}`,
+                                          false,
+                                          '',
+                                          true,
+                                          'OK'
+                                    )
+                                          .then(() => {
+                                                window.location.reload();
+                                          });
+                              })
+                              .catch((error) => {
+                                    formik.setSubmitting(false);
+                                    AlertBox(
+                                          'error',
+                                          'Update Failed',
+                                          error.response.data.message,
+                                          false,
+                                          '',
+                                          true,
+                                          'OK').then(() => {
+
+                                          });
+                              }
+                              );
+                  }
+                  else if (submitCategory === "Biochemistry") {
+                        const formValues = {
+                              report_id: report_id,
+                              gender: values.gender,
+                              age: values.age,
+                              order_id: values.order_id,
+                              CRP: values.CRP_current,
+                              HbA1c: values.HbA1c_current,
+                              UFBUN: values.UFBUN_current,
+                              UFCRE: values.UFCRE_current,
+                              EFCA: values.EFCA_current,
+                              EFP: values.EFP_current,
+                              UFUA: values.UFUA_current,
+                              TFTP: values.TFTP_current,
+                              TFALB: values.TFALB_current,
+                              TFGLO: values.TFGLO_current,
+                              TFTBIL: values.TFTBIL_current,
+                              TFALP: values.TFALP_current,
+                              TFsGOT: values.TFsGOT_current,
+                              TFsGPT: values.TFsGPT_current,
+                              TFYGT: values.TFYGT_current,
+                              Glucose: values.Glucose_current,
+                              BGTG: values.BGTG_current,
+                              BGCHOL: values.BGCHOL_current,
+                              BGHDLC: values.BGHDLC_current,
+                              BGLDLC: values.BGLDLC_current,
+                              BGCH: values.BGCH_current,
+                              Sodium: values.Sodium_current,
+                              Potassium: values.Potassium_current,
+                              Chloride: values.Chloride_current,
+                              biochemistry_confirm_staff: submitAction === "confirm" ? Cookies.get('user_name') : null,
+                              biochemistry_release_staff: submitAction === "release" ? Cookies.get('user_name') : null,
+                        };
+                        updateBiochemistry(formValues)
+                              .then((response) => {
+                                    formik.setSubmitting(false);
+                                    AlertBox(
+                                          'success',
+                                          'Update Successfully',
+                                          `Biochemistry has been ${submitAction}`,
+                                          false,
+                                          '',
+                                          true,
+                                          'OK'
+                                    )
+                                          .then(() => {
+                                                window.location.reload();
+                                          });
+                              })
+                              .catch((error) => {
+                                    formik.setSubmitting(false);
+                                    AlertBox(
+                                          'error',
+                                          'Update Failed',
+                                          error.response.data.message,
+                                          false,
+                                          '',
+                                          true,
+                                          'OK')
+
+                              }
+                              );
+                  }
             },
       });
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
-      function bloodTestConfirm() {
-            const formValues = {
-                  report_id: report_id,
-                  gender: values.gender,
-                  age: values.age,
-                  BloodHB: values.BloodHB_current,
-                  BloodRBC: values.BloodRBC_current,
-                  BloodWBC: values.BloodWBC_current,
-                  BloodW1: values.BloodW1_current,
-                  BloodW2: values.BloodW2_current,
-                  BloodW3: values.BloodW3_current,
-                  BloodW4: values.BloodW4_current,
-                  BloodW5: values.BloodW5_current,
-                  BloodPLT: values.BloodPLT_current,
-                  BloodHCT: values.BloodHCT_current,
-                  BloodMCH: values.BloodMCH_current,
-                  BloodMCV: values.BloodMCV_current,
-                  BloodMCHC: values.BloodMCHC_current,
-                  BloodType: values.BloodType_current,
-                  BloodRH: values.BloodRH_current,
-                  blood_confirm_staff: Cookies.get('user_name'),
-            };
-            confirmBloodTest(formValues)
-                  .then((response) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'success',
-                              'Update Successfully',
-                              "Blood Test has been confirm.",
-                              false,
-                              '',
-                              true,
-                              'OK'
-                        )
-                              .then(() => {
-                                    window.location.reload();
-                              });
-                  })
-                  .catch((error) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'error',
-                              'Update Failed',
-                              error.response.data.message,
-                              false,
-                              '',
-                              true,
-                              'OK').then(() => {
-
-                              });
-                  }
-                  );
-
-      }
-      function immunologyConfirm() {
-            formik.setSubmitting(true);
-            const formValues = {
-                  report_id: report_id,
-                  gender: values.gender,
-                  age: values.age,
-                  HBsag_Value: values.HBsag_Value_current,
-                  HBsag_Status: values.HBsag_Status_current,
-                  AntiHBs_Value: values.AntiHBs_Value_current,
-                  AntiHBs_Status: values.AntiHBs_Status_current,
-                  RANormal_Value: values.RANormal_Value_current,
-                  RANormal_Status: values.RANormal_Status_current,
-                  HavIgG_Value: values.HavIgG_Value_current,
-                  HavIgG_Status: values.HavIgG_Status_current,
-                  HIVNormal_Value: values.HIVNormal_Value_current,
-                  HIVNormal_Status: values.HIVNormal_Status_current,
-                  VDRLNormal: values.VDRLNormal_current,
-                  FT3: values.FT3_current,
-                  RFFT4: values.RFFT4_current,
-                  Hpyloriab: values.Hpyloriab_current,
-                  YFPLevel: values.YFPLevel_current,
-                  CEALevel: values.CEALevel_current,
-                  CA15_3: values.CA15_3_current,
-                  CA125: values.CA125_current,
-                  CA19_9: values.CA19_9_current,
-                  EBV_Value: values.EBV_Value_current,
-                  EBV_Status: values.EBV_Status_current,
-                  PSA: values.PSA_current,
-                  RFTSH: values.RFTSH_current,
-                  Homocy: values.Homocy_current,
-                  CVirus: values.CVirus_current,
-                  immunology_confirm_staff: Cookies.get('user_name'),
-            };
-            console.log(formValues);
-            confirmImmunology(formValues)
-                  .then((response) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'success',
-                              'Update Successfully',
-                              "Immunology has been confirm.",
-                              false,
-                              '',
-                              true,
-                              'OK'
-                        )
-                              .then(() => {
-                                    window.location.reload();
-                              });
-                  })
-                  .catch((error) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'error',
-                              'Update Failed',
-                              error.response.data.message,
-                              false,
-                              '',
-                              true,
-                              'OK')
-                  }
-                  );
-      }
-      function urineConfirm() {
-            formik.setSubmitting(true);
-            const formValues = {
-                  report_id: report_id,
-                  gender: values.gender,
-                  age: values.age,
-                  URLook: values.URLook_current,
-                  UREW: values.UREW_current,
-                  URS: values.URS_current,
-                  URBR: values.URBR_current,
-                  URUBR: values.URUBR_current,
-                  UBBH: values.UBBH_current,
-                  UBKU: values.UBKU_current,
-                  UBSNO: values.UBSNO_current,
-                  URLEU: values.URLEU_current,
-                  URDENS: values.URDENS_current,
-                  URTest: values.URTest_current,
-                  UBRBC1: values.UBRBC1_current,
-                  UBRBC2: values.UBRBC2_current,
-                  UBWBC1: values.UBWBC1_current,
-                  UBWBC2: values.UBWBC2_current,
-                  UBEPlit1: values.UBEPlit1_current,
-                  UBEPlit2: values.UBEPlit2_current,
-                  Cast1: values.Cast1_current,
-                  Cast2: values.Cast2_current,
-                  Bacter: values.Bacter_current,
-                  UBOther: values.UBOther_current,
-                  urine_confirm_staff: Cookies.get('user_name'),
-            };
-            console.log(formValues);
-            confirmUrine(formValues)
-                  .then((response) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'success',
-                              'Update Successfully',
-                              "Urine has been confirm.",
-                              false,
-                              '',
-                              true,
-                              'OK'
-                        )
-                              .then(() => {
-                                    window.location.reload();
-                              });
-                  })
-                  .catch((error) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'error',
-                              'Update Failed',
-                              error.response.data.message,
-                              false,
-                              '',
-                              true,
-                              'OK').then(() => {
-
-                              });
-                  }
-                  );
-      }
-      function biochemistryConfirm() {
-            formik.setSubmitting(true);
-            const formValues = {
-                  report_id: report_id,
-                  gender: values.gender,
-                  age: values.age,
-                  CRP: values.CRP_current,
-                  HbA1c: values.HbA1c_current,
-                  UFBUN: values.UFBUN_current,
-                  UFCRE: values.UFCRE_current,
-                  EFCA: values.EFCA_current,
-                  EFP: values.EFP_current,
-                  UFUA: values.UFUA_current,
-                  TFTP: values.TFTP_current,
-                  TFALB: values.TFALB_current,
-                  TFGLO: values.TFGLO_current,
-                  TFTBIL: values.TFTBIL_current,
-                  TFALP: values.TFALP_current,
-                  TFsGOT: values.TFsGOT_current,
-                  TFsGPT: values.TFsGPT_current,
-                  TFYGT: values.TFYGT_current,
-                  Glucose: values.Glucose_current,
-                  BGTG: values.BGTG_current,
-                  BGCHOL: values.BGCHOL_current,
-                  BGHDLC: values.BGHDLC_current,
-                  BGLDLC: values.BGLDLC_current,
-                  BGCH: values.BGCH_current,
-                  Sodium: values.Sodium_current,
-                  Potassium: values.Potassium_current,
-                  Chloride: values.Chloride_current,
-                  biochemistry_confirm_staff: Cookies.get('user_name'),
-            };
-            confirmBiochemistry(formValues)
-                  .then((response) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'success',
-                              'Update Successfully',
-                              "Biochemistry has been confirm.",
-                              false,
-                              '',
-                              true,
-                              'OK'
-                        )
-                              .then(() => {
-                                    window.location.reload();
-                              });
-                  })
-                  .catch((error) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'error',
-                              'Update Failed',
-                              error.response.data.message,
-                              false,
-                              '',
-                              true,
-                              'OK')
-
-                  }
-                  );
-      }
-      function bloodTestRelease() {
-            const formValues = {
-                  report_id: report_id,
-                  gender: values.gender,
-                  age: values.age,
-                  BloodHB: values.BloodHB_current,
-                  BloodRBC: values.BloodRBC_current,
-                  BloodWBC: values.BloodWBC_current,
-                  BloodW1: values.BloodW1_current,
-                  BloodW2: values.BloodW2_current,
-                  BloodW3: values.BloodW3_current,
-                  BloodW4: values.BloodW4_current,
-                  BloodW5: values.BloodW5_current,
-                  BloodPLT: values.BloodPLT_current,
-                  BloodHCT: values.BloodHCT_current,
-                  BloodMCH: values.BloodMCH_current,
-                  BloodMCV: values.BloodMCV_current,
-                  BloodMCHC: values.BloodMCHC_current,
-                  BloodType: values.BloodType_current,
-                  BloodRH: values.BloodRH_current,
-                  blood_release_staff: Cookies.get('user_name'),
-            };
-            releaseBloodTest(formValues)
-                  .then((response) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'success',
-                              'Update Successfully',
-                              "Blood Test has been release.",
-                              false,
-                              '',
-                              true,
-                              'OK'
-                        )
-                              .then(() => {
-                                    window.location.reload();
-                              });
-                  })
-                  .catch((error) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'error',
-                              'Release Failed',
-                              error.response.data.message,
-                              false,
-                              '',
-                              true,
-                              'OK').then(() => {
-
-                              });
-                  }
-                  );
-
-      }
-      function immunologyRelease() {
-            formik.setSubmitting(true);
-            const formValues = {
-                  report_id: report_id,
-                  gender: values.gender,
-                  age: values.age,
-                  HBsag_Value: values.HBsag_Value_current,
-                  HBsag_Status: values.HBsag_Status_current,
-                  AntiHBs_Value: values.AntiHBs_Value_current,
-                  AntiHBs_Status: values.AntiHBs_Status_current,
-                  RANormal_Value: values.RANormal_Value_current,
-                  RANormal_Status: values.RANormal_Status_current,
-                  HavIgG_Value: values.HavIgG_Value_current,
-                  HavIgG_Status: values.HavIgG_Status_current,
-                  HIVNormal_Value: values.HIVNormal_Value_current,
-                  HIVNormal_Status: values.HIVNormal_Status_current,
-                  VDRLNormal: values.VDRLNormal_current,
-                  FT3: values.FT3_current,
-                  RFFT4: values.RFFT4_current,
-                  Hpyloriab: values.Hpyloriab_current,
-                  YFPLevel: values.YFPLevel_current,
-                  CEALevel: values.CEALevel_current,
-                  CA15_3: values.CA15_3_current,
-                  CA125: values.CA125_current,
-                  CA19_9: values.CA19_9_current,
-                  EBV_Value: values.EBV_Value_current,
-                  EBV_Status: values.EBV_Status_current,
-                  PSA: values.PSA_current,
-                  RFTSH: values.RFTSH_current,
-                  Homocy: values.Homocy_current,
-                  CVirus: values.CVirus_current,
-                  immunology_release_staff: Cookies.get('user_name'),
-            };
-            console.log(formValues);
-            releaseImmunology(formValues)
-                  .then((response) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'success',
-                              'Update Successfully',
-                              "Immunology has been release.",
-                              false,
-                              '',
-                              true,
-                              'OK'
-                        )
-                              .then(() => {
-                                    window.location.reload();
-                              });
-                  })
-                  .catch((error) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'error',
-                              'Update Failed',
-                              error.response.data.message,
-                              false,
-                              '',
-                              true,
-                              'OK')
-                  }
-                  );
-
-      }
-      function urineRelease() {
-            formik.setSubmitting(true);
-            const formValues = {
-                  report_id: report_id,
-                  gender: values.gender,
-                  age: values.age,
-                  URLook: values.URLook_current,
-                  UREW: values.UREW_current,
-                  URS: values.URS_current,
-                  URBR: values.URBR_current,
-                  URUBR: values.URUBR_current,
-                  UBBH: values.UBBH_current,
-                  UBKU: values.UBKU_current,
-                  UBSNO: values.UBSNO_current,
-                  URLEU: values.URLEU_current,
-                  URDENS: values.URDENS_current,
-                  URTest: values.URTest_current,
-                  UBRBC1: values.UBRBC1_current,
-                  UBRBC2: values.UBRBC2_current,
-                  UBWBC1: values.UBWBC1_current,
-                  UBWBC2: values.UBWBC2_current,
-                  UBEPlit1: values.UBEPlit1_current,
-                  UBEPlit2: values.UBEPlit2_current,
-                  Cast1: values.Cast1_current,
-                  Cast2: values.Cast2_current,
-                  Bacter: values.Bacter_current,
-                  UBOther: values.UBOther_current,
-                  urine_release_staff: Cookies.get('user_name'),
-            };
-            releaseUrine(formValues)
-                  .then((response) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'success',
-                              'Update Successfully',
-                              "Urine has been release.",
-                              false,
-                              '',
-                              true,
-                              'OK'
-                        )
-                              .then(() => {
-                                    window.location.reload();
-                              });
-                  })
-                  .catch((error) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'error',
-                              'Release Failed',
-                              error.response.data.message,
-                              false,
-                              '',
-                              true,
-                              'OK').then(() => {
-
-                              });
-                  }
-                  );
-
-      }
-      function biochemistryRelease() {
-            formik.setSubmitting(true);
-            const formValues = {
-                  report_id: report_id,
-                  gender: values.gender,
-                  age: values.age,
-                  CRP: values.CRP_current,
-                  HbA1c: values.HbA1c_current,
-                  UFBUN: values.UFBUN_current,
-                  UFCRE: values.UFCRE_current,
-                  EFCA: values.EFCA_current,
-                  EFP: values.EFP_current,
-                  UFUA: values.UFUA_current,
-                  TFTP: values.TFTP_current,
-                  TFALB: values.TFALB_current,
-                  TFGLO: values.TFGLO_current,
-                  TFTBIL: values.TFTBIL_current,
-                  TFALP: values.TFALP_current,
-                  TFsGOT: values.TFsGOT_current,
-                  TFsGPT: values.TFsGPT_current,
-                  TFYGT: values.TFYGT_current,
-                  Glucose: values.Glucose_current,
-                  BGTG: values.BGTG_current,
-                  BGCHOL: values.BGCHOL_current,
-                  BGHDLC: values.BGHDLC_current,
-                  BGLDLC: values.BGLDLC_current,
-                  BGCH: values.BGCH_current,
-                  Sodium: values.Sodium_current,
-                  Potassium: values.Potassium_current,
-                  Chloride: values.Chloride_current,
-                  biochemistry_release_staff: Cookies.get('user_name'),
-            };
-            releaseBiochemistry(formValues)
-                  .then((response) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'success',
-                              'Update Successfully',
-                              "Biochemistry has been release.",
-                              false,
-                              '',
-                              true,
-                              'OK'
-                        )
-                              .then(() => {
-                                    window.location.reload();
-                              });
-                  })
-                  .catch((error) => {
-                        formik.setSubmitting(false);
-                        AlertBox(
-                              'error',
-                              'Release Failed',
-                              error.response.data.message,
-                              false,
-                              '',
-                              true,
-                              'OK')
-
-                  }
-                  );
-      }
-
       const handleUBOtherChange = (e) => {
-
             setUBOther_current(
                   typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value,
             );
@@ -977,6 +721,15 @@ export default function Lab() {
 
       const closeUBOther_modal = () => {
             setUBOther_modal(false);
+      };
+
+      const [BFC_modal, setBFC_modal] = useState(false);
+      const openBFC_modal = () => {
+            setBFC_modal(true);
+      };
+
+      const closeBFC_modal = () => {
+            setBFC_modal(false);
       };
 
       function definePlaceholder(value) {
@@ -1813,7 +1566,8 @@ export default function Lab() {
                                                                                     type="button"
                                                                                     variant="contained"
                                                                                     onClick={() => {
-                                                                                          setSubmitAction("immunologyConfirm");
+                                                                                          setSubmitAction("confirm");
+                                                                                          setSubmitCategory("Immunology");
                                                                                           handleSubmit();
                                                                                     }}
                                                                               >
@@ -1825,7 +1579,8 @@ export default function Lab() {
                                                                                           type="button"
                                                                                           variant="contained"
                                                                                           onClick={() => {
-                                                                                                setSubmitAction("immunologyRelease");
+                                                                                                setSubmitAction("release");
+                                                                                                setSubmitCategory("Immunology");
                                                                                                 handleSubmit();
                                                                                           }}
                                                                                     >
@@ -3454,7 +3209,8 @@ export default function Lab() {
                                                                                     type="button"
                                                                                     variant="contained"
                                                                                     onClick={() => {
-                                                                                          setSubmitAction("biochemistryConfirm");
+                                                                                          setSubmitAction("confirm");
+                                                                                          setSubmitCategory("Biochemistry");
                                                                                           handleSubmit();
                                                                                     }}
                                                                               >
@@ -3466,7 +3222,8 @@ export default function Lab() {
                                                                                           type="button"
                                                                                           variant="contained"
                                                                                           onClick={() => {
-                                                                                                setSubmitAction("biochemistryRelease");
+                                                                                                setSubmitAction("release");
+                                                                                                setSubmitCategory("Biochemistry");
                                                                                                 handleSubmit();
                                                                                           }}
                                                                                     >
@@ -4700,7 +4457,8 @@ export default function Lab() {
                                                                                     type="button"
                                                                                     variant="contained"
                                                                                     onClick={() => {
-                                                                                          setSubmitAction("urineConfirm");
+                                                                                          setSubmitAction("confirm");
+                                                                                          setSubmitCategory("Urine");
                                                                                           handleSubmit();
                                                                                     }}
                                                                               >
@@ -4712,7 +4470,8 @@ export default function Lab() {
                                                                                           type="button"
                                                                                           variant="contained"
                                                                                           onClick={() => {
-                                                                                                setSubmitAction("urineRelease");
+                                                                                                setSubmitAction("release");
+                                                                                                setSubmitCategory("Urine");
                                                                                                 handleSubmit();
                                                                                           }}
                                                                                     >
@@ -5276,7 +5035,7 @@ export default function Lab() {
                                                                               <TableCell align="right">
                                                                                     <Typography variant="label">Basophilis</Typography>
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                              <TableCell>
                                                                                     <InputBase
                                                                                           placeholder={definePlaceholder(values.BloodW5_current)}
                                                                                           disabled={defineDisabled(values.BloodW5_current)}
@@ -5289,7 +5048,7 @@ export default function Lab() {
                                                                                           {touched.BloodW5_current && errors.BloodW5_current}
                                                                                     </FormHelperText>
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                              <TableCell>
                                                                                     <InputBase
                                                                                           placeholder={definePlaceholder(values.BloodW5_previous)}
                                                                                           disabled
@@ -5298,7 +5057,7 @@ export default function Lab() {
                                                                                           endAdornment={values.test_date_previous !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodW5_unit}</Typography></InputAdornment> : null}
                                                                                     />
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                              <TableCell>
                                                                                     <InputBase
                                                                                           placeholder={definePlaceholder(values.BloodW5_past)}
                                                                                           disabled
@@ -5343,6 +5102,40 @@ export default function Lab() {
                                                                                           endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodMCHC_unit}</Typography></InputAdornment> : null}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label">ESR</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          placeholder={definePlaceholder(values.ESR_current)}
+                                                                                          disabled={defineDisabled(values.ESR_current)}
+                                                                                          value={defineValue(values.ESR_current)}
+                                                                                          onChange={(e) => formik.setFieldValue("ESR_current", e.target.value)}
+                                                                                          className={values.ESR_current_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          endAdornment={<InputAdornment position="start"><Typography variant="endorment">{values.ESR_unit}</Typography></InputAdornment>}
+                                                                                    />
+                                                                                    <FormHelperText error id="ESR_current-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.ESR_current && errors.ESR_current}
+                                                                                    </FormHelperText>
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          placeholder={definePlaceholder(values.ESR_previous)}
+                                                                                          disabled
+                                                                                          value={defineValue(values.ESR_previous)}
+                                                                                          className={values.ESR_previous_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          endAdornment={values.test_date_previous !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.ESR_unit}</Typography></InputAdornment> : null}
+                                                                                    />
+                                                                              </TableCell>
+                                                                              <TableCell>
+                                                                                    <InputBase
+                                                                                          placeholder={definePlaceholder(values.ESR_past)}
+                                                                                          disabled
+                                                                                          value={defineValue(values.ESR_past)}
+                                                                                          className={values.ESR_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.ESR_unit}</Typography></InputAdornment> : null}
+                                                                                    />
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -5379,6 +5172,27 @@ export default function Lab() {
                                                                                           endAdornment={values.test_date_past !== null ? <InputAdornment position="start"><Typography variant="endorment">{values.BloodPLT_unit}</Typography></InputAdornment> : null}
                                                                                     />
                                                                               </TableCell>
+                                                                              <TableCell align="right" sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <Typography variant="label">Blood Film Comment</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <Button
+                                                                                          variant="contained"
+                                                                                          sx={{ fontSize: "10px !important", backgroundColor: "#757575 !important" }}
+                                                                                          onClick={openBFC_modal} >
+                                                                                          Add
+                                                                                    </Button>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}> </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}> </TableCell>
+                                                                        </TableRow>
+                                                                        <TableRow>
+                                                                              <TableCell align="right">
+                                                                                    <Typography variant="label_group">ABO Blood Type</Typography>
+                                                                              </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
+                                                                              <TableCell> </TableCell>
                                                                               <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
                                                                               <TableCell sx={{ background: "#FFFFFF !important" }}>
                                                                                     <Button
@@ -5386,7 +5200,8 @@ export default function Lab() {
                                                                                           type="button"
                                                                                           variant="contained"
                                                                                           onClick={() => {
-                                                                                                setSubmitAction("bloodTestConfirm");
+                                                                                                setSubmitAction("confirm");
+                                                                                                setSubmitCategory("Blood Test");
                                                                                                 handleSubmit();
                                                                                           }}
                                                                                     >
@@ -5398,7 +5213,8 @@ export default function Lab() {
                                                                                           type="button"
                                                                                           variant="contained"
                                                                                           onClick={() => {
-                                                                                                setSubmitAction("bloodTestRelease");
+                                                                                                setSubmitAction("release");
+                                                                                                setSubmitCategory("Blood Test");
                                                                                                 handleSubmit();
                                                                                           }}
                                                                                     >
@@ -5406,14 +5222,6 @@ export default function Lab() {
                                                                                     </Button>}
                                                                               </TableCell>
                                                                               <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
-                                                                        </TableRow>
-                                                                        <TableRow>
-                                                                              <TableCell align="right">
-                                                                                    <Typography variant="label_group">ABO Blood Type</Typography>
-                                                                              </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
-                                                                              <TableCell> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -5631,6 +5439,34 @@ export default function Lab() {
                         </DialogContent>
                         <DialogActions>
                               <Button onClick={closeUBOther_modal}>Close</Button>
+                        </DialogActions>
+                  </Dialog>
+                  <Dialog open={BFC_modal} onClose={closeBFC_modal} fullWidth={true} maxWidth={"sm"} >
+                        <DialogTitle>Blood Film Comment</DialogTitle>
+                        <DialogContent>
+                              <Box>
+                                    {/* <Item>
+                                          <DialogContentText textAlign={"left"}>
+                                                Select...
+                                          </DialogContentText>
+                                    </Item> */}
+                                    <Item>
+                                          <FormControl fullWidth>
+                                                <InputLabel>Blood Film Comment</InputLabel>
+                                                <OutlinedInput
+                                                      multiline
+                                                      maxRows={5}
+                                                      rows={5}
+                                                      type="text"
+                                                      {...getFieldProps('BFC_current')}
+                                                      label="Blood Film Comment"
+                                                />
+                                          </FormControl>
+                                    </Item>
+                              </Box>
+                        </DialogContent>
+                        <DialogActions>
+                              <Button onClick={closeBFC_modal}>Close</Button>
                         </DialogActions>
                   </Dialog>
             </Page >

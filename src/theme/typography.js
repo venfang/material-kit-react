@@ -168,7 +168,7 @@ const typography = {
     fontWeight: 600,
     lineHeight: 1.5,
     fontSize: pxToRem(18),
-    ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 }),
+    ...responsiveFontSizes({ xs: 16, sm: 16, md: 22, lg: 22 }),
     textTransform: 'uppercase',
     color: '#1565c0',
   },

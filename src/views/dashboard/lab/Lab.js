@@ -76,7 +76,6 @@ export default function Lab() {
       const [reportList, setReportList] = useState([]);
       const [facilityList, setFacilityList] = useState([]);
       const [filterDialog, setFilterDialog] = useState(false);
-      const [isDateOpen, setDatePickerOpen] = useState(false);
       const formik = useFormik({
             initialValues: {
                   barcode: '',
@@ -131,7 +130,91 @@ export default function Lab() {
                   <Loader spinner={isSubmitting} />
                   <PageNavBar topValue={topValue} title_name={title_name} to={to} />
                   <Container sx={{ marginTop: 8, paddingRight: 1, paddingLeft: 1, width: "100%", height: "100%" }} disableGutters={true} >
-                        <Button startIcon={<Iconify icon="ci:filter" />} onClick={openFilterDialog}>Filter</Button>
+                        {/* <Button startIcon={<Iconify icon="ci:filter" />} onClick={openFilterDialog}>Filter</Button> */}
+                        <Paper>
+                              <Grid container spacing={1} sx={{ maxWidth: '100%' }}>
+                                    <Grid item xs={12} md={2.4} lg={2.4}>
+                                          <Item>
+                                                <FormControl fullWidth>
+                                                      <InputLabel>Barcode</InputLabel>
+                                                      <OutlinedInput
+                                                            type="text"
+                                                            {...getFieldProps('barcode')}
+                                                            label="Barcode"
+                                                      />
+                                                </FormControl>
+                                          </Item>
+                                    </Grid>
+                                    <Grid item xs={12} md={2.4} lg={2.4}>
+                                          <Item>
+                                                <FormControl fullWidth>
+                                                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                            <DesktopDatePicker
+                                                                  inputFormat="dd/MM/yyyy"
+                                                                  value={values.test_date}
+                                                                  views={['year', 'month', 'day']}
+                                                                  showDaysOutsideCurrentMonth
+                                                                  label="Test Date"
+                                                                  onChange={(value) => {
+                                                                        console.log(value);
+                                                                        formik.setFieldValue('test_date', value.toISOString());
+                                                                  }}
+                                                                  renderInput={(params) => {
+                                                                        return <TextField {...params}
+                                                                        />;
+
+                                                                  }}
+                                                            />
+                                                      </LocalizationProvider>
+                                                </FormControl>
+                                          </Item>
+                                    </Grid>
+                                    <Grid item xs={12} md={2.4} lg={2.4}>
+                                          <Item>
+                                                <FormControl fullWidth>
+                                                      <InputLabel>IC</InputLabel>
+                                                      <OutlinedInput
+                                                            type="text"
+                                                            {...getFieldProps('ic_no')}
+                                                            label="Name"
+                                                      />
+                                                </FormControl>
+                                          </Item>
+                                    </Grid>
+                                    <Grid item xs={12} md={2.4} lg={2.4}>
+                                          <Item>
+                                                <FormControl fullWidth>
+                                                      <InputLabel>Facility</InputLabel>
+                                                      <Select
+                                                            style={{ textAlign: 'left' }}
+                                                            label="Facility"
+                                                            {...getFieldProps('facility_id')}
+
+                                                      >
+                                                            <MenuItem
+                                                                  value="1"
+                                                            >All</MenuItem>
+                                                            {facilityList.map((facility) => (
+                                                                  <MenuItem
+                                                                        key={facility.facility_id}
+                                                                        value={facility.facility_id}
+                                                                  >{facility.name}</MenuItem>
+                                                            ))}
+                                                      </Select>
+                                                </FormControl>
+                                          </Item>
+                                    </Grid>
+                                    <Grid item xs={12} md={2.4} lg={2.4}>
+                                          <Item>
+                                                <Button onClick={() => {
+                                                      closeFilterDialog();
+                                                      handleSubmit();
+                                                }}>Search
+                                                </Button>
+                                          </Item>
+                                    </Grid>
+                              </Grid>
+                        </Paper>
                         <TableContainer component={Paper}>
                               <Table sx={{ minWidth: 800 }} aria-label="customized table" size="small">
                                     <TableHead>
@@ -160,9 +243,11 @@ export default function Lab() {
                                                 let textUrine = "";
                                                 let colorBiochemistry = "";
                                                 let textBiochemistry = "";
+                                                let canVerify = 0;
                                                 if (row.immunology_confirm_date !== null && row.immunology_confirm_staff !== null) {
                                                       colorImmunology = "success";
                                                       textImmunology = "Completed";
+                                                      canVerify += 1;
                                                 }
                                                 else if (row.immunology_release_date !== null && row.immunology_release_staff !== null) {
                                                       colorImmunology = "primary";
@@ -176,6 +261,7 @@ export default function Lab() {
                                                 if (row.blood_confirm_date !== null && row.blood_confirm_staff !== null) {
                                                       colorBlood = "success";
                                                       textBlood = "Completed";
+                                                      canVerify += 1;
                                                 }
                                                 else if (row.blood_release_date !== null && row.blood_release_staff !== null) {
                                                       colorBlood = "primary";
@@ -189,6 +275,7 @@ export default function Lab() {
                                                 if (row.urine_confirm_date !== null && row.urine_confirm_staff !== null) {
                                                       colorUrine = "success";
                                                       textUrine = "Completed";
+                                                      canVerify += 1;
                                                 }
                                                 else if (row.urine_release_date !== null && row.urine_release_staff !== null) {
                                                       colorUrine = "primary";
@@ -202,6 +289,7 @@ export default function Lab() {
                                                 if (row.biochemistry_confirm_date !== null && row.biochemistry_confirm_staff !== null) {
                                                       colorBiochemistry = "success";
                                                       textBiochemistry = "Completed";
+                                                      canVerify += 1;
                                                 }
                                                 else if (row.biochemistry_release_date !== null && row.biochemistry_release_staff !== null) {
                                                       colorBiochemistry = "primary";
@@ -211,8 +299,6 @@ export default function Lab() {
                                                       colorBiochemistry = "error";
                                                       textBiochemistry = "Pending";
                                                 }
-
-
                                                 return (
                                                       <StyledTableRow
                                                             hover
@@ -263,7 +349,11 @@ export default function Lab() {
                                                                   </Label>
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  <Button component={RouterLink} to={`./edit/${row.report_id}`}>
+                                                                  <Button
+                                                                        component={RouterLink}
+                                                                        to={`/dashboard/view-health-report/${row.report_id}`}
+                                                                        disabled={canVerify !== 4 && true}
+                                                                  >
                                                                         <Iconify icon="ant-design:file-pdf-outlined" sx={{ fontSize: 20 }} />
                                                                   </Button>
                                                             </StyledTableCell>
@@ -400,6 +490,6 @@ export default function Lab() {
                               </Dialog>
                         </Form>
                   </FormikProvider>
-            </Page>
+            </Page >
       )
 }

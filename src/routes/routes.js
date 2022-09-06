@@ -35,7 +35,7 @@ export default function Router() {
         { path: 'view-health-report/:report_id', element: showCookieUserID !== undefined ? <ViewHealthReport /> : <Navigate to="/login" replace />, },
         { path: 'user', element: showCookieUserID !== undefined ? <User /> : <Navigate to="/login" replace /> },
         { path: 'user/create', element: showCookieUserID !== undefined ? <CreateUser /> : <Navigate to="/login" replace /> },
-        { path: 'user/edit/:user_id', element: showCookieUserID !== undefined ? <EditUser /> : <Navigate to="/login" replace /> },
+        { path: 'user/edit/:user_name', element: showCookieUserID !== undefined ? <EditUser /> : <Navigate to="/login" replace /> },
       ],
     },
     {

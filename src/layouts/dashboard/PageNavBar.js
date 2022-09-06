@@ -8,13 +8,15 @@
 /* eslint-disable camelcase */
 // eslint-disable-next-line prefer-template
 /* eslint-disable react/jsx-boolean-value */
-
-import { AppBar, Stack, Box, Typography, Button, Tabs, Tab, InputBase, InputAdornment } from '@mui/material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { AppBar, Stack, Box, Typography, Button, Tabs, Tab, InputBase, IconButton } from '@mui/material';
 import { useTheme, alpha, styled } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SearchIcon from '@mui/icons-material/Search';
 import Iconify from '../../components/Iconify';
+
 
 const RootStyle = styled('div')({
       zIndex: 900,
@@ -36,27 +38,60 @@ export default function PageNavBar({ topValue, title_name, to }) {
             <RootStyle>
                   <AppBar position="fixed" color="primary" sx={{ top: topValue, zIndex: 900, }}>
                         <Box sx={{ backgroundColor: "#FFFFFF", color: "#211D4E", height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                              <Stack
-                                    display="flex"
-                                    flexDirection="row"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    height="100%"
-                                    width="100%"
-                              >
-                                    <Box sx={{ width: 350 }}>
-                                          <Button variant="return" component={RouterLink} to={to} startIcon={<Iconify icon="ant-design:left-outlined" />} >
+                              <Stack direction="row" alignItems="center" justifyContent="space-between">
+                                    <Box
+                                          component={RouterLink}
+                                          to={to}
+                                          display="flex"
+                                          justifyContent="left"
+                                          alignItems="center"
+                                          sx={{
+                                                cursor: 'pointer',
+                                                textDecoration: 'none',
+                                                '&:focus, &:hover, &:visited, &:link, &:active': {
+                                                      color: '#211D4E',
+                                                },
+                                          }}
+                                    >
+                                          <IconButton aria-label="next button" color="primary" disableRipple={true}>
+                                                <KeyboardArrowLeftIcon fontSize="large" color='#211D4E' sx={{ color: '#211D4E' }} />
+                                          </IconButton>
+                                          <Typography
+                                                variant="subtitle1"
+                                                gutterBottom
+                                                sx={{ margin: 0, display: { xs: 'none', sm: 'block', md: 'block', lg: 'block', xl: 'block' } }}
+                                          >
                                                 Back
-                                          </Button>
+                                          </Typography>
                                     </Box>
-                                    <Typography variant="title_page" >{title_name}</Typography>
 
-                                    <Box sx={{ width: 350 }}>
-                                          {/* <InputBase
-                                                className='textField'
-                                                placeholder="Search.."
-                                                startAdornment={<InputAdornment position="end"><SearchIcon style={{ color: "#1565c0" }} /></InputAdornment>}
-                                          /> */}
+                                    <Typography align="center" variant="title_page" gutterBottom sx={{ margin: 0 }} color="primary">
+                                          {title_name}
+                                    </Typography>
+
+                                    <Box
+                                          display="flex"
+                                          justifyContent="left"
+                                          alignItems="center"
+                                          visibility={false}
+                                          sx={{
+                                                cursor: 'pointer',
+                                                textDecoration: 'none',
+                                                '&:focus, &:hover, &:visited, &:link, &:active': {
+                                                      color: '#211D4E',
+                                                },
+
+                                          }}
+                                    > <IconButton aria-label="next button" color="primary" disableRipple={true}>
+                                                <KeyboardArrowLeftIcon fontSize="large" color='#211D4E' sx={{ color: '#211D4E' }} />
+                                          </IconButton>
+                                          <Typography
+                                                variant="subtitle1"
+                                                gutterBottom
+                                                sx={{ margin: 0, display: { xs: 'none', sm: 'block', md: 'block', lg: 'block', xl: 'block' } }}
+                                          >
+                                                Back
+                                          </Typography>
                                     </Box>
                               </Stack>
                         </Box>

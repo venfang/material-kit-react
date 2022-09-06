@@ -16,11 +16,15 @@ import { useFormik, Form, FormikProvider } from 'formik';
 // @mui
 import { styled } from '@mui/material/styles';
 import {
-  Container, Typography, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses,
+  Container, Typography, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses,
   Dialog, DialogTitle, Grid, DialogContent, DialogActions,
   FormControl, InputLabel, OutlinedInput, Select, MenuItem
 
 } from '@mui/material';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { getAllReport } from '../../../data/lab/lab';
 import { getAllFacility } from '../../../data/facility/facility';
 // components
@@ -67,7 +71,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 export default function Lab() {
   const navigate = useNavigate()
   const topValue = 64;
-  const title_name = "LAB TEST";
+  const title_name = "Verify Report";
   const to = "/dashboard/app";
   const [reportList, setReportList] = useState([]);
   const [facilityList, setFacilityList] = useState([]);
@@ -76,7 +80,7 @@ export default function Lab() {
     initialValues: {
       barcode: '',
       order_id: '',
-      test_date: '',
+      test_date: new Date(),
       ic_no: '',
       facility_id: ''
     },
@@ -126,7 +130,91 @@ export default function Lab() {
       <Loader spinner={isSubmitting} />
       <PageNavBar topValue={topValue} title_name={title_name} to={to} />
       <Container sx={{ marginTop: 8, paddingRight: 1, paddingLeft: 1, width: "100%", height: "100%" }} disableGutters={true} >
-        <Button startIcon={<Iconify icon="ci:filter" />} onClick={openFilterDialog}>Filter</Button>
+        {/* <Button startIcon={<Iconify icon="ci:filter" />} onClick={openFilterDialog}>Filter</Button> */}
+        <Paper>
+          <Grid container spacing={1} sx={{ maxWidth: '100%' }}>
+            <Grid item xs={12} md={2.4} lg={2.4}>
+              <Item>
+                <FormControl fullWidth>
+                  <InputLabel>Barcode</InputLabel>
+                  <OutlinedInput
+                    type="text"
+                    {...getFieldProps('barcode')}
+                    label="Barcode"
+                  />
+                </FormControl>
+              </Item>
+            </Grid>
+            <Grid item xs={12} md={2.4} lg={2.4}>
+              <Item>
+                <FormControl fullWidth>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      inputFormat="dd/MM/yyyy"
+                      value={values.test_date}
+                      views={['year', 'month', 'day']}
+                      showDaysOutsideCurrentMonth
+                      label="Test Date"
+                      onChange={(value) => {
+                        console.log(value);
+                        formik.setFieldValue('test_date', value.toISOString());
+                      }}
+                      renderInput={(params) => {
+                        return <TextField {...params}
+                        />;
+
+                      }}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
+              </Item>
+            </Grid>
+            <Grid item xs={12} md={2.4} lg={2.4}>
+              <Item>
+                <FormControl fullWidth>
+                  <InputLabel>IC</InputLabel>
+                  <OutlinedInput
+                    type="text"
+                    {...getFieldProps('ic_no')}
+                    label="Name"
+                  />
+                </FormControl>
+              </Item>
+            </Grid>
+            <Grid item xs={12} md={2.4} lg={2.4}>
+              <Item>
+                <FormControl fullWidth>
+                  <InputLabel>Facility</InputLabel>
+                  <Select
+                    style={{ textAlign: 'left' }}
+                    label="Facility"
+                    {...getFieldProps('facility_id')}
+
+                  >
+                    <MenuItem
+                      value="1"
+                    >All</MenuItem>
+                    {facilityList.map((facility) => (
+                      <MenuItem
+                        key={facility.facility_id}
+                        value={facility.facility_id}
+                      >{facility.name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Item>
+            </Grid>
+            <Grid item xs={12} md={2.4} lg={2.4}>
+              <Item>
+                <Button onClick={() => {
+                  closeFilterDialog();
+                  handleSubmit();
+                }}>Search
+                </Button>
+              </Item>
+            </Grid>
+          </Grid>
+        </Paper>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 800 }} aria-label="customized table" size="small">
             <TableHead>
@@ -138,76 +226,26 @@ export default function Lab() {
                 <StyledTableCell align="center">Gender</StyledTableCell>
                 <StyledTableCell align="center">Package</StyledTableCell>
                 <StyledTableCell align="center">Facility</StyledTableCell>
-                <StyledTableCell align="center">Immunology Test</StyledTableCell>
-                <StyledTableCell align="center">Biochemistry Test</StyledTableCell>
-                <StyledTableCell align="center">Urine Test</StyledTableCell>
-                <StyledTableCell align="center">Blood Test</StyledTableCell>
+                <StyledTableCell align="center">Status</StyledTableCell>
                 <StyledTableCell align="center">Verify report</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {reportList !== null && reportList.map((row) => {
-                let colorImmunology = "";
-                let textImmunology = "";
-                let colorBlood = "";
-                let textBlood = "";
-                let colorUrine = "";
-                let textUrine = "";
-                let colorBiochemistry = "";
-                let textBiochemistry = "";
-                if (row.immunology_confirm_date !== null && row.immunology_confirm_staff !== null) {
-                  colorImmunology = "success";
-                  textImmunology = "Completed";
+                let colorVerify = "";
+                let textVerify = "";
+                if (row.verify_report_by !== null && row.verify_report_date !== null) {
+                  colorVerify = "success";
+                  textVerify = "Verified";
                 }
-                else if (row.immunology_release_date !== null && row.immunology_release_staff !== null) {
-                  colorImmunology = "primary";
-                  textImmunology = "Release";
+                else if ((row.immunology_confirm_date !== null && row.immunology_confirm_staff !== null) && (row.urine_confirm_date !== null && row.urine_confirm_staff !== null) && (row.biochemistry_confirm_date !== null && row.biochemistry_confirm_staff !== null) && (row.blood_confirm_date !== null && row.blood_confirm_staff !== null)) {
+                  colorVerify = "warning";
+                  textVerify = "Unverified";
                 }
                 else {
-                  colorImmunology = "error";
-                  textImmunology = "Pending";
+                  colorVerify = "error";
+                  textVerify = "Pending";
                 }
-
-                if (row.blood_confirm_date !== null && row.blood_confirm_staff !== null) {
-                  colorBlood = "success";
-                  textBlood = "Completed";
-                }
-                else if (row.blood_release_date !== null && row.blood_release_staff !== null) {
-                  colorBlood = "primary";
-                  textBlood = "Release";
-                }
-                else {
-                  colorBlood = "error";
-                  textBlood = "Pending";
-                }
-
-                if (row.urine_confirm_date !== null && row.urine_confirm_staff !== null) {
-                  colorUrine = "success";
-                  textUrine = "Completed";
-                }
-                else if (row.urine_release_date !== null && row.urine_release_staff !== null) {
-                  colorUrine = "primary";
-                  textUrine = "Release";
-                }
-                else {
-                  colorUrine = "error";
-                  textUrine = "Pending";
-                }
-
-                if (row.biochemistry_confirm_date !== null && row.biochemistry_confirm_staff !== null) {
-                  colorBiochemistry = "success";
-                  textBiochemistry = "Completed";
-                }
-                else if (row.biochemistry_release_date !== null && row.biochemistry_release_staff !== null) {
-                  colorBiochemistry = "primary";
-                  textBiochemistry = "Release";
-                }
-                else {
-                  colorBiochemistry = "error";
-                  textBiochemistry = "Pending";
-                }
-
-
                 return (
                   <StyledTableRow
                     hover
@@ -238,27 +276,12 @@ export default function Lab() {
                       {row.name}
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row" align='center'>
-                      <Label variant="ghost" color={colorImmunology}>
-                        {textImmunology}
+                      <Label variant="ghost" color={colorVerify}>
+                        {textVerify}
                       </Label>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row" align='center'>
-                      <Label variant="ghost" color={colorBiochemistry}>
-                        {textBiochemistry}
-                      </Label>
-                    </StyledTableCell>
-                    <StyledTableCell component="th" scope="row" align='center'>
-                      <Label variant="ghost" color={colorUrine}>
-                        {textUrine}
-                      </Label>
-                    </StyledTableCell>
-                    <StyledTableCell component="th" scope="row" align='center'>
-                      <Label variant="ghost" color={colorBlood}>
-                        {textBlood}
-                      </Label>
-                    </StyledTableCell>
-                    <StyledTableCell component="th" scope="row" align='center'>
-                      <Button component={RouterLink} to={`./edit/${row.report_id}`}>
+                      <Button component={RouterLink} to={`/dashboard/view-health-report/${row.report_id}`}>
                         <Iconify icon="ant-design:file-pdf-outlined" sx={{ fontSize: 20 }} />
                       </Button>
                     </StyledTableCell>
@@ -287,7 +310,7 @@ export default function Lab() {
             <DialogContent>
               <Container>
                 <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
-                  <Grid item xs={12} md={6} lg={6}>
+                  <Grid item xs={12} md={4} lg={4}>
                     <Item>
                       <FormControl fullWidth>
                         <InputLabel>Barcode</InputLabel>
@@ -299,7 +322,53 @@ export default function Lab() {
                       </FormControl>
                     </Item>
                   </Grid>
-                  <Grid item xs={12} md={6} lg={6}>
+                  <Grid item xs={12} md={4} lg={4}>
+                    <Item>
+                      <FormControl fullWidth>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                          <DesktopDatePicker
+                            inputFormat="dd/MM/yyyy"
+                            value={values.test_date}
+                            views={['year', 'month', 'day']}
+                            showDaysOutsideCurrentMonth
+                            onChange={(value) => {
+                              console.log(value);
+                              formik.setFieldValue('test_date', value.toISOString());
+                            }}
+                            renderInput={(params) => {
+                              return <TextField {...params}
+                              />;
+
+                            }}
+                          />
+                        </LocalizationProvider>
+                      </FormControl>
+                    </Item>
+                  </Grid>
+                  {/* <Grid item xs={12} md={4} lg={4}>
+                                                            <Item>
+                                                                  <FormControl fullWidth>
+                                                                        <InputLabel>Status</InputLabel>
+                                                                        <Select
+                                                                              style={{ textAlign: 'left' }}
+                                                                              label="Facility"
+                                                                              {...getFieldProps('facility_id')}
+
+                                                                        >
+                                                                              <MenuItem
+                                                                                    value="All"
+                                                                              >All</MenuItem>
+                                                                               <MenuItem
+                                                                                    value=""
+                                                                              >All</MenuItem>
+                                                                              
+                                                                        </Select>
+                                                                  </FormControl>
+                                                            </Item>
+                                                      </Grid> */}
+                </Grid>
+                <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
+                  <Grid item xs={12} md={6} lg={4}>
                     <Item>
                       <FormControl fullWidth>
                         <InputLabel>IC</InputLabel>
@@ -311,9 +380,7 @@ export default function Lab() {
                       </FormControl>
                     </Item>
                   </Grid>
-                </Grid>
-                <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
-                  <Grid item xs={12} md={6} lg={6}>
+                  <Grid item xs={12} md={6} lg={4}>
                     <Item>
                       <FormControl fullWidth>
                         <InputLabel>Facility</InputLabel>
@@ -336,18 +403,7 @@ export default function Lab() {
                       </FormControl>
                     </Item>
                   </Grid>
-                  {/* <Grid item xs={12} md={6} lg={6}>
-                                                            <Item>
-                                                                  <FormControl fullWidth>
-                                                                        <InputLabel>test Date</InputLabel>
-                                                                        <OutlinedInput
-                                                                              type="text"
-                                                                              {...getFieldProps('test_date')}
-                                                                              label="Name"
-                                                                        />
-                                                                  </FormControl>
-                                                            </Item>
-                                                      </Grid> */}
+
                 </Grid>
 
               </Container>

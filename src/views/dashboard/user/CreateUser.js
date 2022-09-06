@@ -296,6 +296,33 @@ export default function CreateUser() {
                                                             <Grid item xs={12} md={6} lg={6}>
                                                                   <Item>
                                                                         <FormControl fullWidth>
+                                                                              <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                                                              <Select
+                                                                                    error={Boolean(touched.user_type && errors.user_type)}
+                                                                                    {...getFieldProps('user_type')}
+                                                                                    required
+                                                                                    label="Role"
+                                                                                    style={{ textAlign: 'left' }}
+                                                                              >
+                                                                                    <MenuItem
+                                                                                          value="1"
+                                                                                    >Manager</MenuItem>
+                                                                                    <MenuItem
+                                                                                          value="2"
+                                                                                    >Staff</MenuItem>
+
+                                                                              </Select>
+                                                                              <FormHelperText error id="user_type-error" sx={{ fontWeight: 600 }}>
+                                                                                    {touched.user_type && errors.user_type}
+                                                                              </FormHelperText>
+                                                                        </FormControl>
+                                                                  </Item>
+                                                            </Grid>
+                                                      </Grid>
+                                                      <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
+                                                            <Grid item xs={12} md={6} lg={6}>
+                                                                  <Item>
+                                                                        <FormControl fullWidth>
                                                                               <InputLabel id="">Password</InputLabel>
                                                                               <OutlinedInput
                                                                                     error={Boolean(touched.password && errors.password)}
@@ -332,32 +359,7 @@ export default function CreateUser() {
                                                                                     {touched.password && errors.password}
                                                                               </FormHelperText>
                                                                         </FormControl>
-                                                                  </Item>
-                                                            </Grid>
-                                                      </Grid>
-                                                      <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
-                                                            <Grid item xs={12} md={6} lg={6}>
-                                                                  <Item>
-                                                                        <FormControl fullWidth>
-                                                                              <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                                                                              <Select
-                                                                                    error={Boolean(touched.user_type && errors.user_type)}
-                                                                                    {...getFieldProps('user_type')}
-                                                                                    required
-                                                                                    label="Role"
-                                                                              >
-                                                                                    <MenuItem
-                                                                                          value="1"
-                                                                                    >Manager</MenuItem>
-                                                                                    <MenuItem
-                                                                                          value="2"
-                                                                                    >Staff</MenuItem>
 
-                                                                              </Select>
-                                                                              <FormHelperText error id="user_type-error" sx={{ fontWeight: 600 }}>
-                                                                                    {touched.user_type && errors.user_type}
-                                                                              </FormHelperText>
-                                                                        </FormControl>
                                                                   </Item>
                                                             </Grid>
                                                             <Grid item xs={12} md={6} lg={6}>

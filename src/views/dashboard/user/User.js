@@ -87,6 +87,7 @@ export default function Lab() {
                                           <TableRow>
                                                 <StyledTableCell align='center'>User Name</StyledTableCell>
                                                 <StyledTableCell align="center">Name</StyledTableCell>
+                                                <StyledTableCell align="center">Role</StyledTableCell>
                                                 <StyledTableCell align="center">Center</StyledTableCell>
                                                 <StyledTableCell align="center">Designation</StyledTableCell>
                                                 <StyledTableCell align="center">Mobile Phone</StyledTableCell>
@@ -98,9 +99,9 @@ export default function Lab() {
                                                 return (
                                                       <StyledTableRow
                                                             hover
-                                                            key={row.report_id}
+                                                            key={row.user_name}
                                                             onDoubleClick={e => { // <--- this is how you can catch DoubleClick on row
-                                                                  navigate(`./edit/${row.user_id}`, { replace: false });
+                                                                  navigate(`./edit/${row.user_name}`, { replace: false });
                                                             }}
                                                       >
                                                             <StyledTableCell component="th" scope="row" align='center'>
@@ -108,6 +109,9 @@ export default function Lab() {
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   {row.name}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell component="th" scope="row" align='center'>
+                                                                  {row.user_type}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   {row.center}

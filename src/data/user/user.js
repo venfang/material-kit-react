@@ -12,7 +12,7 @@ import axios from 'axios';
 export const getAllUser = () => fetch(`${process.env.REACT_APP_API}User/getAllUser`).then((data) => data.json());
 
 export const createUser = (values) => axios.post(process.env.REACT_APP_API + `User/createUser`, values);
-// export const getReport = (report_id) => fetch(`${process.env.REACT_APP_API}Report/getReport?report_id=${report_id}`).then((data) => data.json());
+export const getUserDetail = (user_name) => fetch(`${process.env.REACT_APP_API}User/getUserDetail?user_name=${user_name}`).then((data) => data.json());
 
 // export const confirmBloodTest = (values) => axios.put(`${process.env.REACT_APP_API}Report/confirmBloodTest`, values);
 // export const confirmImmunology = (values) => axios.put(`${process.env.REACT_APP_API}Report/confirmImmunology`, values);

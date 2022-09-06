@@ -1,6 +1,18 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable no-useless-concat */
+/* eslint-disable prefer-const */
+/* eslint-disable no-const-assign */
+/* eslint-disable no-var */
+/* eslint-disable arrow-body-style */
+/* eslint-disable prefer-template */
+/* eslint-disable camelcase */
+// eslint-disable-next-line prefer-template
+/* eslint-disable react/jsx-boolean-value */
+
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 // material
+import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom';
 import { alpha, styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import {
@@ -75,11 +87,12 @@ DashboardNavbar.propTypes = {
 };
 
 export default function DashboardNavbar({ onOpenSidebar }) {
+  const user_id = Cookies.get('user_name');
   const handleLogout = () => {
     logoutUser()
       .then((logoutResponse) => {
         TimerAlertBox('success', 'Logout Successfully', '', 1500, 'center').then(() => {
-          if (Cookies.get('name') === undefined) {
+          if (Cookies.get('user_name') === undefined) {
             window.location.href = `${window.location.origin}/dashboard/app`;
           }
         });
@@ -123,7 +136,8 @@ export default function DashboardNavbar({ onOpenSidebar }) {
               <Iconify icon="eva:menu-2-fill" />
             </IconButton>
             <Button
-              // onClick={ }
+              component={RouterLink}
+              to={`/dashboard/user/edit/${user_id}`}
               variant="outlined"
               size="medium"
               startIcon={<AccountCircleIcon />}
