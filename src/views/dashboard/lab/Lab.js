@@ -206,7 +206,7 @@ export default function Lab() {
                                     </Grid>
                                     <Grid item xs={12} md={2.4} lg={2.4}>
                                           <Item>
-                                                <Button onClick={() => {
+                                                <Button fullWidth onClick={() => {
                                                       closeFilterDialog();
                                                       handleSubmit();
                                                 }}>Search

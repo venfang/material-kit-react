@@ -27,6 +27,7 @@ import Iconify from '../../../components/Iconify';
 import PageTitleBar from '../../../components/PageTitleBar';
 import Loader from '../../../components/loader/Loader';
 import { getReportPDF } from '../../../data/report/report';
+import PageNavBar from '../../../layouts/dashboard/PageNavBar';
 
 // sections
 
@@ -80,52 +81,47 @@ export default function ViewHealthReport() {
   }, []);
 
   function verifyReport() {
+    setLoading(true);
     const formValues = {
-
       verify_by_staff: Cookies.get('user_name'),
     };
-    // verifyReport(formValues)
-    //       .then((response) => {
-    //             formik.setSubmitting(false);
-    //             AlertBox(
-    //                   'success',
-    //                   'Update Successfully',
-    //                   "Blood Test has been confirm.",
-    //                   false,
-    //                   '',
-    //                   true,
-    //                   'OK'
-    //             )
-    //                   .then(() => {
-    //                         window.location.reload();
-    //                   });
-    //       })
-    //       .catch((error) => {
-    //             formik.setSubmitting(false);
-    //             AlertBox(
-    //                   'error',
-    //                   'Update Failed',
-    //                   error.response.data.message,
-    //                   false,
-    //                   '',
-    //                   true,
-    //                   'OK').then(() => {
-
-    //                   });
-    //       }
-    //       );
+    verifyReport(formValues)
+      .then((response) => {
+        setLoading(false);
+        AlertBox(
+          'success',
+          'Update Successfully',
+          "Blood Test has been confirm.",
+          false,
+          '',
+          true,
+          'OK'
+        )
+          .then(() => {
+            window.location.reload();
+          });
+      })
+      .catch((error) => {
+        setLoading(false);
+        AlertBox(
+          'error',
+          'Update Failed',
+          error.response.data.message,
+          false,
+          '',
+          true,
+          'OK').then(() => {
+          });
+      }
+      );
 
   }
-
+  const title_name = "View Health Report";
+  const to = "/dashboard/app";
+  const topValue = 64;
   return (
     <Page title="View Health Report">
-      <PageTitleBar
-        title="View Health Report"
-        backVisibility="visible"
-        backURL="/dashboard/health-report"
-        nextVisibility="hidden"
-        nextURL=""
-      />
+      <PageNavBar topValue={topValue} title_name={title_name} to={to} />
       <Loader spinner={loading} />
       <Container maxWidth="lg" sx={{ mt: 12 }}>
         <Box display="flex" justifyContent="flex-end" alignItems="center" sx={{ p: 2 }}>
@@ -137,7 +133,7 @@ export default function ViewHealthReport() {
               verifyReport();
             }}
           >
-            Confirm Report
+            Verified Report
           </Button>
         </Box>
         <Box sx={{ p: 2 }}>

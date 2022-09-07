@@ -25,7 +25,7 @@ export default function Button(theme) {
         {
           props: { variant: 'cancel' },
           style: {
-            border: '1px solid ##5A567B',
+            border: '1px solid #5A567B',
             backgroundColor: '#5A567B',
             color: '#ffffff',
             height: 40,
@@ -33,6 +33,21 @@ export default function Button(theme) {
             '&:hover': {
               boxShadow: theme.customShadows.z8,
               backgroundColor: '#5A567B',
+            },
+          },
+        },
+        {
+          props: { variant: 'comment_value' },
+          style: {
+            border: '1px solid #ffffff',
+            backgroundColor: '#3949ab',
+            color: '#ffffff',
+            height: 40,
+            ...responsiveFontSizes({ xs: 8, sm: 10, md: 12, lg: 14 }),
+            '&:hover': {
+              boxShadow: theme.customShadows.z8,
+              backgroundColor: '#ffffff',
+              color: '#3949ab',
             },
           },
         },

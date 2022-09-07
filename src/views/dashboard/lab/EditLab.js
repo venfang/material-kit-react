@@ -19,7 +19,7 @@ import Cookies from 'js-cookie';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
-import { Container, Autocomplete, Dialog, InputLabel, OutlinedInput, DialogTitle, DialogContent, DialogActions, Typography, Checkbox, AppBar, FormHelperText, MenuItem, Select, FormControl, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
+import { Container, Autocomplete, Dialog, InputLabel, TextField, OutlinedInput, DialogTitle, DialogContent, DialogActions, Typography, Checkbox, AppBar, FormHelperText, MenuItem, Select, FormControl, Box, Stack, Button, Tabs, InputAdornment, Tab, Paper, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from '@mui/material';
 import Loader from '../../../components/loader/Loader';
 // components
 import Page from '../../../components/Page';
@@ -28,7 +28,7 @@ import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import SequenceBar from '../../../layouts/dashboard/SequenceBar';
 
 import { getReport, updateBloodTest, updateImmunology, updateBiochemistry, updateUrine } from '../../../data/lab/lab';
-import { getComment } from '../../../data/comment/comment';
+import { getComment, getCommentDetails } from '../../../data/comment/comment';
 
 const Item = styled(Paper)(({ theme }) => ({
       backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -65,27 +65,45 @@ export default function Lab() {
             formik.setSubmitting(true);
             getReport(report_id).then((data) => {
                   formik.setValues(data);
-                  formik.setSubmitting(false);
+                  // let tempUBOther = data.UBOther_current.split(",");
+                  // console.log(tempUBOther);
+                  // setUBOther_current(tempUBOther);
                   if (data.UBOther_current !== "") {
-                        let tempUBOther = data.UBOther_current.split(",");
-                        setUBOther_current(tempUBOther);
+                        getCommentDetails(data.UBOther_current).then((result) => {
+                              setUBOther_current(result);
+                        }).catch((err) => {
+                              console.log(err);
+                              TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
+                              formik.setSubmitting(false);
+                        });
                   }
                   if (data.UBOther_previous !== "") {
-                        let tempUBOther = data.UBOther_previous.split(",");
-                        setUBOther_previous(tempUBOther);
+                        getCommentDetails(data.UBOther_previous).then((result) => {
+                              setUBOther_previous(result);
+                        }).catch((err) => {
+                              console.log(err);
+                              TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
+                              formik.setSubmitting(false);
+                        });
                   }
                   if (data.UBOther_past !== "") {
-                        let tempUBOther = data.UBOther_past.split(",");
-                        setUBOther_past(tempUBOther);
+                        getCommentDetails(data.UBOther_past).then((result) => {
+                              setUBOther_past(result);
+                        }).catch((err) => {
+                              console.log(err);
+                              TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
+                              formik.setSubmitting(false);
+                        });
                   }
-                  console.log(data);
             }).catch((err) => {
                   console.log(err);
                   TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   formik.setSubmitting(false);
             });
+
             getComment("Urine").then((data) => {
                   setUBOther_Comment(data);
+                  formik.setSubmitting(false);
             }).catch(() => {
                   TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   formik.setSubmitting(false);
@@ -703,17 +721,7 @@ export default function Lab() {
             },
       });
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-      const handleUBOtherChange = (e) => {
-            setUBOther_current(
-                  typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value,
-            );
-            let tempUBOther = "";
-            tempUBOther += e.target.value.map((item) =>
-            (
-                  item
-            ));
-            formik.setFieldValue("UBOther_current", tempUBOther);
-      };
+
       const [UBOther_modal, setUBOther_modal] = useState(false);
       const openUBOther_modal = () => {
             setUBOther_modal(true);
@@ -751,6 +759,24 @@ export default function Lab() {
             return value;
       }
 
+      const handleUBOtherChange = (e, value) => {
+            setUBOther_current(value);
+            let tempUBOther = "";
+            tempUBOther += value.map((item) =>
+            (
+                  item.comment_no
+            ));
+            formik.setFieldValue("UBOther_current", tempUBOther);
+            // setUBOther_current(
+            //       typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value,
+            // );
+            // let tempUBOther = "";
+            // tempUBOther += e.target.value.map((item) =>
+            // (
+            //       item
+            // ));
+            // formik.setFieldValue("UBOther_current", tempUBOther);
+      };
       return (
             <Page Page title="Edit"  >
                   <Loader spinner={isSubmitting} />
@@ -761,7 +787,7 @@ export default function Lab() {
                               padding: 0,
                         }}>
                               <AppBar position="fixed" color="primary" sx={{ top: topValue + 40, zIndex: 900, }}>
-                                    <Box sx={{ backgroundColor: "#FFFFFF", color: "#211D4E", height: 60, paddingLeft: 10, paddingRight: 10 }}>
+                                    <Box sx={{ backgroundColor: "#FFFFFF", color: "#211D4E", height: 60, paddingLeft: 5, paddingRight: 5 }}>
                                           <Stack
                                                 display="flex"
                                                 flexDirection="row"
@@ -4204,10 +4230,10 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <Button
-                                                                                          variant="contained"
-                                                                                          sx={{ fontSize: "10px !important", backgroundColor: "#757575 !important" }}
+                                                                                          variant={values.UBOther_current === "" ? "cancel" : "comment_value"}
+                                                                                          sx={{ fontSize: "10px !important" }}
                                                                                           onClick={openUBOther_modal} >
-                                                                                          Add Other Comment
+                                                                                          {values.UBOther_current === "" ? "Add Comment" : "Update Comment"}
                                                                                     </Button>
                                                                                     {/* <Autocomplete
                                                                                           multiple
@@ -4233,53 +4259,22 @@ export default function Lab() {
 
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
-                                                                                    <FormControl fullWidth>
-                                                                                          <Select
-                                                                                                multiple
-                                                                                                disabled
-                                                                                                className={values.UBOther_previous_redstar === null ? 'default' : 'red'}
-                                                                                                error={Boolean(touched.tempUBOther_previous && errors.tempUBOther_previous)}
-                                                                                                value={tempUBOther_previous}
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                {UBOther_Comment.map((UBOther) => (
-                                                                                                      <MenuItem
-                                                                                                            value={UBOther.comment_no}
-                                                                                                            key={UBOther.comment_no}
-                                                                                                      >{UBOther.eng}</MenuItem>
-                                                                                                )
-                                                                                                )}
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBOther_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBOther_current && errors.UBOther_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-
+                                                                                    <Button
+                                                                                          variant={values.UBOther_previous === "" ? "cancel" : "comment_value"}
+                                                                                          sx={{ fontSize: "10px !important", color: " #ffffff !important" }}
+                                                                                          disabled={values.UBOther_previous === "" ?? true}
+                                                                                          onClick={openUBOther_modal} >
+                                                                                          {values.UBOther_previous === "" ? "No Comment" : "View Comment"}
+                                                                                    </Button>
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
-                                                                                    <FormControl fullWidth>
-                                                                                          <Select
-                                                                                                multiple
-                                                                                                disabled
-                                                                                                className={values.UBOther_past_redstar === null ? 'default' : 'red'}
-                                                                                                error={Boolean(touched.UBOther_past && errors.UBOther_past)}
-                                                                                                value={tempUBOther_past}
-
-                                                                                                style={{ textAlign: 'left' }}
-                                                                                          >
-                                                                                                {UBOther_Comment.map((UBOther) => (
-                                                                                                      <MenuItem
-                                                                                                            value={UBOther.comment_no}
-                                                                                                            key={UBOther.comment_no}
-                                                                                                      >{UBOther.eng}</MenuItem>
-                                                                                                )
-                                                                                                )}
-                                                                                          </Select>
-                                                                                          <FormHelperText error id="UBOther_current-error" sx={{ fontWeight: 600 }}>
-                                                                                                {touched.UBOther_current && errors.UBOther_current}
-                                                                                          </FormHelperText>
-                                                                                    </FormControl>
-
+                                                                                    <Button
+                                                                                          variant={values.UBOther_past === "" ? "cancel" : "comment_value"}
+                                                                                          sx={{ fontSize: "10px !important", color: " #ffffff !important" }}
+                                                                                          disabled={values.UBOther_past === "" ?? true}
+                                                                                          onClick={openUBOther_modal} >
+                                                                                          {values.UBOther_past === "" ? "No Comment" : "View Comment"}
+                                                                                    </Button>
                                                                               </TableCell>
                                                                         </TableRow>
                                                                         <TableRow >
@@ -5177,14 +5172,32 @@ export default function Lab() {
                                                                               </TableCell>
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <Button
-                                                                                          variant="contained"
-                                                                                          sx={{ fontSize: "10px !important", backgroundColor: "#757575 !important" }}
+                                                                                          variant={values.BFC_current === "" ? "cancel" : "comment_value"}
+                                                                                          sx={{ fontSize: "10px !important" }}
                                                                                           onClick={openBFC_modal} >
-                                                                                          Add
+                                                                                          {values.BFC_current === "" ? "Add Comment" : "Update Comment"}
                                                                                     </Button>
                                                                               </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}> </TableCell>
-                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}> </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <Button
+                                                                                          variant={values.BFC_previous === "" ? "cancel" : "comment_value"}
+                                                                                          sx={{ fontSize: "10px !important", color: " #ffffff !important" }}
+                                                                                          onClick={openBFC_modal}
+                                                                                          disabled={values.BFC_previous === "" ?? true}
+                                                                                    >
+                                                                                          {values.BFC_previous === "" ? "No Comment" : "View Comment"}
+                                                                                    </Button>
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+                                                                                    <Button
+                                                                                          variant={values.BFC_past === "" ? "cancel" : "comment_value"}
+                                                                                          sx={{ fontSize: "10px !important", color: " #ffffff !important" }}
+                                                                                          onClick={openBFC_modal}
+                                                                                          disabled={values.BFC_past === "" ?? true}
+                                                                                    >
+                                                                                          {values.BFC_past === "" ? "No Comment" : "View Comment"}
+                                                                                    </Button>
+                                                                              </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -5193,35 +5206,6 @@ export default function Lab() {
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
                                                                               <TableCell> </TableCell>
-                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
-                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}>
-                                                                                    <Button
-                                                                                          size="large"
-                                                                                          type="button"
-                                                                                          variant="contained"
-                                                                                          onClick={() => {
-                                                                                                setSubmitAction("confirm");
-                                                                                                setSubmitCategory("Blood Test");
-                                                                                                handleSubmit();
-                                                                                          }}
-                                                                                    >
-                                                                                          Confirm
-                                                                                    </Button></TableCell>
-                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}>
-                                                                                    {values.blood_confirm_staff === null && values.blood_confirm_date === null && <Button
-                                                                                          size="large"
-                                                                                          type="button"
-                                                                                          variant="contained"
-                                                                                          onClick={() => {
-                                                                                                setSubmitAction("release");
-                                                                                                setSubmitCategory("Blood Test");
-                                                                                                handleSubmit();
-                                                                                          }}
-                                                                                    >
-                                                                                          Release
-                                                                                    </Button>}
-                                                                              </TableCell>
-                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -5307,6 +5291,35 @@ export default function Lab() {
                                                                                           </Select>
                                                                                     </FormControl>
                                                                               </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}>
+                                                                                    <Button
+                                                                                          size="large"
+                                                                                          type="button"
+                                                                                          variant="contained"
+                                                                                          onClick={() => {
+                                                                                                setSubmitAction("confirm");
+                                                                                                setSubmitCategory("Blood Test");
+                                                                                                handleSubmit();
+                                                                                          }}
+                                                                                    >
+                                                                                          Confirm
+                                                                                    </Button></TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}>
+                                                                                    {values.blood_confirm_staff === null && values.blood_confirm_date === null && <Button
+                                                                                          size="large"
+                                                                                          type="button"
+                                                                                          variant="contained"
+                                                                                          onClick={() => {
+                                                                                                setSubmitAction("release");
+                                                                                                setSubmitCategory("Blood Test");
+                                                                                                handleSubmit();
+                                                                                          }}
+                                                                                    >
+                                                                                          Release
+                                                                                    </Button>}
+                                                                              </TableCell>
+                                                                              <TableCell sx={{ background: "#FFFFFF !important" }}> </TableCell>
                                                                         </TableRow>
                                                                         <TableRow>
                                                                               <TableCell align="right">
@@ -5403,7 +5416,7 @@ export default function Lab() {
                               </FormikProvider>
                         </TabContext>
                   </Container >
-                  <Dialog open={UBOther_modal} onClose={closeUBOther_modal} fullWidth={true} maxWidth={"sm"} >
+                  <Dialog open={UBOther_modal} onClose={closeUBOther_modal} fullWidth={true} maxWidth={"md"} >
                         <DialogTitle>Other Item</DialogTitle>
                         <DialogContent>
                               <Box>
@@ -5414,25 +5427,76 @@ export default function Lab() {
                                     </Item> */}
                                     <Item>
                                           <FormControl fullWidth>
-                                                <Select
+                                                <Autocomplete
                                                       multiple
-                                                      className={values.UBOther_current_redstar === null ? 'default' : 'red'}
-                                                      error={Boolean(touched.UBOther_current && errors.UBOther_current)}
-                                                      value={tempUBOther_current}
+                                                      options={UBOther_Comment}
+                                                      disableCloseOnSelect
+                                                      autoHighlight
                                                       onChange={handleUBOtherChange}
-                                                      style={{ textAlign: 'left' }}
-                                                >
-                                                      {UBOther_Comment.map((UBOther) => (
-                                                            <MenuItem
-                                                                  value={UBOther.comment_no}
-                                                                  key={UBOther.comment_no}
-                                                            > <Checkbox checked={tempUBOther_current.indexOf(UBOther.comment_no) > -1} />{UBOther.comment_no} - {UBOther.eng}</MenuItem>
-                                                      )
+                                                      value={tempUBOther_current}
+                                                      getOptionLabel={(option) => option.comment_no + "-" + option.eng}
+                                                      renderOption={(props, option, { selected }) => (
+                                                            <li {...props}>
+                                                                  <Checkbox
+                                                                        style={{ marginRight: 8 }}
+                                                                        checked={selected}
+                                                                  />
+                                                                  {option.comment_no} - {option.eng}
+                                                            </li>
                                                       )}
-                                                </Select>
-                                                <FormHelperText error id="UBOther_current-error" sx={{ fontWeight: 600 }}>
-                                                      {touched.UBOther_current && errors.UBOther_current}
-                                                </FormHelperText>
+                                                      renderInput={(params) => (
+                                                            <TextField {...params} label="Current" />
+                                                      )}
+                                                />
+
+                                          </FormControl>
+                                    </Item>
+                                    <Item>
+                                          <FormControl fullWidth>
+                                                <Autocomplete
+                                                      multiple
+                                                      options={UBOther_Comment}
+                                                      disabled
+                                                      value={tempUBOther_previous}
+                                                      getOptionLabel={(option) => option.comment_no + "-" + option.eng}
+                                                      renderOption={(props, option, { selected }) => (
+                                                            <li {...props}>
+                                                                  <Checkbox
+                                                                        style={{ marginRight: 8 }}
+                                                                        checked={selected}
+                                                                  />
+                                                                  {option.comment_no} - {option.eng}
+                                                            </li>
+                                                      )}
+                                                      renderInput={(params) => (
+                                                            <TextField {...params} label={values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'} />
+                                                      )}
+                                                />
+
+                                          </FormControl>
+                                    </Item>
+                                    <Item>
+                                          <FormControl fullWidth>
+                                                <Autocomplete
+                                                      multiple
+                                                      options={UBOther_Comment}
+                                                      disabled
+                                                      value={tempUBOther_past}
+                                                      getOptionLabel={(option) => option.comment_no + "-" + option.eng}
+                                                      renderOption={(props, option, { selected }) => (
+                                                            <li {...props}>
+                                                                  <Checkbox
+                                                                        style={{ marginRight: 8 }}
+                                                                        checked={selected}
+                                                                  />
+                                                                  {option.comment_no} - {option.eng}
+                                                            </li>
+                                                      )}
+                                                      renderInput={(params) => (
+                                                            <TextField {...params} label={values.test_date_past !== null ? `${values.test_date_past}` : 'Past'} />
+                                                      )}
+                                                />
+
                                           </FormControl>
                                     </Item>
                               </Box>
@@ -5441,7 +5505,7 @@ export default function Lab() {
                               <Button onClick={closeUBOther_modal}>Close</Button>
                         </DialogActions>
                   </Dialog>
-                  <Dialog open={BFC_modal} onClose={closeBFC_modal} fullWidth={true} maxWidth={"sm"} >
+                  <Dialog open={BFC_modal} onClose={closeBFC_modal} fullWidth={true} maxWidth={"md"} >
                         <DialogTitle>Blood Film Comment</DialogTitle>
                         <DialogContent>
                               <Box>
@@ -5452,14 +5516,44 @@ export default function Lab() {
                                     </Item> */}
                                     <Item>
                                           <FormControl fullWidth>
-                                                <InputLabel>Blood Film Comment</InputLabel>
+                                                <InputLabel>Current</InputLabel>
                                                 <OutlinedInput
                                                       multiline
                                                       maxRows={5}
                                                       rows={5}
                                                       type="text"
                                                       {...getFieldProps('BFC_current')}
-                                                      label="Blood Film Comment"
+                                                      label="Current"
+                                                />
+                                          </FormControl>
+                                    </Item>
+                                    <Item>
+                                          <FormControl fullWidth>
+                                                <InputLabel>{values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}</InputLabel>
+                                                <OutlinedInput
+                                                      disabled
+                                                      sx={{ backgroundColor: "#DFDFDFDF", color: "#5A567B" }}
+                                                      multiline
+                                                      maxRows={5}
+                                                      rows={5}
+                                                      type="text"
+                                                      {...getFieldProps('BFC_previous')}
+                                                      label={values.test_date_previous !== null ? `${values.test_date_previous}` : 'Previous'}
+                                                />
+                                          </FormControl>
+                                    </Item>
+                                    <Item>
+                                          <FormControl fullWidth>
+                                                <InputLabel>{values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}</InputLabel>
+                                                <OutlinedInput
+                                                      disabled
+                                                      sx={{ backgroundColor: "#DFDFDFDF", color: "#5A567B" }}
+                                                      multiline
+                                                      maxRows={5}
+                                                      rows={5}
+                                                      type="text"
+                                                      {...getFieldProps('BFC_past')}
+                                                      label={values.test_date_past !== null ? `${values.test_date_past}` : 'Past'}
                                                 />
                                           </FormControl>
                                     </Item>

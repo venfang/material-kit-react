@@ -37,7 +37,7 @@ export default function PageNavBar({ topValue, title_name, to }) {
       return (
             <RootStyle>
                   <AppBar position="fixed" color="primary" sx={{ top: topValue, zIndex: 900, }}>
-                        <Box sx={{ backgroundColor: "#FFFFFF", color: "#211D4E", height: 50, paddingLeft: 10, paddingRight: 10 }}>
+                        <Box sx={{ backgroundColor: "#FFFFFF", color: "#211D4E", height: 50, paddingLeft: 5, paddingRight: 5 }}>
                               <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Box
                                           component={RouterLink}
@@ -80,7 +80,7 @@ export default function PageNavBar({ topValue, title_name, to }) {
                                                 '&:focus, &:hover, &:visited, &:link, &:active': {
                                                       color: '#211D4E',
                                                 },
-
+                                                visibility: "hidden",
                                           }}
                                     > <IconButton aria-label="next button" color="primary" disableRipple={true}>
                                                 <KeyboardArrowLeftIcon fontSize="large" color='#211D4E' sx={{ color: '#211D4E' }} />

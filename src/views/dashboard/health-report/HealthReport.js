@@ -251,7 +251,7 @@ export default function Lab() {
                     hover
                     key={row.report_id}
                     onDoubleClick={() => { // <--- this is how you can catch DoubleClick on row
-                      navigate(`./edit/${row.report_id}`, { replace: false });
+                      navigate(`/dashboard/view-health-report/${row.report_id}`);
                     }}
                   >
                     <StyledTableCell component="th" scope="row" align='center'>

@@ -10,3 +10,6 @@
 import axios from 'axios';
 
 export const getComment = (comment_category) => fetch(`${process.env.REACT_APP_API}Comment/getComment?comment_category=${comment_category}`).then((data) => data.json());
+
+
+export const getCommentDetails = (comment_no) => fetch(`${process.env.REACT_APP_API}Comment/getCommentDetails?comment_no=${comment_no}`).then((data) => data.json());
