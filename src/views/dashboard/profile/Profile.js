@@ -120,7 +120,8 @@ export default function Profile() {
       user_name: '',
       user_type: '',
       name: '',
-      center: '',
+      center_id: '',
+      email: '',
       designation: '',
       mobile_phone: '',
     },
@@ -129,8 +130,7 @@ export default function Profile() {
       const formValues = {
         user_name: values.user_name,
         name: values.name,
-        email: values.email,
-        gender: values.gender,
+
       };
 
       // updateProfileDetail(formValues)
@@ -235,23 +235,22 @@ export default function Profile() {
                         <Item>
                           <FormControl fullWidth>
                             <InputLabel>Center</InputLabel>
-                            <OutlinedInput
-                              type="text"
-                              {...getFieldProps('center')}
-                              error={Boolean(touched.center && errors.center)}
+                            <Select
+                              readOnly
+                              style={{ textAlign: 'left' }}
                               label="Center"
-                              endAdornment={
-                                <InputAdornment position="end">
-                                  <CustomWidthTooltip arrow placement="top-end" title="Name of the user.">
-                                    <IconButton aria-label="center ToolTip Icon" edge="end">
-                                      <Iconify icon="eva:question-mark-circle-outline" />
-                                    </IconButton>
-                                  </CustomWidthTooltip>
-                                </InputAdornment>
-                              }
-                            />
-                            <FormHelperText error id="center-error" sx={{ fontWeight: 600 }}>
-                              {touched.center && errors.center}
+                              {...getFieldProps('center_id')}
+
+                            >
+                              <MenuItem
+                                value="1"
+                              >KL</MenuItem>
+                              <MenuItem
+                                value="2"
+                              >JB</MenuItem>
+                            </Select>
+                            <FormHelperText error id="center_id-error" sx={{ fontWeight: 600 }}>
+                              {touched.center_id && errors.center_id}
                             </FormHelperText>
                           </FormControl>
                         </Item>
@@ -298,6 +297,31 @@ export default function Profile() {
                           </FormControl>
                         </Item>
                       </Grid>
+                      <Grid item xs={12} md={12} lg={12}>
+                        <Item>
+                          <FormControl fullWidth>
+                            <InputLabel>Email</InputLabel>
+                            <OutlinedInput
+                              type="text"
+                              {...getFieldProps('email')}
+                              error={Boolean(touched.email && errors.email)}
+                              label="Email"
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <CustomWidthTooltip arrow placement="top-end" title="Please provide real email.">
+                                    <IconButton aria-label="Email ToolTip Icon" edge="end">
+                                      <Iconify icon="eva:question-mark-circle-outline" />
+                                    </IconButton>
+                                  </CustomWidthTooltip>
+                                </InputAdornment>
+                              }
+                            />
+                            <FormHelperText error id="email-error" sx={{ fontWeight: 600 }}>
+                              {touched.email && errors.email}
+                            </FormHelperText>
+                          </FormControl>
+                        </Item>
+                      </Grid>
                     </Grid>
                     <Grid item container xs={12} md={6} lg={6} alignContent="start">
                       <Grid item xs={12} md={12} lg={12}>
@@ -334,6 +358,20 @@ export default function Profile() {
                               {touched.user_name && errors.user_name}
                             </FormHelperText>
                           </FormControl>
+                        </Item>
+                      </Grid>
+                      <Grid item xs={12} md={12} lg={12} >
+                        <Item>
+                          <Button
+                            component={RouterLink}
+                            to={'/dashboard/change-password'}
+                            variant="outlined"
+                            type="submit"
+                            size="medium"
+                            startIcon={<Iconify icon="material-symbols:change-circle-outline" />}
+                          >
+                            Change password
+                          </Button>
                         </Item>
                       </Grid>
                     </Grid>

@@ -6,6 +6,12 @@
 /* eslint-disable prefer-template */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prefer-const */
+/* eslint-disable object-shorthand */
+/* eslint-disable no-useless-concat */
+/* eslint-disable prefer-const */
+/* eslint-disable no-const-assign */
+/* eslint-disable arrow-body-style */
+// eslint-disable-next-line prefer-template
 import { useEffect, useContext, useState, Suspense } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -28,6 +34,7 @@ import PageTitleBar from '../../../components/PageTitleBar';
 import Loader from '../../../components/loader/Loader';
 import { getReportPDF } from '../../../data/report/report';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
+import { getReport, verifyFinalReport } from '../../../data/lab/lab';
 
 // sections
 
@@ -39,6 +46,7 @@ export default function ViewHealthReport() {
   const [PDFData, setPDFData] = useState();
 
   let { report_id } = useParams();
+  let [order_id, setOrderID] = useState();
 
   const handleShareWhatsapp = () => {
     let number = '60123899292';
@@ -57,6 +65,9 @@ export default function ViewHealthReport() {
   useEffect(() => {
     try {
       setLoading(true);
+      getReport(report_id).then((data) => {
+        setOrderID(data.order_id);
+      });
       getReportPDF(report_id)
         .then((data) => {
           var blob = base64StringToBlob(data.base64);
@@ -83,15 +94,16 @@ export default function ViewHealthReport() {
   function verifyReport() {
     setLoading(true);
     const formValues = {
-      verify_by_staff: Cookies.get('user_name'),
+      order_id: order_id,
+      verify_report_by: Cookies.get('user_name'),
     };
-    verifyReport(formValues)
+    verifyFinalReport(formValues)
       .then((response) => {
         setLoading(false);
         AlertBox(
           'success',
-          'Update Successfully',
-          "Blood Test has been confirm.",
+          'Verify Successfully',
+          "Report has been verified.",
           false,
           '',
           true,

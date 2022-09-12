@@ -14,6 +14,8 @@ export const getAllUser = () => fetch(`${process.env.REACT_APP_API}User/getAllUs
 export const createUser = (values) => axios.post(process.env.REACT_APP_API + `User/createUser`, values);
 export const getUserDetail = (user_name) => fetch(`${process.env.REACT_APP_API}User/getUserDetail?user_name=${user_name}`).then((data) => data.json());
 
+export const updateUserDetail = (values) => axios.put(`${process.env.REACT_APP_API}User/updateUserDetail`, values);
+
 // export const confirmBloodTest = (values) => axios.put(`${process.env.REACT_APP_API}Report/confirmBloodTest`, values);
 // export const confirmImmunology = (values) => axios.put(`${process.env.REACT_APP_API}Report/confirmImmunology`, values);
 // export const confirmBiochemistry = (values) => axios.put(`${process.env.REACT_APP_API}Report/confirmBiochemistry`, values);

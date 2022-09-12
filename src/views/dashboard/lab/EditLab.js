@@ -74,7 +74,6 @@ export default function Lab() {
                         }).catch((err) => {
                               console.log(err);
                               TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
-                              formik.setSubmitting(false);
                         });
                   }
                   if (data.UBOther_previous !== "") {
@@ -83,7 +82,6 @@ export default function Lab() {
                         }).catch((err) => {
                               console.log(err);
                               TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
-                              formik.setSubmitting(false);
                         });
                   }
                   if (data.UBOther_past !== "") {
@@ -92,15 +90,15 @@ export default function Lab() {
                         }).catch((err) => {
                               console.log(err);
                               TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
-                              formik.setSubmitting(false);
                         });
                   }
+                  formik.setSubmitting(false);
             }).catch((err) => {
                   console.log(err);
                   TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   formik.setSubmitting(false);
             });
-
+            formik.setSubmitting(true);
             getComment("Urine").then((data) => {
                   setUBOther_Comment(data);
                   formik.setSubmitting(false);
@@ -4261,7 +4259,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <Button
                                                                                           variant={values.UBOther_previous === "" ? "cancel" : "comment_value"}
-                                                                                          sx={{ fontSize: "10px !important", color: " #ffffff !important" }}
+                                                                                          sx={{ fontSize: "10px !important" }}
                                                                                           disabled={values.UBOther_previous === "" ?? true}
                                                                                           onClick={openUBOther_modal} >
                                                                                           {values.UBOther_previous === "" ? "No Comment" : "View Comment"}
@@ -4270,7 +4268,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <Button
                                                                                           variant={values.UBOther_past === "" ? "cancel" : "comment_value"}
-                                                                                          sx={{ fontSize: "10px !important", color: " #ffffff !important" }}
+                                                                                          sx={{ fontSize: "10px !important" }}
                                                                                           disabled={values.UBOther_past === "" ?? true}
                                                                                           onClick={openUBOther_modal} >
                                                                                           {values.UBOther_past === "" ? "No Comment" : "View Comment"}
@@ -5181,7 +5179,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <Button
                                                                                           variant={values.BFC_previous === "" ? "cancel" : "comment_value"}
-                                                                                          sx={{ fontSize: "10px !important", color: " #ffffff !important" }}
+                                                                                          sx={{ fontSize: "10px !important" }}
                                                                                           onClick={openBFC_modal}
                                                                                           disabled={values.BFC_previous === "" ?? true}
                                                                                     >
@@ -5191,7 +5189,7 @@ export default function Lab() {
                                                                               <TableCell sx={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
                                                                                     <Button
                                                                                           variant={values.BFC_past === "" ? "cancel" : "comment_value"}
-                                                                                          sx={{ fontSize: "10px !important", color: " #ffffff !important" }}
+                                                                                          sx={{ fontSize: "10px !important" }}
                                                                                           onClick={openBFC_modal}
                                                                                           disabled={values.BFC_past === "" ?? true}
                                                                                     >

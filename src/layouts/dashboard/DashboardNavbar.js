@@ -87,7 +87,7 @@ DashboardNavbar.propTypes = {
 };
 
 export default function DashboardNavbar({ onOpenSidebar }) {
-  const user_id = Cookies.get('user_name');
+  const user_name = Cookies.get('user_name');
   const handleLogout = () => {
     logoutUser()
       .then((logoutResponse) => {
@@ -137,7 +137,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
             </IconButton>
             <Button
               component={RouterLink}
-              to={`/dashboard/user/edit/${user_id}`}
+              to={`/dashboard/profile/${user_name}`}
               variant="outlined"
               size="medium"
               startIcon={<AccountCircleIcon />}

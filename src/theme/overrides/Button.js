@@ -33,6 +33,7 @@ export default function Button(theme) {
             '&:hover': {
               boxShadow: theme.customShadows.z8,
               backgroundColor: '#5A567B',
+              color: '#ffffff',
             },
           },
         },

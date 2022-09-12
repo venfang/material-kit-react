@@ -19,6 +19,9 @@ import EditLab from "../views/dashboard/lab/EditLab";
 import ViewHealthReport from '../views/dashboard/health-report/ViewHealthReport';
 import HealthReport from '../views/dashboard/health-report/HealthReport';
 //----------------------------------------------------------------------------
+import Profile from '../views/dashboard/profile/Profile';
+import ChangePassword from '../views/dashboard/profile/ChangePassword';
+//----------------------------------------------------------------------------
 
 
 export default function Router() {
@@ -36,6 +39,8 @@ export default function Router() {
         { path: 'user', element: showCookieUserID !== undefined ? <User /> : <Navigate to="/login" replace /> },
         { path: 'user/create', element: showCookieUserID !== undefined ? <CreateUser /> : <Navigate to="/login" replace /> },
         { path: 'user/edit/:user_name', element: showCookieUserID !== undefined ? <EditUser /> : <Navigate to="/login" replace /> },
+        { path: 'profile/:user_name', element: showCookieUserID !== undefined ? <Profile /> : <Navigate to="/login" replace /> },
+        { path: 'change-password', element: showCookieUserID !== undefined ? <ChangePassword /> : <Navigate to="/login" replace />, },
       ],
     },
     {

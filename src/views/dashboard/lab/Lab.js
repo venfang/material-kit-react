@@ -76,11 +76,12 @@ export default function Lab() {
       const [reportList, setReportList] = useState([]);
       const [facilityList, setFacilityList] = useState([]);
       const [filterDialog, setFilterDialog] = useState(false);
+      let todayDate = new Date();
       const formik = useFormik({
             initialValues: {
                   barcode: '',
                   order_id: '',
-                  test_date: new Date(),
+                  test_date: todayDate,
                   ic_no: '',
                   facility_id: ''
             },
@@ -100,7 +101,7 @@ export default function Lab() {
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
       useEffect(() => {
             formik.setSubmitting(true);
-            getAllReport(formik).then((data) => {
+            getAllReport(formik.initialValues).then((data) => {
                   setReportList(data);
                   formik.setSubmitting(false);
             }).catch((err) => {
@@ -157,7 +158,7 @@ export default function Lab() {
                                                                   label="Test Date"
                                                                   onChange={(value) => {
                                                                         console.log(value);
-                                                                        formik.setFieldValue('test_date', value.toISOString());
+                                                                        formik.setFieldValue('test_date', value);
                                                                   }}
                                                                   renderInput={(params) => {
                                                                         return <TextField {...params}
@@ -176,7 +177,7 @@ export default function Lab() {
                                                       <OutlinedInput
                                                             type="text"
                                                             {...getFieldProps('ic_no')}
-                                                            label="Name"
+                                                            label="IC"
                                                       />
                                                 </FormControl>
                                           </Item>
@@ -204,12 +205,14 @@ export default function Lab() {
                                                 </FormControl>
                                           </Item>
                                     </Grid>
-                                    <Grid item xs={12} md={2.4} lg={2.4}>
+                                    <Grid item xs={12} md={2.4} lg={2.4} alignContent="center">
                                           <Item>
-                                                <Button fullWidth onClick={() => {
-                                                      closeFilterDialog();
-                                                      handleSubmit();
-                                                }}>Search
+                                                <Button
+                                                      startIcon={<Iconify icon="akar-icons:search" />}
+                                                      fullWidth onClick={() => {
+                                                            closeFilterDialog();
+                                                            handleSubmit();
+                                                      }}>Search
                                                 </Button>
                                           </Item>
                                     </Grid>
@@ -417,27 +420,6 @@ export default function Lab() {
                                                                   </FormControl>
                                                             </Item>
                                                       </Grid>
-                                                      {/* <Grid item xs={12} md={4} lg={4}>
-                                                            <Item>
-                                                                  <FormControl fullWidth>
-                                                                        <InputLabel>Status</InputLabel>
-                                                                        <Select
-                                                                              style={{ textAlign: 'left' }}
-                                                                              label="Facility"
-                                                                              {...getFieldProps('facility_id')}
-
-                                                                        >
-                                                                              <MenuItem
-                                                                                    value="All"
-                                                                              >All</MenuItem>
-                                                                               <MenuItem
-                                                                                    value=""
-                                                                              >All</MenuItem>
-                                                                              
-                                                                        </Select>
-                                                                  </FormControl>
-                                                            </Item>
-                                                      </Grid> */}
                                                 </Grid>
                                                 <Grid container spacing={2} sx={{ maxWidth: '100%' }}>
                                                       <Grid item xs={12} md={6} lg={4}>
@@ -447,7 +429,7 @@ export default function Lab() {
                                                                         <OutlinedInput
                                                                               type="text"
                                                                               {...getFieldProps('ic_no')}
-                                                                              label="Name"
+                                                                              label="IC"
                                                                         />
                                                                   </FormControl>
                                                             </Item>
