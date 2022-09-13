@@ -31,7 +31,7 @@ export default function LoginForm() {
     //           .required('Email is required'),
     password: Yup.string()
       .required('Password is required')
-      .min(8, 'At least 8 characters.')
+      // .min(8, 'At least 8 characters.')
       .max(15, 'Maximum 15 characters.'),
   });
 

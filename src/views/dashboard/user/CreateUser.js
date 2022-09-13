@@ -94,6 +94,7 @@ export default function CreateUser() {
             user_type: Yup.string().required('Role is required.'),
       });
 
+
       const formik = useFormik({
             initialValues: {
                   user_name: '',
@@ -120,7 +121,7 @@ export default function CreateUser() {
                         status: true,
                         created_by: showCookieUserID || null,
                   };
-                  console.log(formValues);
+
                   createUser(formValues)
                         .then((response) => {
                               formik.setSubmitting(false);
@@ -158,6 +159,9 @@ export default function CreateUser() {
       const topValue = 64;
       const title_name = "Create User";
       const to = "/dashboard/app";
+      useEffect(() => {
+            console.log(formik.errors);
+      }, [formik.errors])
       return (
             <Page title="User">
                   <Container>
@@ -265,148 +269,6 @@ export default function CreateUser() {
                                                                               </FormControl>
                                                                         </Item>
                                                                   </Grid>
-                                                            </Grid>
-                                                            <Grid item container xs={12} md={6} lg={6} alignContent="start">
-                                                                  <Grid item xs={12} md={12} lg={12}>
-                                                                        <Item>
-                                                                              <Typography variant="title_page">Login Info</Typography>
-                                                                        </Item>
-                                                                  </Grid>
-                                                                  <Grid item xs={12} md={12} lg={12} >
-                                                                        <Item>
-                                                                              <FormControl fullWidth>
-                                                                                    <InputLabel>User Name</InputLabel>
-                                                                                    <OutlinedInput
-                                                                                          type="text"
-                                                                                          {...getFieldProps('user_name')}
-                                                                                          error={Boolean(touched.user_name && errors.user_name)}
-                                                                                          label="User Name"
-                                                                                          endAdornment={
-                                                                                                <InputAdornment position="end">
-                                                                                                      <CustomWidthTooltip
-                                                                                                            arrow
-                                                                                                            placement="top-end"
-                                                                                                            title="Unique code that represents the user."
-                                                                                                      >
-                                                                                                            <IconButton aria-label="User ID ToolTip Icon" edge="end">
-                                                                                                                  <Iconify icon="eva:question-mark-circle-outline" />
-                                                                                                            </IconButton>
-                                                                                                      </CustomWidthTooltip>
-                                                                                                </InputAdornment>
-                                                                                          }
-                                                                                    />
-                                                                                    <FormHelperText error id="user_name-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.user_name && errors.user_name}
-                                                                                    </FormHelperText>
-                                                                              </FormControl>
-                                                                        </Item>
-                                                                  </Grid>
-                                                                  <Grid item xs={12} md={12} lg={12} >
-                                                                        <Item>
-                                                                              <Button variant="contained" type="submit" startIcon={<Iconify icon="eva:save-fill" />}>
-                                                                                    Save
-                                                                              </Button>
-                                                                        </Item>
-                                                                  </Grid>
-                                                            </Grid>
-                                                      </Grid>
-                                                      {/* <Grid container spacing={2} sx={{ maxWidth: '100%' }} xs={12} md={12} lg={12} >
-                                                            <Grid item container xs={12} md={6} lg={6}  >
-                                                                  <Grid item xs={12} md={12} lg={12}>
-                                                                        <Item>
-                                                                              <Typography variant="title_page">Personal Info</Typography>
-                                                                        </Item>
-                                                                  </Grid>
-                                                                  <Grid item xs={12} md={12} lg={12}>
-                                                                        <Item>
-                                                                              <FormControl fullWidth>
-                                                                                    <InputLabel>Name</InputLabel>
-                                                                                    <OutlinedInput
-                                                                                          type="text"
-                                                                                          {...getFieldProps('name')}
-                                                                                          error={Boolean(touched.name && errors.name)}
-                                                                                          label="Name"
-                                                                                          endAdornment={
-                                                                                                <InputAdornment position="end">
-                                                                                                      <CustomWidthTooltip arrow placement="top-end" title="Name of the user.">
-                                                                                                            <IconButton aria-label="Name ToolTip Icon" edge="end">
-                                                                                                                  <Iconify icon="eva:question-mark-circle-outline" />
-                                                                                                            </IconButton>
-                                                                                                      </CustomWidthTooltip>
-                                                                                                </InputAdornment>
-                                                                                          }
-                                                                                    />
-                                                                                    <FormHelperText error id="name-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.name && errors.name}
-                                                                                    </FormHelperText>
-                                                                              </FormControl>
-                                                                        </Item>
-                                                                  </Grid>
-                                                                  <Grid item xs={12} md={12} lg={12}>
-                                                                        <Item>
-                                                                              <FormControl fullWidth>
-                                                                                    <InputLabel>center_id</InputLabel>
-                                                                                    <Select
-                                                                                          style={{ textAlign: 'left' }}
-                                                                                          label="center_id"
-                                                                                          {...getFieldProps('center_id')}
-
-                                                                                    >
-                                                                                          <MenuItem
-                                                                                                value="1"
-                                                                                          >KL</MenuItem>
-                                                                                          <MenuItem
-                                                                                                value="2"
-                                                                                          >JB</MenuItem>
-                                                                                    </Select>
-                                                                                    <FormHelperText error id="center_id-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.center_id && errors.center_id}
-                                                                                    </FormHelperText>
-                                                                              </FormControl>
-                                                                        </Item>
-                                                                  </Grid>
-                                                                  <Grid item xs={12} md={12} lg={12}>
-                                                                        <Item>
-                                                                              <FormControl fullWidth>
-                                                                                    <InputLabel>Designation</InputLabel>
-                                                                                    <OutlinedInput
-                                                                                          type="text"
-                                                                                          {...getFieldProps('designation')}
-                                                                                          error={Boolean(touched.designation && errors.designation)}
-                                                                                          label="Designation"
-                                                                                          endAdornment={
-                                                                                                <InputAdornment position="end">
-                                                                                                      <CustomWidthTooltip arrow placement="top-end" title="Name of the user.">
-                                                                                                            <IconButton aria-label="designation ToolTip Icon" edge="end">
-                                                                                                                  <Iconify icon="eva:question-mark-circle-outline" />
-                                                                                                            </IconButton>
-                                                                                                      </CustomWidthTooltip>
-                                                                                                </InputAdornment>
-                                                                                          }
-                                                                                    />
-                                                                                    <FormHelperText error id="designation-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.designation && errors.designation}
-                                                                                    </FormHelperText>
-                                                                              </FormControl>
-                                                                        </Item>
-                                                                  </Grid>
-                                                                  <Grid item xs={12} md={12} lg={12}>
-                                                                        <Item>
-                                                                              <FormControl fullWidth>
-                                                                                    <InputLabel>Mobile Phone</InputLabel>
-                                                                                    <OutlinedInput
-                                                                                          type="text"
-                                                                                          {...getFieldProps('mobile_phone')}
-                                                                                          error={Boolean(touched.mobile_phone && errors.mobile_phone)}
-                                                                                          label="Mobile Phone"
-
-                                                                                    />
-                                                                                    <FormHelperText error id="mobile_phone-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.mobile_phone && errors.mobile_phone}
-                                                                                    </FormHelperText>
-                                                                              </FormControl>
-                                                                        </Item>
-                                                                  </Grid>
                                                                   <Grid item xs={12} md={12} lg={12}>
                                                                         <Item>
                                                                               <FormControl fullWidth>
@@ -444,8 +306,6 @@ export default function CreateUser() {
                                                                               <FormControl fullWidth>
                                                                                     <InputLabel>User Name</InputLabel>
                                                                                     <OutlinedInput
-
-                                                                                          sx={{ color: "#696969" }}
                                                                                           type="text"
                                                                                           {...getFieldProps('user_name')}
                                                                                           error={Boolean(touched.user_name && errors.user_name)}
@@ -501,7 +361,8 @@ export default function CreateUser() {
                                                                         </Item>
                                                                   </Grid>
                                                             </Grid>
-                                                      </Grid> */}
+                                                      </Grid>
+
                                                 </Container>
                                           </Scrollbar>
                                     </Card>

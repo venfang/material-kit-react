@@ -134,7 +134,9 @@ export default function CreateUser() {
                         });
             },
       });
-
+      const handleReset = () => {
+            window.location.reload(true);
+      };
       useEffect(() => {
             formik.setSubmitting(true);
             getUserDetail(user_name).then((data) => {
@@ -160,6 +162,40 @@ export default function CreateUser() {
                                     <Card sx={{ marginTop: 8, }} >
                                           <Scrollbar>
                                                 <Container sx={{ minHeight: 500, p: 5 }}>
+                                                      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                                            <Stack direction="row">
+                                                                  <Item>
+                                                                        <Button
+                                                                              color="error"
+                                                                              onClick={handleReset}
+                                                                              variant="contained"
+                                                                              component={RouterLink}
+                                                                              to="#"
+                                                                              startIcon={<Iconify icon="bx:reset" />}
+                                                                        >
+                                                                              Reset
+                                                                        </Button>
+                                                                  </Item>
+
+                                                                  <Item>
+                                                                        <Button variant="contained" type="submit" startIcon={<Iconify icon="eva:save-fill" />}>
+                                                                              Update
+                                                                        </Button>
+                                                                  </Item>
+                                                                  {/* <Item>
+                                                                        <Button
+                                                                              component={RouterLink}
+                                                                              to={'/dashboard/change-password'}
+                                                                              variant="outlined"
+                                                                              type="submit"
+                                                                              size="medium"
+                                                                              startIcon={<Iconify icon="material-symbols:change-circle-outline" />}
+                                                                        >
+                                                                              Change password
+                                                                        </Button>
+                                                                  </Item> */}
+                                                            </Stack>
+                                                      </Stack>
                                                       <Grid container spacing={2} sx={{ maxWidth: '100%' }} xs={12} md={12} lg={12} >
                                                             <Grid item container xs={12} md={6} lg={6}  >
                                                                   <Grid item xs={12} md={12} lg={12}>
@@ -366,13 +402,20 @@ export default function CreateUser() {
                                                                               </FormControl>
                                                                         </Item>
                                                                   </Grid>
-                                                                  <Grid item xs={12} md={12} lg={12} >
+                                                                  {/* <Grid item xs={12} md={12} lg={12} >
                                                                         <Item>
-                                                                              <Button variant="contained" type="submit" startIcon={<Iconify icon="eva:save-fill" />}>
-                                                                                    Save
+                                                                              <Button
+                                                                                    component={RouterLink}
+                                                                                    to={'/dashboard/change-password'}
+                                                                                    variant="outlined"
+                                                                                    type="submit"
+                                                                                    size="medium"
+                                                                                    startIcon={<Iconify icon="material-symbols:change-circle-outline" />}
+                                                                              >
+                                                                                    Change password
                                                                               </Button>
                                                                         </Item>
-                                                                  </Grid>
+                                                                  </Grid> */}
                                                             </Grid>
                                                       </Grid>
                                                 </Container>

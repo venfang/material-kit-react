@@ -89,7 +89,7 @@ const CustomWidthTooltip = styled(({ className, ...props }) => <Tooltip {...prop
 });
 
 export default function Profile() {
-  const [showCookieUserID, setCookieUserID] = useState(Cookies.get('user_id'));
+  const [showCookieUserID, setCookieUserID] = useState(Cookies.get('user_name'));
 
   const EditChangePasswordSchema = Yup.object().shape({
     old_password: Yup.string().required('Please enter your old password.'),
@@ -112,14 +112,15 @@ export default function Profile() {
     validationSchema: EditChangePasswordSchema,
     onSubmit: () => {
       const verifyOldPassword = {
-        user_id: showCookieUserID,
+        user_name: showCookieUserID,
         password: values.old_password,
 
       };
 
       const changeNewPassword = {
-        user_id: showCookieUserID,
-        password: values.new_password,
+        user_name: showCookieUserID,
+        old_password: values.old_password,
+        new_password: values.new_password,
       };
 
 
