@@ -248,7 +248,7 @@ export default function Lab() {
                                                 let canVerify = 0;
                                                 if (row.immunology_confirm_date !== null && row.immunology_confirm_staff !== null) {
                                                       colorImmunology = "success";
-                                                      textImmunology = "Completed";
+                                                      textImmunology = "Confirmed";
                                                       canVerify += 1;
                                                 }
                                                 else if (row.immunology_release_date !== null && row.immunology_release_staff !== null) {
@@ -262,7 +262,7 @@ export default function Lab() {
 
                                                 if (row.blood_confirm_date !== null && row.blood_confirm_staff !== null) {
                                                       colorBlood = "success";
-                                                      textBlood = "Completed";
+                                                      textBlood = "Confirmed";
                                                       canVerify += 1;
                                                 }
                                                 else if (row.blood_release_date !== null && row.blood_release_staff !== null) {
@@ -276,7 +276,7 @@ export default function Lab() {
 
                                                 if (row.urine_confirm_date !== null && row.urine_confirm_staff !== null) {
                                                       colorUrine = "success";
-                                                      textUrine = "Completed";
+                                                      textUrine = "Confirmed";
                                                       canVerify += 1;
                                                 }
                                                 else if (row.urine_release_date !== null && row.urine_release_staff !== null) {
@@ -290,7 +290,7 @@ export default function Lab() {
 
                                                 if (row.biochemistry_confirm_date !== null && row.biochemistry_confirm_staff !== null) {
                                                       colorBiochemistry = "success";
-                                                      textBiochemistry = "Completed";
+                                                      textBiochemistry = "Confirmed";
                                                       canVerify += 1;
                                                 }
                                                 else if (row.biochemistry_release_date !== null && row.biochemistry_release_staff !== null) {

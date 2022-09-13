@@ -3521,6 +3521,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBRBC1_current')}
                                                                                           disabled={defineDisabled(values.UBRBC1_current)}
                                                                                           placeholder={values.UBRBC1_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBRBC1_current)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
@@ -3528,6 +3529,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBRBC2_current')}
                                                                                           disabled={defineDisabled(values.UBRBC2_current)}
                                                                                           placeholder={values.UBRBC2_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBRBC2current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
@@ -3537,6 +3539,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBRBC1_previous')}
                                                                                           disabled
                                                                                           placeholder={values.UBRBC1_previous !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBRBC1_previous)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
@@ -3544,22 +3547,25 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBRBC2_previous')}
                                                                                           disabled
                                                                                           placeholder={values.UBRBC2_previous !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBRBC2_previous)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className={values.UBRBC1_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('UBRBC1_current')}
+                                                                                          className={values.UBRBC1_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('UBRBC1_past')}
                                                                                           disabled
-                                                                                          placeholder={values.UBRBC1_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          placeholder={values.UBRBC1_past !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBRBC1_past)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className={values.UBRBC2_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('UBRBC2_current')}
+                                                                                          className={values.UBRBC2_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('UBRBC2_past')}
                                                                                           disabled
-                                                                                          placeholder={values.UBRBC2_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          placeholder={values.UBRBC2_past !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBRBC2_past)}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3657,6 +3663,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBWBC1_current')}
                                                                                           disabled={defineDisabled(values.UBWBC1_current)}
                                                                                           placeholder={values.UBWBC1_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBWBC1_current)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
@@ -3664,6 +3671,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBWBC2_current')}
                                                                                           disabled={defineDisabled(values.UBWBC2_current)}
                                                                                           placeholder={values.UBWBC2_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBWBC2current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
@@ -3673,6 +3681,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBWBC1_previous')}
                                                                                           disabled
                                                                                           placeholder={values.UBWBC1_previous !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBWBC1_previous)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
@@ -3680,22 +3689,25 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBWBC2_previous')}
                                                                                           disabled
                                                                                           placeholder={values.UBWBC2_previous !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBWBC2_previous)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className={values.UBWBC1_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('UBWBC1_current')}
+                                                                                          className={values.UBWBC1_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('UBWBC1_past')}
                                                                                           disabled
-                                                                                          placeholder={values.UBWBC1_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          placeholder={values.UBWBC1_past !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBWBC1_past)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className={values.UBWBC2_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('UBWBC2_current')}
+                                                                                          className={values.UBWBC2_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('UBWBC2_past')}
                                                                                           disabled
-                                                                                          placeholder={values.UBWBC2_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          placeholder={values.UBWBC2_past !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBWBC2_past)}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3793,6 +3805,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBEPlit1_current')}
                                                                                           disabled={defineDisabled(values.UBEPlit1_current)}
                                                                                           placeholder={values.UBEPlit1_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBEPlit1_current)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
@@ -3800,6 +3813,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBEPlit2_current')}
                                                                                           disabled={defineDisabled(values.UBEPlit2_current)}
                                                                                           placeholder={values.UBEPlit2_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBEPlit2current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
@@ -3809,6 +3823,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBEPlit1_previous')}
                                                                                           disabled
                                                                                           placeholder={values.UBEPlit1_previous !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBEPlit1_previous)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
@@ -3816,22 +3831,25 @@ export default function Lab() {
                                                                                           {...getFieldProps('UBEPlit2_previous')}
                                                                                           disabled
                                                                                           placeholder={values.UBEPlit2_previous !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBEPlit2_previous)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className={values.UBEPlit1_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('UBEPlit1_current')}
+                                                                                          className={values.UBEPlit1_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('UBEPlit1_past')}
                                                                                           disabled
-                                                                                          placeholder={values.UBEPlit1_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          placeholder={values.UBEPlit1_past !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBEPlit1_past)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className={values.UBEPlit2_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('UBEPlit2_current')}
+                                                                                          className={values.UBEPlit2_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('UBEPlit2_past')}
                                                                                           disabled
-                                                                                          placeholder={values.UBEPlit2_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          placeholder={values.UBEPlit2_past !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.UBEPlit2_past)}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
@@ -3929,6 +3947,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('Cast1_current')}
                                                                                           disabled={defineDisabled(values.Cast1_current)}
                                                                                           placeholder={values.Cast1_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.Cast1_current)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
@@ -3936,6 +3955,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('Cast2_current')}
                                                                                           disabled={defineDisabled(values.Cast2_current)}
                                                                                           placeholder={values.Cast2_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.Cast2current)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
@@ -3945,6 +3965,7 @@ export default function Lab() {
                                                                                           {...getFieldProps('Cast1_previous')}
                                                                                           disabled
                                                                                           placeholder={values.Cast1_previous !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.Cast1_previous)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
@@ -3952,22 +3973,25 @@ export default function Lab() {
                                                                                           {...getFieldProps('Cast2_previous')}
                                                                                           disabled
                                                                                           placeholder={values.Cast2_previous !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.Cast2_previous)}
                                                                                     />
                                                                               </TableCell>
                                                                               <TableCell >
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className={values.Cast1_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('Cast1_current')}
+                                                                                          className={values.Cast1_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Cast1_past')}
                                                                                           disabled
-                                                                                          placeholder={values.Cast1_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          placeholder={values.Cast1_past !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.Cast1_past)}
                                                                                     />
                                                                                     <InputBase
                                                                                           sx={{ width: "50%" }}
-                                                                                          className={values.Cast2_current_redstar === null ? 'textField' : 'textField_red'}
-                                                                                          {...getFieldProps('Cast2_current')}
+                                                                                          className={values.Cast2_past_redstar === null ? 'textField' : 'textField_red'}
+                                                                                          {...getFieldProps('Cast2_past')}
                                                                                           disabled
-                                                                                          placeholder={values.Cast2_current !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          placeholder={values.Cast2_past !== "-9995" ? "[NIL]" : "[NI]"}
+                                                                                          value={defineValue(values.Cast2_past)}
                                                                                     />
                                                                               </TableCell>
                                                                         </TableRow>
