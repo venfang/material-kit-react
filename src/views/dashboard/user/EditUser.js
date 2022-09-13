@@ -98,6 +98,7 @@ export default function CreateUser() {
                         mobile_phone: values.mobile_phone,
                         password: values.password,
                         status: values.status,
+                        email: values.email,
                         created_by: showCookieUserID || null,
                   };
                   updateUserDetail(formValues)
@@ -112,7 +113,7 @@ export default function CreateUser() {
                                     true,
                                     'OK'
                               ).then(() => {
-                                    window.location = '../user';
+                                    window.location.reload();
                               });
                         })
                         .catch((error) => {
@@ -120,7 +121,7 @@ export default function CreateUser() {
                               if (error.response.data.message === 'duplicate') {
                                     AlertBox(
                                           'error',
-                                          'Create Failed',
+                                          'Update Failed',
                                           'The following user name has already existed.',
                                           false,
                                           '',
@@ -148,7 +149,7 @@ export default function CreateUser() {
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
       const topValue = 64;
       const title_name = "View User";
-      const to = "/dashboard/app";
+      const to = "/dashboard/user";
       return (
             <Page title="User">
                   <Container>

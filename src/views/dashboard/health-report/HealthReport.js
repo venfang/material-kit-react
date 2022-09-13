@@ -76,11 +76,12 @@ export default function Lab() {
   const [reportList, setReportList] = useState([]);
   const [facilityList, setFacilityList] = useState([]);
   const [filterDialog, setFilterDialog] = useState(false);
+  let todayDate = new Date();
   const formik = useFormik({
     initialValues: {
       barcode: '',
       order_id: '',
-      test_date: new Date(),
+      test_date: todayDate,
       ic_no: '',
       facility_id: ''
     },
@@ -100,7 +101,7 @@ export default function Lab() {
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   useEffect(() => {
     formik.setSubmitting(true);
-    getAllReport(formik).then((data) => {
+    getAllReport(formik.initialValues).then((data) => {
       setReportList(data);
       formik.setSubmitting(false);
     }).catch((err) => {
@@ -192,7 +193,7 @@ export default function Lab() {
 
                   >
                     <MenuItem
-                      value="1"
+                      value={null}
                     >All</MenuItem>
                     {facilityList.map((facility) => (
                       <MenuItem
@@ -242,7 +243,7 @@ export default function Lab() {
                 }
                 else if ((row.immunology_confirm_date !== null && row.immunology_confirm_staff !== null) && (row.urine_confirm_date !== null && row.urine_confirm_staff !== null) && (row.biochemistry_confirm_date !== null && row.biochemistry_confirm_staff !== null) && (row.blood_confirm_date !== null && row.blood_confirm_staff !== null)) {
                   colorVerify = "warning";
-                  textVerify = "Unverified";
+                  textVerify = "To Be Verify";
                 }
                 else {
                   colorVerify = "error";

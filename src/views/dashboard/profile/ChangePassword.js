@@ -45,6 +45,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import Loader from '../../../components/loader/Loader';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
+import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 
 // components
 
@@ -53,7 +54,7 @@ import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';
 import Iconify from '../../../components/Iconify';
 import account from '../../../_mock/account';
-// import { verifyProfileOldPassword, changeProfilePassword } from '../../../data/user/user';
+import { verifyProfileOldPassword, ChangePassword } from '../../../data/user/user';
 
 //   const StyledAvatar = withStyles({
 //     root: {
@@ -122,35 +123,35 @@ export default function Profile() {
       };
 
 
-      // verifyProfileOldPassword(verifyOldPassword)
-      //   .then(() => {
+      verifyProfileOldPassword(verifyOldPassword)
+        .then(() => {
 
-      //     changeProfilePassword(changeNewPassword)
-      //       .then(() => {
-      //         formik.setSubmitting(false);
+          ChangePassword(changeNewPassword)
+            .then(() => {
+              formik.setSubmitting(false);
 
-      //         AlertBox('success', 'Changed Successfully', 'Password has been changed.', false, '', true, 'OK').then(
-      //           () => {
-      //             window.location.href = `${window.location.origin}/dashboard/app`;
-      //           }
-      //         );
-      //       })
-      //       .catch((error) => {
-      //         formik.setSubmitting(false);
+              AlertBox('success', 'Changed Successfully', 'Password has been changed.', false, '', true, 'OK').then(
+                () => {
+                  window.location.href = `${window.location.origin}/dashboard/app`;
+                }
+              );
+            })
+            .catch((error) => {
+              formik.setSubmitting(false);
 
-      //         AlertBox('error', 'Changed Failed', error.response.data.message, false, '', true, 'OK').then(() => { });
-      //       });
+              AlertBox('error', 'Changed Failed', error.response.data.message, false, '', true, 'OK').then(() => { });
+            });
 
-      //   })
-      //   .catch((error) => {
-      //     formik.setSubmitting(false);
+        })
+        .catch((error) => {
+          formik.setSubmitting(false);
 
-      //     if (error.response.data.message === 'incorrect') {
-      //       AlertBox('error', 'Change Failed', 'Old Password is incorrect!', false, '', true, 'OK').then(() => { });
-      //     } else {
-      //       AlertBox('error', 'Changed Failed', error.response.data.message, false, '', true, 'OK').then(() => { });
-      //     }
-      //   });
+          if (error.response.data.message === 'incorrect') {
+            AlertBox('error', 'Change Failed', 'Old Password is incorrect!', false, '', true, 'OK').then(() => { });
+          } else {
+            AlertBox('error', 'Changed Failed', error.response.data.message, false, '', true, 'OK').then(() => { });
+          }
+        });
     },
   });
 

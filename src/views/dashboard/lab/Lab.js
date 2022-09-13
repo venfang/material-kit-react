@@ -190,10 +190,9 @@ export default function Lab() {
                                                             style={{ textAlign: 'left' }}
                                                             label="Facility"
                                                             {...getFieldProps('facility_id')}
-
                                                       >
                                                             <MenuItem
-                                                                  value="1"
+                                                                  value={null}
                                                             >All</MenuItem>
                                                             {facilityList.map((facility) => (
                                                                   <MenuItem

@@ -61,7 +61,7 @@ import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';
 import Iconify from '../../../components/Iconify';
 
-import { getUserDetail } from '../../../data/user/user';
+import { getUserDetail, updateUserProfile } from '../../../data/user/user';
 
 const ITEM_HEIGHT = 35;
 const ITEM_PADDING_TOP = 8;
@@ -122,6 +122,7 @@ export default function Profile() {
       name: '',
       center_id: '',
       email: '',
+      status: '',
       designation: '',
       mobile_phone: '',
     },
@@ -130,36 +131,33 @@ export default function Profile() {
       const formValues = {
         user_name: values.user_name,
         name: values.name,
-
+        email: values.email,
+        mobile_phone: values.mobile_phone,
       };
 
-      // updateProfileDetail(formValues)
-      //   .then((response) => {
-      //     formik.setSubmitting(false);
-
-      //     window.localStorage.setItem("user_image", values.image);
-
-      //     AlertBox('success', 'Updated Successfully', 'Profile has been updated.', false, '', true, 'OK').then(() => {
-      //       window.location.href = `${window.location.origin}/dashboard/profile`;
-      //     });
-      //   })
-      //   .catch((error) => {
-      //     formik.setSubmitting(false);
-
-      //     if (error.response.data.message === 'duplicate') {
-      //       AlertBox(
-      //         'error',
-      //         'Update Failed',
-      //         'The following user name has already existed.',
-      //         false,
-      //         '',
-      //         true,
-      //         'OK'
-      //       ).then(() => { });
-      //     } else {
-      //       AlertBox('error', 'Update Failed', error.response.data.message, false, '', true, 'OK').then(() => { });
-      //     }
-      //   });
+      updateUserProfile(formValues)
+        .then((response) => {
+          formik.setSubmitting(false);
+          AlertBox('success', 'Updated Successfully', 'Profile has been updated.', false, '', true, 'OK').then(() => {
+            window.location.href = `${window.location.origin}/dashboard/profile`;
+          });
+        })
+        .catch((error) => {
+          formik.setSubmitting(false);
+          if (error.response.data.message === 'duplicate') {
+            AlertBox(
+              'error',
+              'Update Failed',
+              'The following user name has already existed.',
+              false,
+              '',
+              true,
+              'OK'
+            ).then(() => { });
+          } else {
+            AlertBox('error', 'Update Failed', error.response.data.message, false, '', true, 'OK').then(() => { });
+          }
+        });
     },
   });
 

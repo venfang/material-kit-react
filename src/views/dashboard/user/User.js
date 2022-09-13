@@ -27,6 +27,7 @@ import Loader from '../../../components/loader/Loader';
 import Label from '../../../components/Label';
 import Page from '../../../components/Page';
 import Iconify from '../../../components/Iconify';
+import SearchNotFound from '../../../components/SearchNotFound';
 import { AlertBox, TimerAlertBox } from '../../../components/alert/SweetAlert';
 import PageNavBar from '../../../layouts/dashboard/PageNavBar';
 
@@ -72,13 +73,13 @@ export default function Lab() {
             initialValues: {
                   name: '',
                   status: '',
+                  center_id: ''
             },
             onSubmit: () => {
                   formik.setSubmitting(true);
-                  getAllUser().then((data) => {
+                  getAllUser(values).then((data) => {
                         setUserList(data);
                         formik.setSubmitting(false);
-                        console.log(data);
                   }).catch(() => {
                         TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                         formik.setSubmitting(false);
@@ -90,15 +91,19 @@ export default function Lab() {
 
       useEffect(() => {
             formik.setSubmitting(true);
-            getAllUser().then((data) => {
+            getAllUser(formik.initialValues).then((data) => {
                   setUserList(data);
                   formik.setSubmitting(false);
-                  console.log(data);
             }).catch(() => {
                   TimerAlertBox('error', 'Database Connection Error', '', 1500, 'center');
                   formik.setSubmitting(false);
             });
       }, []);
+      useEffect(() => {
+            if (values.status === "1") {
+                  formik.setFieldValue("status", null);
+            }
+      }, [formik.values.status]);
       return (
             <Page Page title="User"  >
                   <Loader spinner={isSubmitting} />
@@ -142,6 +147,32 @@ export default function Lab() {
                                     </Grid>
                                     <Grid item xs={12} md={2.4} lg={2.4}>
                                           <Item>
+                                                <FormControl fullWidth>
+                                                      <InputLabel>Center</InputLabel>
+                                                      <Select
+                                                            style={{ textAlign: 'left' }}
+                                                            label="center_id"
+                                                            {...getFieldProps('center_id')}
+
+                                                      >
+                                                            <MenuItem
+                                                                  value={null}
+                                                            >All</MenuItem>
+                                                            <MenuItem
+                                                                  value="1"
+                                                            >KL</MenuItem>
+                                                            <MenuItem
+                                                                  value="2"
+                                                            >JB</MenuItem>
+                                                      </Select>
+                                                      <FormHelperText error id="center_id_id-error" sx={{ fontWeight: 600 }}>
+                                                            {touched.center_id && errors.center_id}
+                                                      </FormHelperText>
+                                                </FormControl>
+                                          </Item>
+                                    </Grid>
+                                    <Grid item xs={12} md={2.4} lg={2.4}>
+                                          <Item>
                                                 <Button
                                                       startIcon={<Iconify icon="akar-icons:search" />}
                                                       fullWidth
@@ -153,7 +184,9 @@ export default function Lab() {
                                     </Grid>
                                     <Grid item xs={12} md={2.4} lg={2.4}>
                                           <Item>
-                                                <Button variant="return" component={RouterLink} to="./create">
+                                                <Button variant="return" component={RouterLink} to="./create"
+                                                      startIcon={<Iconify icon="ant-design:user-add-outlined" />}
+                                                >
                                                       New User
                                                 </Button>
                                           </Item>
@@ -176,6 +209,20 @@ export default function Lab() {
                                     </TableHead>
                                     <TableBody>
                                           {userList.map((row) => {
+                                                let center_text = "";
+                                                if (row.center_id === "1") {
+                                                      center_text = "KL";
+                                                }
+                                                else if (row.center_id === "2") {
+                                                      center_text = "JB";
+                                                }
+                                                let user_type_text = "";
+                                                if (row.user_type === "1") {
+                                                      user_type_text = "Manager";
+                                                }
+                                                else if (row.user_type === "2") {
+                                                      user_type_text = "Staff";
+                                                }
                                                 return (
                                                       <StyledTableRow
                                                             hover
@@ -191,10 +238,10 @@ export default function Lab() {
                                                                   {row.name}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  {row.user_type}
+                                                                  {user_type_text}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                                  {row.center}
+                                                                  {center_text}
                                                             </StyledTableCell>
                                                             <StyledTableCell component="th" scope="row" align='center'>
                                                                   {row.designation}
@@ -212,6 +259,15 @@ export default function Lab() {
                                           }
                                           )}
                                     </TableBody>
+                                    {userList.length < 1 && (
+                                          <TableBody>
+                                                <TableRow>
+                                                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
+                                                            <SearchNotFound />
+                                                      </TableCell>
+                                                </TableRow>
+                                          </TableBody>
+                                    )}
                               </Table>
                         </TableContainer>
                   </Container>
