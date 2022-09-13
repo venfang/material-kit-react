@@ -303,15 +303,8 @@ export default function CreateUser() {
                                                                   </Grid>
                                                                   <Grid item xs={12} md={12} lg={12} >
                                                                         <Item>
-                                                                              <Button
-                                                                                    component={RouterLink}
-                                                                                    to={'/dashboard/change-password'}
-                                                                                    variant="outlined"
-                                                                                    type="submit"
-                                                                                    size="medium"
-                                                                                    startIcon={<Iconify icon="material-symbols:change-circle-outline" />}
-                                                                              >
-                                                                                    Change password
+                                                                              <Button variant="contained" type="submit" startIcon={<Iconify icon="eva:save-fill" />}>
+                                                                                    Save
                                                                               </Button>
                                                                         </Item>
                                                                   </Grid>
