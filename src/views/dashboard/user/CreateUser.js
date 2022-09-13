@@ -204,23 +204,21 @@ export default function CreateUser() {
                                                                         <Item>
                                                                               <FormControl fullWidth>
                                                                                     <InputLabel>Center</InputLabel>
-                                                                                    <OutlinedInput
-                                                                                          type="text"
-                                                                                          {...getFieldProps('center')}
-                                                                                          error={Boolean(touched.center && errors.center)}
-                                                                                          label="Center"
-                                                                                          endAdornment={
-                                                                                                <InputAdornment position="end">
-                                                                                                      <CustomWidthTooltip arrow placement="top-end" title="Name of the user.">
-                                                                                                            <IconButton aria-label="center ToolTip Icon" edge="end">
-                                                                                                                  <Iconify icon="eva:question-mark-circle-outline" />
-                                                                                                            </IconButton>
-                                                                                                      </CustomWidthTooltip>
-                                                                                                </InputAdornment>
-                                                                                          }
-                                                                                    />
-                                                                                    <FormHelperText error id="center-error" sx={{ fontWeight: 600 }}>
-                                                                                          {touched.center && errors.center}
+                                                                                    <Select
+                                                                                          style={{ textAlign: 'left' }}
+                                                                                          label="center_id"
+                                                                                          {...getFieldProps('center_id')}
+
+                                                                                    >
+                                                                                          <MenuItem
+                                                                                                value="1"
+                                                                                          >KL</MenuItem>
+                                                                                          <MenuItem
+                                                                                                value="2"
+                                                                                          >JB</MenuItem>
+                                                                                    </Select>
+                                                                                    <FormHelperText error id="center_id_id-error" sx={{ fontWeight: 600 }}>
+                                                                                          {touched.center_id && errors.center_id}
                                                                                     </FormHelperText>
                                                                               </FormControl>
                                                                         </Item>
@@ -279,8 +277,6 @@ export default function CreateUser() {
                                                                               <FormControl fullWidth>
                                                                                     <InputLabel>User Name</InputLabel>
                                                                                     <OutlinedInput
-                                                                                          readOnly
-                                                                                          sx={{ color: "#696969" }}
                                                                                           type="text"
                                                                                           {...getFieldProps('user_name')}
                                                                                           error={Boolean(touched.user_name && errors.user_name)}
