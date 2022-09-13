@@ -5,8 +5,8 @@
   "version": "1.5.0",
   "private": false,
   "scripts": {
-    "start": "env-cmd -f .env.development react-scripts start",
-    "build": "env-cmd -f .env.production react-scripts build",
+    "start": "env-cmd -f .env.development react-scripts --max-http-header-size=9999999999 start",
+    "build": "env-cmd -f .env.production react-scripts --max-http-header-size=9999999999 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx ./src",
